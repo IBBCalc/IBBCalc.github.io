@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>IBB Stats Calculator</title>
+        <meta name="description" content="Unofficial Calculator for IBB Ball Upgrades">
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/nav-bar.css">
+        <link rel="stylesheet" href="css/table.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="js/version.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/templates.js"></script>
+		<script type="text/javascript" src="js/IBBStatsCalculator.js"></script>
+    </head>
+    <body onload="BuildPage()">
+        <div class="pageheader">
+            <ul class="horizontal">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a class="active" href="IBBStatsCalculator.html">IBB Stats Calculator</a>
+                </li>
+                <li>
+                    <a href="IBBLevelTracker.html">IBB Level Tracker</a>
+                </li>
+                <li>
+                    <a href="settings.html">Settings</a>
+                </li>
+                <li>
+                    <a href="IBBWindfall.html">Windfall Calculator</a>
+                </li>
+                <div class="version"></div>
+            </ul>
+            <ul id="tab_nav" class="nav nav-tabs">
+            </ul>
+        </div>
+        <!-- Add ballspec and friend bonus to table as checkbox
+            Probably also Enrage checkbox-->
+		<div id="tab_content" class="tab-content">
+			<input id="btnSave" class="dark" type="button" onclick="getScreenShot()" value="Copy Table To Clipboard" />
+		</div>
+	</body>
+</html>

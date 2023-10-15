@@ -1,0 +1,40 @@
+.table-dark {
+    color: #fff;
+    background-color: #333;
+	margin:10px;
+    float:left;
+}
+
+    .table-dark thead {
+        background-color: #222;
+    }
+
+.table-dark>tbody>tr>td, .table-dark>tbody>tr>th, .table-dark>tfoot>tr>td, .table-dark>tfoot>tr>th, .table-dark>thead>tr>td, .table-dark>thead>tr>th {
+	border-color: #444;
+    text-align: center;
+}
+
+.table-dark td:has(input[type=number]) {
+    padding: 4px;
+}
+
+.table-dark td:has(input[type=checkbox]) {
+    padding: 6px;
+}
+
+.grey {
+	color: #999;
+}
+
+table.dataTable {	
+	width: fit-content;
+}
+
+.dataTables_length>label, .dataTables_filter>label {
+    vertical-align: -webkit-baseline-middle;
+    margin: 0;
+}
+
+.dataTables_wrapper {
+	margin:10px;
+}
