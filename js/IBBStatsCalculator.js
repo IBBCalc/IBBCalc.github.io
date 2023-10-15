@@ -10,105 +10,114 @@ var defaulttabs = [{
 	"global_settings_active": true,
 	"all_settings_active": false,
 	"header_windfall": '1aa',
-	
-	"base_type": null,
-	"base_amount": null,
-	"base_speedLevel": null,
-	"base_powerLevel": null,
 
-	"175_type": null,
-	"175_amount": null,
-	"175_speedLevel": null,
-	"175_powerLevel": null,
-
-	"7500_type": "poison",
-	"7500_amount": 50,
-	"7500_speedLevel": 99,
-	"7500_powerLevel": 115,
-
-	"175k_type": null,
-	"175k_amount": null,
-	"175k_speedLevel": null,
-	"175k_powerLevel": null,
-
-	"15m_type": "cash",
-	"15m_amount": 50,
-	"15m_speedLevel": 99,
-	"15m_powerLevel": 103,
-
-	"400b_type": null,
-	"400b_amount": null,
-	"400b_speedLevel": null,
-	"400b_powerLevel": null,
-
-	"10q_type": "sword",
-	"10q_amount": 5,
-	"10q_speedLevel": 71,
-	"10q_powerLevel": 71,
-
-	"10s_type": "lightning",
-	"10s_amount": 50,
-	"10s_speedLevel": 40,
-	"10s_powerLevel": 51,
-
-	"100o_type": "demo",
-	"100o_amount": 25,
-	"100o_speedLevel": 25,
-	"100o_powerLevel": 25,
-
-	"5aa_type": null,
-	"5aa_amount": null,
-	"5aa_speedLevel": null,
-	"5aa_powerLevel": null,
-
-	"80ac_type": null,
-	"80ac_amount": null,
-	"80ac_speedLevel": null,
-	"80ac_powerLevel": null,
+	"data": [
+		{
+			'slot': 'base',
+			'type': 'basic',
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '175',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '7500',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '175k',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '15m',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '400b',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '10q',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '10s',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '100o',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '5aa',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+		{
+			'slot': '80ac',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+		},
+	],
 }];
 
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 
-var prestige = GetItem("settings_prestige", defaultprestige);
-var cards = GetItem("settings_cards", defaultcards);
-var perks = GetItem("settings_perks", defaultperks);
-var boosts = GetItem("settings_boosts", defaultboosts);
-var badges = GetItem("settings_badges", defaultbadges);
-
-var basicskills = GetItem("settings_basicskills", defaultbasicskills);
-var splashskills = GetItem("settings_splashskills", defaultsplashskills);
-var sniperskills = GetItem("settings_sniperskills", defaultsniperskills);
-var poisonskills = GetItem("settings_poisonskills", defaultpoisonskills);
-var demoskills = GetItem("settings_demoskills", defaultdemoskills);
-var scatterskills = GetItem("settings_scatterskills", defaultscatterskills);
-var cashskills = GetItem("settings_cashskills", defaultscashskills);
-var pierceskills = GetItem("settings_pierceskills", defaultspierceskills);
-var swordskills = GetItem("settings_swordskills", defaultsswordskills);
-var fireskills = GetItem("settings_fireskills", defaultfireskills);
-var lightningskills = GetItem("settings_lightningskills", defaultlightningskills);
-
-// fix for older version where the data was not an array yet.
-if (!Array.isArray(tabs)) {
-	tabs = [tabs];
-	tabs[0].id = "tab0";
-	tabs[0].name = "Tab0";
-	StoreItem("statsCalculator", tabs);
-}
-
-if (!Object.keys(settings).includes("boosts_ph_active") && Object.keys(settings).includes("boosts_ph")){
-	settings.boosts_ph_active = settings.boosts_ph;
-}
-
-for (var i in tabs) {
-	if (!Object.keys(tabs[i]).includes("settings")) {
-		tabs[i].settings = structuredClone(settings);
-	}
-	
-	if (!Object.keys(tabs[i].settings).includes("boosts_ph_active") && Object.keys(tabs[i].settings).includes("boosts_ph")){
-		tabs[i].settings.boosts_ph_active = tabs[i].settings.boosts_ph;
-	}
-}
+var settings = GetItem("settings", defaultsettings);
 
 var totalcost = 0;
 
@@ -463,7 +472,160 @@ function handleTabRemove(event) {
 	}
 }
 
-function BuildPage() {				
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function UpdateData(data, e, updatekey) {
+	var r = e.currentTarget._DT_CellIndex.row;
+	if (data[r] !== undefined) {
+		data[r]["value"] = e.target.value === '' ? null : e.target.value;
+		console.log('Row changed: ', data[r])
+		StoreItem(updatekey, data);
+	}
+}
+
+function UpdateCheckbox(data, e, updatekey) {
+	var r = e.currentTarget._DT_CellIndex.row;
+	if (data[r] !== undefined) {
+		data[r]["active"] = !data[r]["active"];
+		console.log('Row changed: ', data[r])
+		StoreItem(updatekey, data);
+	}
+}
+
+function CreatedCellTemplate(data, updatekey) {
+	return function(cell) {
+		cell.addEventListener('change', function(e) {
+			UpdateData(data, e, updatekey);
+			$('#tfoot_badges').html(badges.reduce(function (a, b) { 
+				return a + parseInt(b["value"]);
+			}, 0));
+		});
+	}
+}
+
+function CreatedCellActiveTemplate(data, updatekey) {
+	return function(cell) {
+		cell.addEventListener('change', function(e) {
+			UpdateCheckbox(data, e, updatekey);
+		});
+	}
+}
+
+function ColumnNumberTemplate(data, title, width) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function ( data, type, row ) { 
+			if (data === undefined) {
+				return '';
+			}
+
+			if ( type === 'display' ) {
+				return '<input type="number" value="' + data + '">';
+			}					
+			return data;
+		},  
+	};
+}
+
+function ColumnCheckboxTemplate(data, title, width) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function ( data, type, row ) {
+			if ( type === 'display' ) { 
+				if (data === undefined) {
+					return '';
+				}
+
+				if(data) {
+					return '<input type="checkbox" checked>';
+				} else {
+					return '<input type="checkbox">';
+				}
+			}
+			return data;
+		}, 
+	};
+}
+
+function ColumnDropdownTemplate(data, title, width) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function ( data, type, row ) {
+			if (data === undefined) {
+				return '';
+			}
+
+			if ( type === 'display' ) { 
+				var select = '<select>';
+				select += '<option value="null"></option>'
+				available[row.slot].forEach(balltype => {
+					select += '<option value="' + balltype + '">' + balltype.charAt(0).toUpperCase() + balltype.slice(1) + '</option>';
+				});
+				select += '</select>'
+				return select;
+			}
+			return data;
+		}, 
+	};
+}
+
+function BuildPage() {
+	$(document).ready(function() {
+		$("input[type=number]").focus().select();
+	});
+
+	// Build Html of nav tabs
+	for (var i = 0; i < tabs.length; i++) {
+		var id = tabs[i].id;
+		var name = tabs[i].name;
+		$('#tab_nav').append(navbar_template.replaceAll('%tab%', id).replaceAll('%tabname%', name).replaceAll('%active%', ((i == 0) ? 'active' : '')));
+	}
+	
+	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
+
+	// Build Html of all tabs				
+	for (var i = 0; i < tabs.length; i++) {
+		var id = tabs[i].id;
+		$('#tab_content').append('<div id="' + id + '" class="tab-pane ' + ((i == 0) ? 'active' : '') + '">' + datatable_footer_template.replaceAll('%tab%', id).replaceAll('%tablename%', 'calculator') + '</div>');
+
+		$('#' + id + '_table_calculator').DataTable({
+			data: tabs[i].data,
+			info: false,
+			searching: false,
+			ordering: false,
+			paging: false,
+			autoWidth: false,
+			deferRender: true,
+			columnDefs: [{ 
+				targets: [2, 3, 4],
+				createdCell: CreatedCellTemplate(tabs[i].data)
+			}],
+			columns: [
+				{ data: 'slot', title: "Slot", width: '35px' },
+				ColumnDropdownTemplate('type', 'Ball Type', '100px'),
+				ColumnNumberTemplate('amount', 'Nr. Balls', '40px'),
+				ColumnNumberTemplate('speedlvl', 'Ball Speed', '40px'),
+				ColumnNumberTemplate('powerlvl', 'Ball Power', '40px'),
+				ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
+				ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
+				ColumnCheckboxTemplate('enrage', 'Enraged', '30px'),
+			],
+		});
+	}
+	
+	return;
+
+
+
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	// Build Html of nav tabs
 	for (var i = 0; i < tabs.length; i++) {
 		var id = tabs[i].id;

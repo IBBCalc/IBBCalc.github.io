@@ -1,50 +1,3 @@
-var defaultsettings = {
-	"prestige_speed": 3.3,
-	"prestige_power": 11.3,
-	"prestige_ballCost": -66,
-	"prestige_speedCost": -66,
-	"prestige_powerCost": -66,
-
-	"cards_speed_value": 2,
-	"cards_speed_active": true,
-	"cards_power_value": 4,
-	"cards_power_active": true,
-	"cards_qc_value": 5,
-	"cards_qc_active": true,
-	"cards_spec_value": 4,
-	"cards_spec_active": true,
-	"cards_catalyst_value": 5.5,
-	"cards_catalyst_active": true,
-	"cards_shieldpen_value": 20,
-	"cards_shieldpen_active": true,
-
-	"perks_speed": 4,
-	"perks_power": 4,
-	"perks_ballCost": -60,
-	"perks_speedCost": -60,
-	"perks_powerCost": -60,
-
-	"boosts_ph_active": true,
-
-	"badges_basic": 400,
-	"badges_sniper": 400,
-	"badges_splash": 400,
-	"badges_poison": 400,
-	"badges_demo": 400,
-	"badges_scatter": 400,
-	"badges_pierce": 400,
-	"badges_cash": 400,
-	"badges_sword": 400,
-	"badges_fire": 400,
-	"badges_lightning": 400,
-
-	"skillstree_poison_speed": 1.15,
-	"skillstree_poison_enrage": 2,
-	"skillstree_demo_enrage": 3,
-	"skillstree_lightning_power": 1.4,
-	"skillstree_lightning_speed": 1.1,
-};
-
 var defaulttabs = [{
 	"id": "tab0",
 	"name": "Tab0",
@@ -200,11 +153,11 @@ var defaultbadges = [
 		"value": 0,
 	},
 	{
-		"key": "Sniper",
+		"key": "Splash",
 		"value": 0,
 	},
 	{
-		"key": "Splash",
+		"key": "Sniper",
 		"value": 0,
 	},
 	{
@@ -220,11 +173,11 @@ var defaultbadges = [
 		"value": 0,
 	},
 	{
-		"key": "Pierce",
+		"key": "Cash",
 		"value": 0,
 	},
 	{
-		"key": "Cash",
+		"key": "Pierce",
 		"value": 0,
 	},
 	{
@@ -365,7 +318,7 @@ var defaultscatterskills = [
 	},
 ];
 
-var defaultscashskills = [
+var defaultcashskills = [
 	{
 		"key": "Power",
 		"value": null,
@@ -381,7 +334,7 @@ var defaultscashskills = [
 	},
 ];
 
-var defaultspierceskills = [
+var defaultpierceskills = [
 	{
 		"key": "Damage",
 		"value": null,
@@ -400,7 +353,7 @@ var defaultspierceskills = [
 	},
 ];
 
-var defaultsswordskills = [
+var defaultswordskills = [
 	{
 		"key": "Damage",
 		"value": null,
@@ -449,6 +402,25 @@ var defaultlightningskills = [
 	},
 ];
 
+var defaultsettings = {
+	"prestige": defaultprestige,
+	"cards": defaultcards,
+	"perks": defaultperks,
+	"boosts": defaultboosts,
+	"badges": defaultbadges,
+	"basicskills": defaultbasicskills,
+	"splashskills": defaultsplashskills,
+	"sniperkills": defaultsniperskills,
+	"poisonskills": defaultpoisonskills,
+	"demoskills": defaultdemoskills,
+	"scatterskills": defaultscatterskills,
+	"cashskills": defaultcashskills,
+	"pierceskills": defaultpierceskills,
+	"swordskills": defaultswordskills,
+	"fireskills": defaultfireskills,
+	"lightningskills": defaultlightningskills,
+};
+
 var slots = [
 	"base",
 	"175",
@@ -462,6 +434,110 @@ var slots = [
 	"5aa",
 	"80ac"
 ];
+
+var available = {
+	"base": [
+		"basic"
+	],
+	"175": [
+		"splash",
+		"sniper",
+	],
+	"7500": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+	],
+	"175k": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+	],
+	"15m": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+	],
+	"400b": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+	"10q": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+	"10s": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+	"100o": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+	"5aa": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+	"80ac": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
+};
 
 var basestats = {
 	"base": {

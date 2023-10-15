@@ -1,20 +1,4 @@
-var prestige = GetItem("settings_prestige", defaultprestige);
-var cards = GetItem("settings_cards", defaultcards);
-var perks = GetItem("settings_perks", defaultperks);
-var boosts = GetItem("settings_boosts", defaultboosts);
-var badges = GetItem("settings_badges", defaultbadges);
-
-var basicskills = GetItem("settings_basicskills", defaultbasicskills);
-var splashskills = GetItem("settings_splashskills", defaultsplashskills);
-var sniperskills = GetItem("settings_sniperskills", defaultsniperskills);
-var poisonskills = GetItem("settings_poisonskills", defaultpoisonskills);
-var demoskills = GetItem("settings_demoskills", defaultdemoskills);
-var scatterskills = GetItem("settings_scatterskills", defaultscatterskills);
-var cashskills = GetItem("settings_cashskills", defaultscashskills);
-var pierceskills = GetItem("settings_pierceskills", defaultspierceskills);
-var swordskills = GetItem("settings_swordskills", defaultsswordskills);
-var fireskills = GetItem("settings_fireskills", defaultfireskills);
-var lightningskills = GetItem("settings_lightningskills", defaultlightningskills);
+var settings = GetItem("settings", defaultsettings);
 
 function GetItem(key, obj) {	
 	try {
@@ -60,39 +44,40 @@ function getScreenShot(table){
     });
 }
 
-function UpdateData(data, e, updatekey) {
+
+function UpdateData(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
 	if (data[r] !== undefined) {
 		data[r]["value"] = e.target.value === '' ? null : e.target.value;
 		console.log('Row changed: ', data[r])
-		StoreItem(updatekey, data);
+		StoreItem('settings', settings);
 	}
 }
 
-function UpdateCheckbox(data, e, updatekey) {
+function UpdateCheckbox(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
 	if (data[r] !== undefined) {
 		data[r]["active"] = !data[r]["active"];
 		console.log('Row changed: ', data[r])
-		StoreItem(updatekey, data);
+		StoreItem('settings', settings);
 	}
 }
 
-function CreatedCellTemplate(data, updatekey) {
+function CreatedCellTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateData(data, e, updatekey);
-			$('#tfoot_badges').html(badges.reduce(function (a, b) { 
+			UpdateData(data, e);
+			$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
 				return a + parseInt(b["value"]);
 			}, 0));
 		});
 	}
 }
 
-function CreatedCellActiveTemplate(data, updatekey) {
+function CreatedCellActiveTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateCheckbox(data, e, updatekey);
+			UpdateCheckbox(data, e);
 		});
 	}
 }
@@ -145,7 +130,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_prestige').DataTable({
-		data: prestige,
+		data: settings.prestige,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -154,7 +139,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(prestige, 'settings_prestige')
+			createdCell: CreatedCellTemplate(settings.prestige)
 		}],
 		columns: [
 			{ data: 'key', title: "Prestige Badges", width: '125px' },
@@ -163,7 +148,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_cards').DataTable({
-		data: cards,
+		data: settings.cards,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -172,10 +157,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(cards, 'settings_cards')
+			createdCell: CreatedCellTemplate(settings.cards)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(cards, 'settings_cards')
+			createdCell: CreatedCellActiveTemplate(settings.cards)
 		}],
 		columns: [
 			{ data: 'key', title: "Cards", width: '125px' },
@@ -185,7 +170,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_perks').DataTable({
-		data: perks,
+		data: settings.perks,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -194,7 +179,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(perks, 'settings_perks')
+			createdCell: CreatedCellTemplate(settings.perks)
 		}],
 		columns: [
 			{ data: 'key', title: "Perks", width: '125px' },
@@ -203,7 +188,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_boosts').DataTable({
-		data: boosts,
+		data: settings.boosts,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -212,7 +197,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellActiveTemplate(boosts, 'settings_boosts')
+			createdCell: CreatedCellActiveTemplate(settings.boosts)
 		}],
 		columns: [
 			{ data: 'key', title: "Boosts", width: '125px' },
@@ -221,7 +206,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_badges').DataTable({
-		data: badges,
+		data: settings.badges,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -233,7 +218,7 @@ function BuildSettingsTable() {
 		},
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(badges, 'settings_badges')
+			createdCell: CreatedCellTemplate(settings.badges)
 		}],
 		columns: [
 			{ data: 'key', title: "Challenge Badges", width: '125px' },
@@ -241,7 +226,7 @@ function BuildSettingsTable() {
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
-			var sum = badges.reduce(function (a, b) { 
+			var sum = settings.badges.reduce(function (a, b) { 
 				return a + parseInt(b["value"]);
 			}, 0);
 			this.api().column(1).footer().innerHTML = sum;
@@ -249,7 +234,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_basicskills').DataTable({
-		data: basicskills,
+		data: settings.basicskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -258,10 +243,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(basicskills, 'settings_basicskills')
+			createdCell: CreatedCellTemplate(settings.basicskills)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(basicskills, 'settings_basicskills')
+			createdCell: CreatedCellActiveTemplate(settings, 'basicskills')
 		}],
 		columns: [
 			{ data: 'key', title: "Basic Skill Tree", width: '200px' },
@@ -271,7 +256,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_splashskills').DataTable({
-		data: splashskills,
+		data: settings.splashskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -280,7 +265,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(splashskills, 'settings_splashskills')
+			createdCell: CreatedCellTemplate(settings.splashskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Splash Skill Tree", width: '200px' },
@@ -289,7 +274,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_sniperskills').DataTable({
-		data: sniperskills,
+		data: settings.sniperskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -298,7 +283,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(sniperskills, 'settings_sniperskills')
+			createdCell: CreatedCellTemplate(settings.sniperskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Sniper Skill Tree", width: '200px' },
@@ -307,7 +292,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_poisonskills').DataTable({
-		data: poisonskills,
+		data: settings.poisonskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -316,7 +301,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(poisonskills, 'settings_poisonskills')
+			createdCell: CreatedCellTemplate(settings.poisonskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Poison Skill Tree", width: '200px' },
@@ -325,7 +310,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_demoskills').DataTable({
-		data: demoskills,
+		data: settings.demoskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -334,7 +319,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(demoskills, 'settings_demoskills')
+			createdCell: CreatedCellTemplate(settings.demoskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
@@ -344,7 +329,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_scatterskills').DataTable({
-		data: scatterskills,
+		data: settings.scatterskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -353,7 +338,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(scatterskills, 'settings_scatterskills')
+			createdCell: CreatedCellTemplate(settings.scatterskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },
@@ -363,7 +348,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_cashskills').DataTable({
-		data: cashskills,
+		data: settings.cashskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -372,7 +357,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(cashskills, 'settings_cashskills')
+			createdCell: CreatedCellTemplate(settings.cashskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Cash Skill Tree", width: '200px' },
@@ -381,7 +366,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_pierceskills').DataTable({
-		data: pierceskills,
+		data: settings.pierceskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -390,7 +375,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(pierceskills, 'settings_pierceskills')
+			createdCell: CreatedCellTemplate(settings.pierceskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Pierce Skill Tree", width: '200px' },
@@ -399,7 +384,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_swordskills').DataTable({
-		data: swordskills,
+		data: settings.swordskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -408,7 +393,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(swordskills, 'settings_swordskills')
+			createdCell: CreatedCellTemplate(settings.swordskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Sword Skill Tree", width: '200px' },
@@ -417,7 +402,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_fireskills').DataTable({
-		data: fireskills,
+		data: settings.fireskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -426,7 +411,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(fireskills, 'settings_fireskills')
+			createdCell: CreatedCellTemplate(settings.fireskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Fire Skill Tree", width: '200px' },
@@ -435,7 +420,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_lightningskills').DataTable({
-		data: lightningskills,
+		data: settings.lightningskills,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -444,7 +429,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(lightningskills, 'settings_lightningskills')
+			createdCell: CreatedCellTemplate(settings.lightningskills)
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },

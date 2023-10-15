@@ -18,6 +18,10 @@
     padding: 4px;
 }
 
+.table-dark td:has(select) {
+    padding: 4px !important;
+}
+
 .table-dark td:has(input[type=checkbox]) {
     padding: 6px;
 }
