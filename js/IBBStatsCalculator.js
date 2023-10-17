@@ -3,117 +3,6 @@ var defaultactivetab = {
 	"ibbstatscalculator": 0,
 }
 
-var defaulttabs = [{
-	"id": "tab0",
-	"name": "Tab0",
-	"settings": structuredClone(defaultsettings),
-	"global_settings_active": true,
-	"all_settings_active": false,
-	"header_windfall": '1aa',
-
-	"data": [
-		{
-			'slot': 'base',
-			'type': 'basic',
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '175',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '7500',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '175k',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '15m',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '400b',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '10q',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '10s',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '100o',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '5aa',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-		{
-			'slot': '80ac',
-			'type': null,
-			'amount': null,
-			'speedlvl': null,
-			'powerlvl': null,
-			'ballspec': false,
-			'friend': false,
-		},
-	],
-}];
-
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 
@@ -473,39 +362,111 @@ function handleTabRemove(event) {
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function UpdateData(data, e, updatekey) {
+function GetKeyValue(data, key, def) {
+	var entry = data.find(d => d.key === key);
+	if (entry === undefined) {
+		return def;
+	}
+	
+	if (entry.value === null) {
+		return def;
+	}
+	
+	return entry.value;
+}
+
+function GetKeyValueIfActive(data, key, def) {
+	var entry = data.find(d => d.key === key);
+	if (entry === undefined) {
+		return def;
+	}
+	
+	if (entry.active) {
+		return entry.value;
+	}
+	
+	return def;
+}
+
+function GetKeyActive(data, key, iftrue, iffalse) {
+	var entry = data.find(d => d.key === key);
+	if (entry === undefined) {
+		return iffalse;
+	}
+	
+	if (entry.active) {
+		return iftrue;
+	}
+	
+	return iffalse;
+}
+
+function UpdateNumber(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
+	var c = e.currentTarget._DT_CellIndex.column;
 	if (data[r] !== undefined) {
-		data[r]["value"] = e.target.value === '' ? null : e.target.value;
+		data[r][Object.keys(data[r])[c]] = e.target.value === '' ? null : parseFloat(e.target.value);
 		console.log('Row changed: ', data[r])
-		StoreItem(updatekey, data);
+		StoreItem('statsCalculator', tabs);
+	}
+}
+function UpdateText(data, e) {
+	var r = e.currentTarget._DT_CellIndex.row;
+	var c = e.currentTarget._DT_CellIndex.column;
+	if (data[r] !== undefined) {
+		data[r][Object.keys(data[r])[c]] = e.target.value === 'null' ? null : e.target.value;
+		console.log('Row changed: ', data[r])
+		StoreItem('statsCalculator', tabs);
 	}
 }
 
-function UpdateCheckbox(data, e, updatekey) {
+function UpdateCheckbox(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
+	var c = e.currentTarget._DT_CellIndex.column;
 	if (data[r] !== undefined) {
-		data[r]["active"] = !data[r]["active"];
+		data[r][Object.keys(data[r])[c]] = !data[r][Object.keys(data[r])[c]];
 		console.log('Row changed: ', data[r])
-		StoreItem(updatekey, data);
+		StoreItem('statsCalculator', tabs);
 	}
 }
 
-function CreatedCellTemplate(data, updatekey) {
+function CreatedNumberTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateData(data, e, updatekey);
-			$('#tfoot_badges').html(badges.reduce(function (a, b) { 
+			UpdateNumber(data, e);
+			$('#tfoot_calculator').html(settings.badges.reduce(function (a, b) { 
 				return a + parseInt(b["value"]);
 			}, 0));
+			
+			var table = $('#table_calculator').DataTable();
+			table.row(e.currentTarget._DT_CellIndex.row).invalidate();
+			$(table.cell(this).node()).find('input').focus();
 		});
 	}
 }
 
-function CreatedCellActiveTemplate(data, updatekey) {
+function CreatedCheckboxTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateCheckbox(data, e, updatekey);
+			UpdateCheckbox(data, e);
+			
+			// Invalidate row after save to refresh other columns in this row
+			$('#table_calculator').DataTable().row(e.currentTarget._DT_CellIndex.row).invalidate();
+			// Refresh footer row
+			$('#table_calculator').DataTable().row(13).invalidate();
+		});
+	}
+}
+
+function CreatedDropdownTemplate(data) {
+	return function(cell) {
+		cell.addEventListener('change', function(e) {			
+			UpdateText(data, e);
+			
+			// Invalidate row after save to refresh other columns in this row
+			$('#table_calculator').DataTable().row(e.currentTarget._DT_CellIndex.row).invalidate();
+			// Refresh footer row
+			$('#table_calculator').DataTable().row(13).invalidate();
 		});
 	}
 }
@@ -535,8 +496,23 @@ function ColumnCheckboxTemplate(data, title, width) {
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function ( data, type, row ) {
-			if ( type === 'display' ) { 
+		render: function ( data, type, row, meta ) {
+			if ( type === 'display' ) {
+				// Hide BallSpec/FriendBonus if no ball selected
+				if (row.type === null || row.type === 'null') {
+					row.ballspec = false;
+					row.friend = false;
+					return '';
+				}
+				
+				// Hide Enrage if poison or demo selected, without enrage skill unlocked
+				if (meta.col === 7 
+					&& !((row.type === 'poison' && GetKeyValue(settings.skills.poison, 'Enrage') !== undefined)
+					|| (row.type === 'demo' && GetKeyValue(settings.skills.demo, 'Enrage') !== undefined))) {
+					row.enrage = false;
+					return '';
+				}
+				
 				if (data === undefined) {
 					return '';
 				}
@@ -565,14 +541,32 @@ function ColumnDropdownTemplate(data, title, width) {
 
 			if ( type === 'display' ) { 
 				var select = '<select>';
-				select += '<option value="null"></option>'
+				select += '<option value=null></option>'
 				available[row.slot].forEach(balltype => {
-					select += '<option value="' + balltype + '">' + balltype.charAt(0).toUpperCase() + balltype.slice(1) + '</option>';
+					var isselected = row.type === balltype ? 'selected="selected"' : '';
+					var balltypetext = balltype.charAt(0).toUpperCase() + balltype.slice(1);
+					select += '<option value="' + balltype + '" ' + isselected + '>' + balltypetext + '</option>';
 				});
 				select += '</select>'
 				return select;
 			}
 			return data;
+		}, 
+	};
+}
+
+function ColumnDataTemplate(func, title, width) {
+	return { 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function (data, type, row) {			
+			var value = func(row);
+			if ( type === 'display' ) { 
+				return value; // + formatting
+			}
+			
+			return value;
 		}, 
 	};
 }
@@ -591,35 +585,46 @@ function BuildPage() {
 	
 	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
 
-	// Build Html of all tabs				
-	for (var i = 0; i < tabs.length; i++) {
-		var id = tabs[i].id;
-		$('#tab_content').append('<div id="' + id + '" class="tab-pane ' + ((i == 0) ? 'active' : '') + '">' + datatable_footer_template.replaceAll('%tab%', id).replaceAll('%tablename%', 'calculator') + '</div>');
+	var tab = tabs[activeTab.ibbstatscalculator];
+	//$('#tab_content').append('<div id="' + id + '" class="tab-pane ' + ((i == 0) ? 'active' : '') + '">' + datatable_footer_template.replaceAll('%tab%', id).replaceAll('%tablename%', 'calculator') + '</div>');
 
-		$('#' + id + '_table_calculator').DataTable({
-			data: tabs[i].data,
-			info: false,
-			searching: false,
-			ordering: false,
-			paging: false,
-			autoWidth: false,
-			deferRender: true,
-			columnDefs: [{ 
-				targets: [2, 3, 4],
-				createdCell: CreatedCellTemplate(tabs[i].data)
-			}],
-			columns: [
-				{ data: 'slot', title: "Slot", width: '35px' },
-				ColumnDropdownTemplate('type', 'Ball Type', '100px'),
-				ColumnNumberTemplate('amount', 'Nr. Balls', '40px'),
-				ColumnNumberTemplate('speedlvl', 'Ball Speed', '40px'),
-				ColumnNumberTemplate('powerlvl', 'Ball Power', '40px'),
-				ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
-				ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
-				ColumnCheckboxTemplate('enrage', 'Enraged', '30px'),
-			],
-		});
-	}
+	$('#table_calculator').DataTable({
+		data: tab.data,
+		info: false,
+		searching: false,
+		ordering: false,
+		paging: false,
+		autoWidth: false,
+		deferRender: true,
+		columnDefs: [{ 
+			targets: 1,
+			createdCell: CreatedDropdownTemplate(tab.data)
+		},{ 
+			targets: [2, 3, 4],
+			createdCell: CreatedNumberTemplate(tab.data)
+		},{ 
+			targets: [5, 6, 7],
+			createdCell: CreatedCheckboxTemplate(tab.data)
+		}],
+		columns: [
+			{ data: 'slot', title: "Slot", width: '35px' },
+			ColumnDropdownTemplate('type', 'Ball Type', '100px'),
+			ColumnNumberTemplate('amount', 'Nr. Balls', '40px'),
+			ColumnNumberTemplate('speedlvl', 'Ball Speed', '40px'),
+			ColumnNumberTemplate('powerlvl', 'Ball Power', '40px'),
+			ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
+			ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
+			ColumnCheckboxTemplate('enrage', 'Enraged', '30px'),
+			ColumnDataTemplate(CalculateSpeed, 'Speed', '40px'),
+		],
+		"footerCallback": function( tfoot, data, start, end, display ) {
+			// executes only on draw()
+			$('#tfoot_calculator').html(settings.badges.reduce(function (a, b) { 
+				return a + parseInt(b["value"]);
+			}, 0));
+		},
+	});
+	
 	
 	return;
 
@@ -840,22 +845,26 @@ function CalculateRow(tab, slot) {
 	// }
 }
 
-function CalculateSpeed(tab, balltype, slot) {		
-	var increment = speedbasestats[balltype].increment;
-	var modifier = speedbasestats[balltype].modifier;
-	var basestat = basestats[slot][balltype].speed;
-	var speedLevel = GetTabValue(tab, slot + '_speedLevel', 0);
+function CalculateSpeed(row) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
+	
+	var increment = speedbasestats[row.type].increment;
+	var modifier = speedbasestats[row.type].modifier;
+	var basestat = basestats[row.slot][row.type].speed;
+	var speedLevel = row.speedlvl
 
 	var speedBase = (increment * speedLevel * (Math.pow(modifier, speedLevel))) + basestat;
 	var speed = (speedBase
-		* GetSettings(tab, "prestige_speed", 1)
-		* GetSettingsIfTrue(tab, "cards_speed_active", "cards_speed_value", 1)
-		* ((GetSettings(tab, "cards_qc_active", false)) ? 0.5 : 1)
-		* ((GetSettings(tab, "perks_speed", 1) > 1) ? GetSettings(tab, "perks_speed", 1) : 1)
+		* GetKeyValue(settings.prestige, 'Ball Speed', 1)
+		* GetKeyValueIfActive(settings.cards, 'Ball Speed', 1)
+		* GetKeyActive(settings.cards, 'Quality Control', 0.5, 1)
+		* GetKeyValue(settings.perks, 'Ball Speed', 1)
 		* ((speedLevel > 40) ? 0.4 : 1)
 		* ((speedLevel > 80) ? 0.4 : 1)
-		* SkillsTreeModifier(tab, balltype, "speed", 1)
-		* SkillsTreeModifier(tab, balltype, "enrage", 1));
+		* GetKeyValue(settings.skills[row.type], 'Speed', 1)
+		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage', 1) : 1));
 	return speed;
 }
 
@@ -950,7 +959,7 @@ function CalculateDamageWithPoison(tab, balltype, otherpower) {
 		if (tab[slots[i] + "_type"] === "poison") {
 			poisonslot = slots[i];
 			$(tagid + 'header_dmg_poison').html("Damage w/<br>" + poisonslot + " Poison");
-			if (poisonslot === "7500") {
+			if (poisonslot === "7.5k") {
 				$(tagid + 'header_dmg_poison').html("Damage w/<br>7.5k Poison");
 			}
 			
@@ -962,7 +971,7 @@ function CalculateDamageWithPoison(tab, balltype, otherpower) {
 	var powerLevel = GetTabValue(tab, poisonslot + '_powerLevel', 0);	
 	if (poisonslot === null) {
 		$(tagid + 'header_dmg_poison').html("Damage w/<br>Noxious Fumes");
-		poisonslot = "7500";
+		poisonslot = "7.5k";
 		speedLevel = 0;
 		powerLevel = 0;
 	}

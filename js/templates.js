@@ -862,5 +862,3 @@ var navbar_template = '<li id="%tab%_id" class="%active%">\
 	<input id="%tab%_edit" type="button" onclick="handleTabEdit(event)" value="✎" />\
 	<input id="%tab%_remove" type="button" onclick="handleTabRemove(event)" value="X" />\
 </a></li>';
-
-var datatable_footer_template = '<table id="%tab%_table_%tablename%" class="table table-dark table-hover cell-border"><tfoot><tr><td><td id="%tab%_tfoot_%tablename%"></tr></tfoot></table>';

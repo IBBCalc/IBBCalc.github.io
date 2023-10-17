@@ -1,64 +1,125 @@
+
+
 var defaulttabs = [{
 	"id": "tab0",
 	"name": "Tab0",
 	"settings": structuredClone(defaultsettings),
 	"global_settings_active": true,
 	"all_settings_active": false,
-	
-	"base_type": null,
-	"base_amount": null,
-	"base_speedLevel": null,
-	"base_powerLevel": null,
+	"header_windfall": '1aa',
 
-	"175_type": null,
-	"175_amount": null,
-	"175_speedLevel": null,
-	"175_powerLevel": null,
-
-	"7500_type": "poison",
-	"7500_amount": 50,
-	"7500_speedLevel": 99,
-	"7500_powerLevel": 115,
-
-	"175k_type": null,
-	"175k_amount": null,
-	"175k_speedLevel": null,
-	"175k_powerLevel": null,
-
-	"15m_type": "cash",
-	"15m_amount": 50,
-	"15m_speedLevel": 99,
-	"15m_powerLevel": 103,
-
-	"400b_type": null,
-	"400b_amount": null,
-	"400b_speedLevel": null,
-	"400b_powerLevel": null,
-
-	"10q_type": "sword",
-	"10q_amount": 5,
-	"10q_speedLevel": 71,
-	"10q_powerLevel": 71,
-
-	"10s_type": "lightning",
-	"10s_amount": 50,
-	"10s_speedLevel": 40,
-	"10s_powerLevel": 51,
-
-	"100o_type": "demo",
-	"100o_amount": 25,
-	"100o_speedLevel": 25,
-	"100o_powerLevel": 25,
-
-	"5aa_type": null,
-	"5aa_amount": null,
-	"5aa_speedLevel": null,
-	"5aa_powerLevel": null,
-
-	"80ac_type": null,
-	"80ac_amount": null,
-	"80ac_speedLevel": null,
-	"80ac_powerLevel": null,
+	"data": [
+		{
+			'slot': 'base',
+			'type': 'basic',
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '175',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '7.5k',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '175k',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '15m',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '400b',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '10q',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '10s',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '100o',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '5aa',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+		{
+			'slot': '80ac',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
+	],
 }];
 
 var defaultprestige = [
@@ -194,213 +255,205 @@ var defaultbadges = [
 	},
 ];
 
-var defaultbasicskills = [
-	{
-		"key": "Speed",
-		"value": null,
-	},
-	{
-		"key": "Power",
-		"value": null,
-	},
-	{
-		"key": "Splash Size",
-		"active": false,
-	},
-	{
-		"key": "Friend Bonus",
-		"value": null,
-	},
-	{
-		"key": "Unlimited Friend Bonus",
-	},
-	{
-		"key": "Network Friends Expansion",
-	},
-];
-
-var defaultsplashskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Splash Size",
-	},
-	{
-		"key": "Time Bomb",
-		"value": null,
-	},
-	{
-		"key": "Programmed Time Bomb",
-	},
-	{
-		"key": "Explosion Expansion",
-	},
-];
-
-var defaultsniperskills = [
-	{
-		"key": "Shield Damage",
-		"value": null,
-	},
-	{
-		"key": "More Cash",
-	},
-	{
-		"key": "Archer Sniper",
-		"value": null,
-	},
-	{
-		"key": "Archer Sniper Ninja",
-	},
-	{
-		"key": "Sniper Shuriken",
-	},
-];
-
-var defaultpoisonskills = [
-	{
-		"key": "Speed",
-		"value": null,
-	},
-	{
-		"key": "Poison Decay",
-	},
-	{
-		"key": "Enrage",
-		"value": null,
-	},
-	{
-		"key": "Poison Spread",
-	},
-];
-
-var defaultdemoskills = [
-	{
-		"key": "Enrage",
-		"value": null,
-	},
-	{
-		"key": "Enrage Stack",
-		"active": false,
-	},
-	{
-		"key": "Speed",
-		"value": null,
-	},
-	{
-		"key": "Enrage Fight",
-		"value": null,
-	},
-	{
-		"key": "Cumulative Strength",
-		"value": null,
-	},
-];
-
-var defaultscatterskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Split",
-		"value": null,
-	},
-	{
-		"key": "Fly Children!",
-		"value": null,
-	},
-	{
-		"key": "Scatter Merge",
-		"active": false,
-	},
-];
-
-var defaultcashskills = [
-	{
-		"key": "Power",
-		"value": null,
-	},
-	{
-		"key": "More Cash",
-	},
-	{
-		"key": "Buried Treasure",
-	},
-	{
-		"key": "More Buried Treasure",
-	},
-];
-
-var defaultpierceskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Detonate Bomb Squad",
-	},
-	{
-		"key": "Big Ball",
-	},
-	{
-		"key": "Persistent Big Ball",
-	},
-	{
-		"key": "Big Faster",
-	},
-];
-
-var defaultswordskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Speed",
-		"value": null,
-	},
-	{
-		"key": "Shields Remove",
-	},
-];
-
-var defaultfireskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Fire Spread",
-	},
-	{
-		"key": "Floor is Lava",
-		"value": null,
-	},
-	{
-		"key": "Big Lava",
-	},
-	{
-		"key": "Intense Lava",
-		"value": null,
-	},
-];
-
-var defaultlightningskills = [
-	{
-		"key": "Damage",
-		"value": null,
-	},
-	{
-		"key": "Chain Size",
-	},
-	{
-		"key": "Speed",
-		"value": null,
-	},
-];
+var defaultskills = {
+	"basic": [
+		{
+			"key": "Speed",
+			"value": null,
+		},
+		{
+			"key": "Power",
+			"value": null,
+		},
+		{
+			"key": "Splash Size",
+			"active": false,
+		},
+		{
+			"key": "Friend Bonus",
+			"value": null,
+		},
+		{
+			"key": "Unlimited Friend Bonus",
+		},
+		{
+			"key": "Network Friends Expansion",
+		},
+	],
+	"splash": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Splash Size",
+		},
+		{
+			"key": "Time Bomb",
+			"value": null,
+		},
+		{
+			"key": "Programmed Time Bomb",
+		},
+		{
+			"key": "Explosion Expansion",
+		},
+	],
+	"sniper": [
+		{
+			"key": "Shield Damage",
+			"value": null,
+		},
+		{
+			"key": "More Cash",
+		},
+		{
+			"key": "Archer Sniper",
+			"value": null,
+		},
+		{
+			"key": "Archer Sniper Ninja",
+		},
+		{
+			"key": "Sniper Shuriken",
+		},
+	],
+	"poison": [
+		{
+			"key": "Speed",
+			"value": null,
+		},
+		{
+			"key": "Poison Decay",
+		},
+		{
+			"key": "Enrage",
+			"value": null,
+		},
+		{
+			"key": "Poison Spread",
+		},
+	],
+	"demo": [
+		{
+			"key": "Enrage",
+			"value": null,
+		},
+		{
+			"key": "Enrage Stack",
+			"active": false,
+		},
+		{
+			"key": "Speed",
+			"value": null,
+		},
+		{
+			"key": "Enrage Fight",
+			"value": null,
+		},
+		{
+			"key": "Cumulative Strength",
+			"value": null,
+		},
+	],
+	"scatter": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Split",
+			"value": null,
+		},
+		{
+			"key": "Fly Children!",
+			"value": null,
+		},
+		{
+			"key": "Scatter Merge",
+			"active": false,
+		},
+	],
+	"cash": [
+		{
+			"key": "Power",
+			"value": null,
+		},
+		{
+			"key": "More Cash",
+		},
+		{
+			"key": "Buried Treasure",
+		},
+		{
+			"key": "More Buried Treasure",
+		},
+	],
+	"pierce": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Detonate Bomb Squad",
+		},
+		{
+			"key": "Big Ball",
+		},
+		{
+			"key": "Persistent Big Ball",
+		},
+		{
+			"key": "Big Faster",
+		},
+	],
+	"sword": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Speed",
+			"value": null,
+		},
+		{
+			"key": "Shields Remove",
+		},
+	],
+	"fire": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Fire Spread",
+		},
+		{
+			"key": "Floor is Lava",
+			"value": null,
+		},
+		{
+			"key": "Big Lava",
+		},
+		{
+			"key": "Intense Lava",
+			"value": null,
+		},
+	],
+	"lightning": [
+		{
+			"key": "Damage",
+			"value": null,
+		},
+		{
+			"key": "Chain Size",
+		},
+		{
+			"key": "Speed",
+			"value": null,
+		},
+	]
+};
 
 var defaultsettings = {
 	"prestige": defaultprestige,
@@ -408,23 +461,13 @@ var defaultsettings = {
 	"perks": defaultperks,
 	"boosts": defaultboosts,
 	"badges": defaultbadges,
-	"basicskills": defaultbasicskills,
-	"splashskills": defaultsplashskills,
-	"sniperkills": defaultsniperskills,
-	"poisonskills": defaultpoisonskills,
-	"demoskills": defaultdemoskills,
-	"scatterskills": defaultscatterskills,
-	"cashskills": defaultcashskills,
-	"pierceskills": defaultpierceskills,
-	"swordskills": defaultswordskills,
-	"fireskills": defaultfireskills,
-	"lightningskills": defaultlightningskills,
+	"skills": defaultskills,
 };
 
 var slots = [
 	"base",
 	"175",
-	"7500",
+	"7.5k",
 	"175k",
 	"15m",
 	"400b",
@@ -443,7 +486,7 @@ var available = {
 		"splash",
 		"sniper",
 	],
-	"7500": [
+	"7.5k": [
 		"splash",
 		"sniper",
 		"poison",
@@ -556,7 +599,7 @@ var basestats = {
 			"power": 4.00
 		}
 	},
-	"7500": {
+	"7.5k": {
 		"sniper": {
 			"speed": 1.5000,
 			"power": 15.75
@@ -987,7 +1030,7 @@ var basecosts = {
 		"speed": 200,
 		"power": 200
 	},
-	"7500": {
+	"7.5k": {
 		"buy": 7500,
 		"ball": 7500,
 		"speed": 7500,

@@ -234,7 +234,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_basicskills').DataTable({
-		data: settings.basicskills,
+		data: settings.skills.basic,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -243,10 +243,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.basicskills)
+			createdCell: CreatedCellTemplate(settings.skills.basic)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(settings, 'basicskills')
+			createdCell: CreatedCellActiveTemplate(settings.skills.basic)
 		}],
 		columns: [
 			{ data: 'key', title: "Basic Skill Tree", width: '200px' },
@@ -265,7 +265,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.splashskills)
+			createdCell: CreatedCellTemplate(settings.skills.splash)
 		}],
 		columns: [
 			{ data: 'key', title: "Splash Skill Tree", width: '200px' },
@@ -274,7 +274,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_sniperskills').DataTable({
-		data: settings.sniperskills,
+		data: settings.skills.sniper,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -283,7 +283,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.sniperskills)
+			createdCell: CreatedCellTemplate(settings.skills.sniper)
 		}],
 		columns: [
 			{ data: 'key', title: "Sniper Skill Tree", width: '200px' },
@@ -292,7 +292,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_poisonskills').DataTable({
-		data: settings.poisonskills,
+		data: settings.skills.poison,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -301,7 +301,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.poisonskills)
+			createdCell: CreatedCellTemplate(settings.skills.poison)
 		}],
 		columns: [
 			{ data: 'key', title: "Poison Skill Tree", width: '200px' },
@@ -310,7 +310,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_demoskills').DataTable({
-		data: settings.demoskills,
+		data: settings.skills.demo,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -319,7 +319,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.demoskills)
+			createdCell: CreatedCellTemplate(settings.skills.demo)
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
@@ -329,7 +329,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_scatterskills').DataTable({
-		data: settings.scatterskills,
+		data: settings.skills.scatter,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -338,7 +338,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.scatterskills)
+			createdCell: CreatedCellTemplate(settings.skills.scatter)
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },
@@ -348,7 +348,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_cashskills').DataTable({
-		data: settings.cashskills,
+		data: settings.skills.cash,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -357,7 +357,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.cashskills)
+			createdCell: CreatedCellTemplate(settings.skills.cash)
 		}],
 		columns: [
 			{ data: 'key', title: "Cash Skill Tree", width: '200px' },
@@ -366,7 +366,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_pierceskills').DataTable({
-		data: settings.pierceskills,
+		data: settings.skills.pierce,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -375,7 +375,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.pierceskills)
+			createdCell: CreatedCellTemplate(settings.skills.pierce)
 		}],
 		columns: [
 			{ data: 'key', title: "Pierce Skill Tree", width: '200px' },
@@ -384,7 +384,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_swordskills').DataTable({
-		data: settings.swordskills,
+		data: settings.skills.sword,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -393,7 +393,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.swordskills)
+			createdCell: CreatedCellTemplate(settings.skills.sword)
 		}],
 		columns: [
 			{ data: 'key', title: "Sword Skill Tree", width: '200px' },
@@ -402,7 +402,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_fireskills').DataTable({
-		data: settings.fireskills,
+		data: settings.skills.fire,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -411,7 +411,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.fireskills)
+			createdCell: CreatedCellTemplate(settings.skills.fire)
 		}],
 		columns: [
 			{ data: 'key', title: "Fire Skill Tree", width: '200px' },
@@ -420,7 +420,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_lightningskills').DataTable({
-		data: settings.lightningskills,
+		data: settings.skills.lightning,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -429,7 +429,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.lightningskills)
+			createdCell: CreatedCellTemplate(settings.skills.lightning)
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },
