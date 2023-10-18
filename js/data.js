@@ -1,5 +1,3 @@
-
-
 var defaulttabs = [{
 	"id": "tab0",
 	"name": "Tab0",
