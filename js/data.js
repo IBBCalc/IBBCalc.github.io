@@ -1,10 +1,10 @@
 var defaulttabs = [{
 	"id": "tab0",
-	"name": "Tab0",
+	"name": "Tab 0",
 	"settings": structuredClone(defaultsettings),
 	"global_settings_active": true,
 	"all_settings_active": false,
-	"header_windfall": '1aa',
+	"windfall": '1aa',
 
 	"data": [
 		{
@@ -124,22 +124,27 @@ var defaultprestige = [
 	{
 		"key": "Ball Speed",
 		"value": 3.3,
+		"step": 0.1,
 	},
 	{
 		"key": "Ball Power",
 		"value": 11.3,
+		"step": 0.2,
 	},
 	{
 		"key": "New Ball Cost",
 		"value": -66,
+		"step": 3,
 	},
 	{
 		"key": "Ball Speed Cost",
 		"value": -66,
+		"step": 3,
 	},
 	{
 		"key": "Ball Power Cost",
 		"value": -66,
+		"step": 3,
 	},
 ];
 
@@ -148,31 +153,37 @@ var defaultcards = [
 		"key": "Ball Speed",
 		"value": 2.0,
 		"active": true,
+		"step": 0.15,
 	},
 	{
 		"key": "Ball Power",
 		"value": 4.0,
 		"active": true,
+		"step": 0.5,
 	},
 	{
 		"key": "Quality Control",
 		"value": 5.0,
 		"active": true,
+		"step": 0.4,
 	},
 	{
 		"key": "Ball Spec.",
 		"value": 4.0,
 		"active": true,
+		"step": 0.4,
 	},
 	{
 		"key": "Catalyst",
 		"value": 5.5,
 		"active": true,
+		"step": 0.5,
 	},
 	{
 		"key": "Shield Pen.",
 		"value": 20,
 		"active": true,
+		"step": 2,
 	},
 ];
 
@@ -180,22 +191,27 @@ var defaultperks = [
 	{
 		"key": "Ball Speed",
 		"value": 4.0,
+		"step": 0.2,
 	},
 	{
 		"key": "Ball Power",
 		"value": 4.0,
+		"step": 0.25,
 	},
 	{
 		"key": "New Ball Cost",
-		"value": -66,
+		"value": -60,
+		"step": 20,
 	},
 	{
 		"key": "Ball Speed Cost",
-		"value": -66,
+		"value": -60,
+		"step": 20,
 	},
 	{
 		"key": "Ball Power Cost",
-		"value": -66,
+		"value": -60,
+		"step": 20,
 	},
 ];
 
@@ -208,48 +224,70 @@ var defaultboosts = [
 
 var defaultbadges = [
 	{
+		"id": "basic",
 		"key": "Basic",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "splash",
 		"key": "Splash",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "sniper",
 		"key": "Sniper",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "poison",
 		"key": "Poison",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "demo",
 		"key": "Demo",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "scatter",
 		"key": "Scatter",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "cash",
 		"key": "Cash",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "pierce",
 		"key": "Pierce",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "sword",
 		"key": "Sword",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "fire",
 		"key": "Fire",
 		"value": 0,
+		"step": 1,
 	},
 	{
+		"id": "lightning",
 		"key": "Lightning",
 		"value": 0,
+		"step": 1,
 	},
 ];
 
@@ -258,10 +296,12 @@ var defaultskills = {
 		{
 			"key": "Speed",
 			"value": null,
+			"step": 0.05,
 		},
 		{
 			"key": "Power",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Splash Size",
@@ -270,6 +310,7 @@ var defaultskills = {
 		{
 			"key": "Friend Bonus",
 			"value": null,
+			"step": 0.5,
 		},
 		{
 			"key": "Unlimited Friend Bonus",
@@ -282,6 +323,7 @@ var defaultskills = {
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Splash Size",
@@ -289,6 +331,7 @@ var defaultskills = {
 		{
 			"key": "Time Bomb",
 			"value": null,
+			"step": 0.2,
 		},
 		{
 			"key": "Programmed Time Bomb",
@@ -301,6 +344,7 @@ var defaultskills = {
 		{
 			"key": "Shield Damage",
 			"value": null,
+			"step": 0.5,
 		},
 		{
 			"key": "More Cash",
@@ -308,6 +352,7 @@ var defaultskills = {
 		{
 			"key": "Archer Sniper",
 			"value": null,
+			"step": 20,
 		},
 		{
 			"key": "Archer Sniper Ninja",
@@ -320,6 +365,7 @@ var defaultskills = {
 		{
 			"key": "Speed",
 			"value": null,
+			"step": 0.05,
 		},
 		{
 			"key": "Poison Decay",
@@ -327,6 +373,7 @@ var defaultskills = {
 		{
 			"key": "Enrage",
 			"value": null,
+			"step": 0.5,
 		},
 		{
 			"key": "Poison Spread",
@@ -336,6 +383,7 @@ var defaultskills = {
 		{
 			"key": "Enrage",
 			"value": null,
+			"step": 0.5,
 		},
 		{
 			"key": "Enrage Stack",
@@ -344,28 +392,34 @@ var defaultskills = {
 		{
 			"key": "Speed",
 			"value": null,
+			"step": 0.05,
 		},
 		{
 			"key": "Enrage Fight",
 			"value": null,
+			"step": 0.3,
 		},
 		{
 			"key": "Cumulative Strength",
 			"value": null,
+			"step": 0.3,
 		},
 	],
 	"scatter": [
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Split",
 			"value": null,
+			"step": 1,
 		},
 		{
 			"key": "Fly Children!",
 			"value": null,
+			"step": 5,
 		},
 		{
 			"key": "Scatter Merge",
@@ -376,6 +430,7 @@ var defaultskills = {
 		{
 			"key": "Power",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "More Cash",
@@ -391,6 +446,7 @@ var defaultskills = {
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Detonate Bomb Squad",
@@ -409,10 +465,12 @@ var defaultskills = {
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Speed",
 			"value": null,
+			"step": 0.05,
 		},
 		{
 			"key": "Shields Remove",
@@ -422,6 +480,7 @@ var defaultskills = {
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Fire Spread",
@@ -429,6 +488,7 @@ var defaultskills = {
 		{
 			"key": "Floor is Lava",
 			"value": null,
+			"step": 5,
 		},
 		{
 			"key": "Big Lava",
@@ -436,12 +496,14 @@ var defaultskills = {
 		{
 			"key": "Intense Lava",
 			"value": null,
+			"step": 0.2,
 		},
 	],
 	"lightning": [
 		{
 			"key": "Damage",
 			"value": null,
+			"step": 0.1,
 		},
 		{
 			"key": "Chain Size",
@@ -449,6 +511,7 @@ var defaultskills = {
 		{
 			"key": "Speed",
 			"value": null,
+			"step": 0.05,
 		},
 	]
 };
@@ -1226,3 +1289,77 @@ var brickmult = [
 		"cumulative": 13162922164224,
 	},
 ]
+
+const lookup = [
+	{ value: 1, symbol: "" },
+	{ value: 1e3, symbol: "K" },
+	{ value: 1e6, symbol: "M" },
+	{ value: 1e9, symbol: "B" },
+	{ value: 1e12, symbol: "T" },
+	{ value: 1e15, symbol: "q" },
+	{ value: 1e18, symbol: "Q" },
+	{ value: 1e21, symbol: "s" },
+	{ value: 1e24, symbol: "S" },
+	{ value: 1e27, symbol: "O" },
+	{ value: 1e30, symbol: "N" },
+	{ value: 1e33, symbol: "D" },
+	{ value: 1e36, symbol: "aa" },
+	{ value: 1e39, symbol: "ab" },
+	{ value: 1e42, symbol: "ac" },
+	{ value: 1e45, symbol: "ad" },
+	{ value: 1e48, symbol: "ae" },
+	{ value: 1e51, symbol: "af" },
+	{ value: 1e54, symbol: "ag" },
+	{ value: 1e57, symbol: "ah" },
+	{ value: 1e60, symbol: "ai" },
+	{ value: 1e63, symbol: "aj" },
+	{ value: 1e66, symbol: "ak" },
+	{ value: 1e69, symbol: "al" },
+	{ value: 1e72, symbol: "am" },
+	{ value: 1e75, symbol: "an" },
+	{ value: 1e78, symbol: "ao" },
+	{ value: 1e81, symbol: "ap" },
+	{ value: 1e84, symbol: "aq" },
+	{ value: 1e87, symbol: "ar" },
+	{ value: 1e90, symbol: "as" },
+	{ value: 1e93, symbol: "at" },
+	{ value: 1e96, symbol: "au" },
+	{ value: 1e99, symbol: "av" },
+	{ value: 1e102, symbol: null },
+];
+function FormatNumber(num) {
+	var item = lookup.slice().reverse().find(function (item) {
+		return num >= item.value;
+	});
+
+	if (item === undefined) {
+		return 0;
+	}
+
+	if (item.symbol === null) {
+		return num.toExponential(2);
+	}
+
+	return item ? (num / item.value).toFixed(2) + item.symbol : "0";
+}
+function UnFormatNumber(text) {
+	if (!isNaN(text)) {
+		return parseFloat(text);
+	}
+	
+	var num = parseFloat(text);
+	if (isNaN(num)) {
+		return NaN;
+	}
+	
+	var symbol = text.replace(num, '');
+	var item = lookup.slice().reverse().find(function (item) {
+		return symbol.localeCompare(item.symbol, undefined, { sensitivity: 'accent' }) === 0
+	});
+
+	if (item === undefined) {
+		return NaN;
+	}
+	
+	return num * item.value;
+}

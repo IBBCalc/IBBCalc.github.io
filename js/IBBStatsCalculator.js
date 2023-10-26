@@ -9,6 +9,7 @@ var activeTab = GetItem("activeTab", defaultactivetab);
 var settings = GetItem("settings", defaultsettings);
 
 var totalcost = 0;
+var datacells = [8,9,10,11,12];
 
 function GetItem(key, obj) {	
 	try {
@@ -119,80 +120,6 @@ function GetTabFromEvent(event) {
 	return tabs.find(e => e.id === id);
 }
 
-const lookup = [
-	{ value: 1, symbol: "" },
-	{ value: 1e3, symbol: "K" },
-	{ value: 1e6, symbol: "M" },
-	{ value: 1e9, symbol: "B" },
-	{ value: 1e12, symbol: "T" },
-	{ value: 1e15, symbol: "q" },
-	{ value: 1e18, symbol: "Q" },
-	{ value: 1e21, symbol: "s" },
-	{ value: 1e24, symbol: "S" },
-	{ value: 1e27, symbol: "O" },
-	{ value: 1e30, symbol: "N" },
-	{ value: 1e33, symbol: "D" },
-	{ value: 1e36, symbol: "aa" },
-	{ value: 1e39, symbol: "ab" },
-	{ value: 1e42, symbol: "ac" },
-	{ value: 1e45, symbol: "ad" },
-	{ value: 1e48, symbol: "ae" },
-	{ value: 1e51, symbol: "af" },
-	{ value: 1e54, symbol: "ag" },
-	{ value: 1e57, symbol: "ah" },
-	{ value: 1e60, symbol: "ai" },
-	{ value: 1e63, symbol: "aj" },
-	{ value: 1e66, symbol: "ak" },
-	{ value: 1e69, symbol: "al" },
-	{ value: 1e72, symbol: "am" },
-	{ value: 1e75, symbol: "an" },
-	{ value: 1e78, symbol: "ao" },
-	{ value: 1e81, symbol: "ap" },
-	{ value: 1e84, symbol: "aq" },
-	{ value: 1e87, symbol: "ar" },
-	{ value: 1e90, symbol: "as" },
-	{ value: 1e93, symbol: "at" },
-	{ value: 1e96, symbol: "au" },
-	{ value: 1e99, symbol: "av" },
-	{ value: 1e102, symbol: null },
-];
-function FormatNumber(num) {
-	var item = lookup.slice().reverse().find(function (item) {
-		return num >= item.value;
-	});
-
-	if (item === undefined) {
-		return 0;
-	}
-
-	if (item.symbol === null) {
-		return num.toExponential(2);
-	}
-
-	return item ? (num / item.value).toFixed(2) + item.symbol : "0";
-}
-function UnFormatNumber(text) {
-	if (!isNaN(text)) {
-		return parseFloat(text);
-	}
-	
-	var num = parseFloat(text);
-	if (isNaN(num)) {
-		return NaN;
-	}
-	
-	var symbol = text.replace(num, '');
-	var item = lookup.slice().reverse().find(function (item) {
-		return symbol == item.symbol;
-	});
-
-	if (item === undefined) {
-		return NaN;
-	}
-	
-	return num * item.value;
-}
-
 function handleCalculatorChange(event) {
 	var element = event.target;
 	var value = element.value;
@@ -250,30 +177,20 @@ function handleSettingsChange(event) {
 	BuildStatsCalculator(tab);
 }
 
-function handleWindfallChange(event) {
-	var value = event.target.value;
-	var tab = GetTabFromEvent(event);
-	var key = GetKeyFromEvent(event);
+function handleShowAllSettingsToggle(event) {
+	var element = event.target;
+	var tabsplit = element.id.indexOf('_');
+	var id = element.id.slice(0, tabsplit);
+	var tab = tabs.find(e => e.id === id);
+	console.log(tab.all_settings_active, element.checked);
+	tab.all_settings_active = element.checked;
 	
-	if (!isNaN(value)) {
-		console.log(GetSettings(tab, key), parseFloat(value));
-		SetSettings(tab, key, parseFloat(value));
-	}
-	else {
-		var num = UnFormatNumber(value);
-		if (isNaN(num)) {
-			$('#' + tab.id + key).val(NaN);
-			console.log(GetSettings(tab, key), NaN);
-			SetSettings(tab, key, NaN);
-		}
-		else {
-			console.log(GetSettings(tab, key), value);
-			SetSettings(tab, key, value);			
-		}
-	}
+	$('.' + id + '_togglerow').toggleClass('hide');
 	
-	BuildStatsCalculator(tab);
+	StoreItem("statsCalculator", tabs);
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%% Handle Tab events %%%%%%%%%%%%%%%%%%%%%%%
 
 function handleTabChange(event) {
 	var element = event.target;
@@ -282,7 +199,7 @@ function handleTabChange(event) {
 	var tab = tabs.find(e => e.id === id);
 	
 	if (tabs.includes(tab)) {
-		BuildStatsCalculator(tab);
+		BuildTable(tab);
 	}
 }
 
@@ -313,19 +230,6 @@ function handleNewTab(event) {
 	$(navbar_template.replaceAll('%tab%', tab.id).replaceAll('%tabname%', tab.name).replaceAll('%active%', '')).insertBefore('#newtab_id');
 	$('#tab_content').append('<div id="' + tab.id + '" class="tab-pane">' + table_template.replaceAll('%tab%', tab.id) + '</div>');
 	BuildStatsCalculator(tab);
-}
-
-function handleShowAllSettingsToggle(event) {
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	console.log(tab.all_settings_active, element.checked);
-	tab.all_settings_active = element.checked;
-	
-	$('.' + id + '_togglerow').toggleClass('hide');
-	
-	StoreItem("statsCalculator", tabs);
 }
 
 function handleTabEdit(event) {
@@ -361,9 +265,10 @@ function handleTabRemove(event) {
 	}
 }
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%% Get Data methods %%%%%%%%%%%%%%%%%%%%%%%
+
 function GetKeyValue(data, key, def) {
-	var entry = data.find(d => d.key === key);
+	var entry = data.find(d => d.key.localeCompare(key, undefined, { sensitivity: 'accent' }) === 0);
 	if (entry === undefined) {
 		return def;
 	}
@@ -376,7 +281,7 @@ function GetKeyValue(data, key, def) {
 }
 
 function GetKeyValueIfActive(data, key, def) {
-	var entry = data.find(d => d.key === key);
+	var entry = data.find(d => d.key.localeCompare(key, undefined, { sensitivity: 'accent' }) === 0);
 	if (entry === undefined) {
 		return def;
 	}
@@ -389,7 +294,7 @@ function GetKeyValueIfActive(data, key, def) {
 }
 
 function GetKeyActive(data, key, iftrue, iffalse) {
-	var entry = data.find(d => d.key === key);
+	var entry = data.find(d => d.key.localeCompare(key, undefined, { sensitivity: 'accent' }) === 0);
 	if (entry === undefined) {
 		return iffalse;
 	}
@@ -400,6 +305,8 @@ function GetKeyActive(data, key, iftrue, iffalse) {
 	
 	return iffalse;
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%% Update Data methods %%%%%%%%%%%%%%%%%%%%%%%
 
 function UpdateNumber(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
@@ -430,47 +337,67 @@ function UpdateCheckbox(data, e) {
 	}
 }
 
+function UpdateFooter() {
+	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 10).render('a').reduce(function(a, b) {
+		if (isNaN(b) || b === '') {
+			return a;
+		}
+		return a + parseFloat(b);
+	}, 0);
+	$('#tfoot_cost').html(FormatNumber(totalcost));
+	
+	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 11).render('a').reduce(function(a, b) {
+		if (isNaN(b) || b === '') {
+			return a;
+		}
+		return a + parseFloat(b);
+	}, 0);
+	$('#tfoot_windfall').html(totalcost);
+}
+
+function UpdateWindfall(tab, e) {
+	tab.windfall = e.target.value;
+	console.log('Windfall changed: ', tab.windfall)
+	StoreItem('statsCalculator', tabs);
+}
+
+// %%%%%%%%%%%%%%%%%%%%%%% Created Cell Templates %%%%%%%%%%%%%%%%%%%%%%%
+
 function CreatedNumberTemplate(data) {
-	return function(cell) {
+	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
-			UpdateNumber(data, e);
-			$('#tfoot_calculator').html(settings.badges.reduce(function (a, b) { 
-				return a + parseInt(b["value"]);
-			}, 0));
+			UpdateNumber(data, e);			
+			UpdateFooter();
 			
 			// Refresh all data cells in current row
-			$('#table_calculator').DataTable().cells(e.currentTarget._DT_CellIndex.row, [8,9]).invalidate();
-			// Refresh footer row
-			$('#table_calculator').DataTable().row(13).invalidate();
+			$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();	
 		});
 	}
 }
 
 function CreatedCheckboxTemplate(data) {
-	return function(cell) {
+	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
 			UpdateCheckbox(data, e);
 			
 			// Refresh all data cells in current row
-			$('#table_calculator').DataTable().cells(e.currentTarget._DT_CellIndex.row, [8,9]).invalidate();
-			// Refresh footer row
-			$('#table_calculator').DataTable().row(13).invalidate();
+			$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();
 		});
 	}
 }
 
 function CreatedDropdownTemplate(data) {
-	return function(cell) {
+	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {			
 			UpdateText(data, e);
 			
-			// Refresh all data cells in current row
-			$('#table_calculator').DataTable().cells(e.currentTarget._DT_CellIndex.row, [8,9]).invalidate();
-			// Refresh footer row
-			$('#table_calculator').DataTable().row(13).invalidate();
+			// Refresh whole row, dropdown doesnt need focus anyway
+			$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10]).invalidate();
 		});
 	}
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%% Column Templates %%%%%%%%%%%%%%%%%%%%%%%
 
 function ColumnNumberTemplate(data, title, width) {
 	return { 
@@ -478,14 +405,14 @@ function ColumnNumberTemplate(data, title, width) {
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function ( data, type, row ) { 
+		render: function(data, type, row, meta) { 
 			if (data === undefined) {
 				return '';
 			}
 
 			if ( type === 'display' ) {
-				return '<input type="number" value="' + data + '">';
-			}					
+				return '<input type="number" step="' + row.step + '" value="' + data + '">';
+			}
 			return data;
 		},  
 	};
@@ -497,7 +424,7 @@ function ColumnCheckboxTemplate(data, title, width) {
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function ( data, type, row, meta ) {
+		render: function(data, type, row, meta) {
 			if ( type === 'display' ) {
 				// No ball selected
 				if (row.type === null || row.type === 'null') {
@@ -548,7 +475,7 @@ function ColumnDropdownTemplate(data, title, width) {
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function ( data, type, row ) {
+		render: function(data, type, row, meta) {
 			if (data === undefined) {
 				return '';
 			}
@@ -569,21 +496,28 @@ function ColumnDropdownTemplate(data, title, width) {
 	};
 }
 
-function ColumnDataTemplate(func, title, width) {
+function ColumnDataTemplate(func, title, width, format) {
 	return { 
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function (data, type, row) {			
-			var value = func(row);
-			if ( type === 'display' ) { 
-				return value; // + formatting
+		render: function(data, type, row, meta) {			
+			var value = func(row, meta.row);
+			if ( type === 'display' ) {
+				if (value === null) {
+					return '';
+				}
+				
+				if (format) {
+					return FormatNumber(value);					
+				}
 			}
-			
 			return value;
 		}, 
 	};
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%% Build Page %%%%%%%%%%%%%%%%%%%%%%%
 
 function BuildPage() {
 	$(document).ready(function() {
@@ -600,8 +534,26 @@ function BuildPage() {
 	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
 
 	var tab = tabs[activeTab.ibbstatscalculator];
-	//$('#tab_content').append('<div id="' + id + '" class="tab-pane ' + ((i == 0) ? 'active' : '') + '">' + datatable_footer_template.replaceAll('%tab%', id).replaceAll('%tablename%', 'calculator') + '</div>');
+	BuildTable(tab);
+}
 
+function BuildTable(tab) {
+	activeTab.ibbstatscalculator = tabs.indexOf(tab);
+	StoreItem('activeTab', activeTab);
+	$('#' + tab.id + '_name').tab('show');
+	
+	if ($.fn.dataTable.isDataTable('#table_calculator')) {
+		$('#table_calculator').DataTable().clear().destroy();
+		$('#table_calculator').empty();
+	}
+	$('#table_calculator').html('<tfoot>\
+			<tr>\
+				<td colspan="10">\
+				<td id="tfoot_cost">\
+				<td id="tfoot_windfall">\
+				<td>Windfall from <br/><input type="text" id="windfall_from" /></td>\
+			</tr>\
+		</tfoot>');
 	$('#table_calculator').DataTable({
 		data: tab.data,
 		info: false,
@@ -628,43 +580,30 @@ function BuildPage() {
 			ColumnNumberTemplate('powerlvl', 'Ball Power', '40px'),
 			ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
 			ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
-			ColumnCheckboxTemplate('enrage', 'Enraged', '30px'),
-			ColumnDataTemplate(CalculateSpeed, 'Speed', '40px'),
-			ColumnDataTemplate(CalculatePower, 'Power', '40px'),
+			ColumnCheckboxTemplate('enrage', 'Enrage', '30px'),
+			ColumnDataTemplate(CalculateSpeed, 'Speed', '55px', true),
+			ColumnDataTemplate(CalculatePower, 'Power', '55px', true),
+			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
+			ColumnDataTemplate(CalculateWindfallCost, 'Windfall Gem Cost', '70px', false),
+			ColumnDataTemplate(CalculateDamageWithPoison, 'Damage w/ Poison', '90px', true),
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
-			$('#tfoot_calculator').html(settings.badges.reduce(function (a, b) { 
-				return a + parseInt(b["value"]);
-			}, 0));
+			UpdateFooter();
 		},
 	});
 	
+	var footer = $('#table_calculator').DataTable().column(12).footer();
+	$(footer).html('Windfall from <br/><input type="text" id="windfall_from" value="' + tab.windfall + '" />');
+	footer.addEventListener('change', function(e) {
+		UpdateWindfall(tab, e);
+		$('#table_calculator').DataTable().rows().invalidate();
+	});
 	
 	return;
-
-
-
-	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	// // Build Html of nav tabs
-	// for (var i = 0; i < tabs.length; i++) {
-		// var id = tabs[i].id;
-		// var name = tabs[i].name;
-		// $('#tab_nav').append(navbar_template.replaceAll('%tab%', id).replaceAll('%tabname%', name).replaceAll('%active%', ((i == 0) ? 'active' : '')));
-	// }
-	
-	// $('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
-	
-	// // Build Html of all tabs				
-	// for (var i = 0; i < tabs.length; i++) {
-		// var id = tabs[i].id;
-		// $('#tab_content').append('<div id="' + id + '" class="tab-pane ' + ((i == 0) ? 'active' : '') + '">' + table_template.replaceAll('%tab%', id) + '</div>');
-	// }
-	
-	// if (tabs.length > 0) {
-		// BuildStatsCalculator(tabs[activeTab.ibbstatscalculator]);
-	// }
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%% Calculations %%%%%%%%%%%%%%%%%%%%%%%
 
 function CalculateSpeed(row) {
 	if (row === undefined || row.slot === undefined || row.type === null) {
@@ -713,13 +652,101 @@ function CalculatePower(row) {
 		* GetKeyActive(settings.boosts, 'Power Hungry', 3, 1)
 		* ((speedLevel > 40) ? 5 : 1)
 		* ((speedLevel > 80) ? 5 : 1)
-		* GetKeyValue(settings.badges, row.type, 1)
+		* (1 + (GetKeyValue(settings.badges, row.type, 0) * 0.2))
 		* GetKeyValue(settings.skills[row.type], 'Damage', 1)
 		* GetKeyValue(settings.skills[row.type], 'Power', 1) // cash
-		* ((row.friend) ? GetKeyValue(settings.skills[row.type], 'Friend Bonus', 1) : 1)
+		* ((row.friend) ? GetKeyValue(settings.skills.basic, 'Friend Bonus', 1) : 1)
 		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage Fight', 1) : 1)
 		* ((row.enrage) ? Math.pow(GetKeyValue(settings.skills[row.type], 'Cumulative Strength', 1), 3) : 1));
 	return power;
+}
+
+function CalculateCost(row) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
+	
+	var amountLevel = row.amount
+	var speedLevel = row.speedlvl
+	var powerLevel = row.powerlvl
+
+	var ballcostmod = (1 + (GetKeyValue(settings.prestige, 'New Ball Cost', 1) / 100)) * (1 + (GetKeyValue(settings.perks, 'New Ball Cost', 1) / 100));
+	var speedcostmod = (1 + (GetKeyValue(settings.prestige, 'Ball Speed Cost', 1) / 100)) * (1 + (GetKeyValue(settings.perks, 'Ball Speed Cost', 1) / 100));
+	var powercostmod = (1 + (GetKeyValue(settings.prestige, 'Ball Power Cost', 1) / 100)) * (1 + (GetKeyValue(settings.perks, 'Ball Power Cost', 1) / 100));
+
+	var sumballcost = 0;
+	for (var i = 0; i < amountLevel; i++) {
+		sumballcost += basecosts[row.slot].ball * Math.pow(1.9, i)
+	}
+
+	var sumspeedcost = 0;
+	for (var i = 0; i < speedLevel; i++) {
+		sumspeedcost += basecosts[row.slot].speed * Math.pow(1.9, i)
+	}
+
+	var sumpowercost = 0;
+	for (var i = 0; i < powerLevel; i++) {
+		sumpowercost += basecosts[row.slot].power * Math.pow(1.9, i)
+	}
+
+	var buycost = basecosts[row.slot].buy;
+	var ballcost = ((amountLevel > 0) ? sumballcost * ballcostmod : 0);
+	var speedcost = ((speedLevel > 0) ? sumspeedcost * speedcostmod : 0);
+	var powercost = ((powerLevel > 0) ? sumpowercost * powercostmod : 0);
+	var prestige1cost = ((speedLevel > 40) ? basecosts[row.slot].speed * Math.pow(1.9, 38) * 9.49 : 0) * speedcostmod;
+	var prestige2cost = ((speedLevel > 80) ? basecosts[row.slot].speed * Math.pow(1.9, 78) * 9.49 : 0) * speedcostmod;
+	var cost = buycost + ballcost + speedcost + powercost + prestige1cost + prestige2cost;
+	return cost;
+}
+
+function CalculateWindfallCost(row, rowindex) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
+	
+	var cost = $('#table_calculator').DataTable().cells(rowindex, 10).render('a')[0];
+	
+	var start = UnFormatNumber(tabs[activeTab.ibbstatscalculator].windfall);
+	if (isNaN(start)) {
+		return '';
+	}
+	
+	if (start > cost) {
+		return '';
+	}
+	
+	var wf = Math.log(cost / start) / Math.log(1.3);
+	return Math.ceil(wf) * 25;
+}
+
+function CalculateDamageWithPoison(row, rowindex) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
+	
+	if (row.type !== null && row.type.localeCompare('poison', undefined) === 0) {
+		return null;
+	}
+	
+	var ballpower = $('#table_calculator').DataTable().cell(rowindex, 9).render('a');
+	var poisonpower = GetFirstPoisonPower();
+	if (poisonpower === null) {
+		return ballpower;
+	}
+	return ballpower * poisonpower * GetKeyValueIfActive(settings.cards, 'Catalyst', 1);
+}
+
+function GetFirstPoisonPower() {
+	var table = $('#table_calculator').DataTable();
+	for (var i in slots) {
+		if (table.row(i).data()['type'] !== null && table.row(i).data()['type'].localeCompare('poison', undefined) === 0) {
+			var poisonindex = table.row(i)[0][0];
+			$(table.column(12).header()).html('Damage w/ ' + slots[i] + ' Poison');
+			return table.cell(poisonindex, 9).render('a')
+		}
+	}
+	$(table.column(12).header()).html('Damage w/ Poison');
+	return null;
 }
 
 // function BuildStatsCalculator(tab) {
@@ -916,97 +943,9 @@ function CalculatePower(row) {
 	// // }
 // }
 
-function CalculateCost(tab, slot) {
-	var amountLevel = GetTabValue(tab, slot + '_amount', 0);
-	var speedLevel = GetTabValue(tab, slot + '_speedLevel', 0);
-	var powerLevel = GetTabValue(tab, slot + '_powerLevel', 0);
-
-	var ballcostmod = (1 + (GetSettings(tab, "prestige_ballCost", 0) / 100)) * (1 + (GetSettings(tab, "perks_ballCost", 0) / 100));
-	var speedcostmod = (1 + (GetSettings(tab, "prestige_speedCost", 0) / 100)) * (1 + (GetSettings(tab, "perks_speedCost", 0) / 100));
-	var powercostmod = (1 + (GetSettings(tab, "prestige_powerCost", 0) / 100)) * (1 + (GetSettings(tab, "perks_powerCost", 0) / 100));
-
-	var sumballcost = 0;
-	for (var i = 0; i < amountLevel; i++) {
-		sumballcost += basecosts[slot].ball * Math.pow(1.9, i)
-	}
-
-	var sumspeedcost = 0;
-	for (var i = 0; i < speedLevel; i++) {
-		sumspeedcost += basecosts[slot].speed * Math.pow(1.9, i)
-	}
-
-	var sumpowercost = 0;
-	for (var i = 0; i < powerLevel; i++) {
-		sumpowercost += basecosts[slot].power * Math.pow(1.9, i)
-	}
-
-	var buycost = basecosts[slot].buy;
-	var ballcost = ((amountLevel > 0) ? sumballcost * ballcostmod : 0);
-	var speedcost = ((speedLevel > 0) ? sumspeedcost * speedcostmod : 0);
-	var powercost = ((powerLevel > 0) ? sumpowercost * powercostmod : 0);
-	var prestige1cost = ((speedLevel > 40) ? basecosts[slot].speed * Math.pow(1.9, 38) * 9.49 : 0) * speedcostmod;
-	var prestige2cost = ((speedLevel > 80) ? basecosts[slot].speed * Math.pow(1.9, 78) * 9.49 : 0) * speedcostmod;
-	var cost = buycost + ballcost + speedcost + powercost + prestige1cost + prestige2cost;
-	return cost;
-}
-
-function CalculateWindfallCost(tab, cost) {
-	var start = UnFormatNumber(GetSettings(tab, 'header_windfall', NaN));
-	if (isNaN(start)) {
-		return '';
-	}
-	
-	if (start > cost) {
-		return '';
-	}
-	
-	var wf = Math.log(cost / start) / Math.log(1.3);
-	return Math.ceil(wf) * 25;
-}
-
 function SkillsTreeModifier(tab, balltype, stat, def) {
 	var key = 'skillstree_' + balltype + '_' + stat;
 	return GetSettings(tab, key, def);
-}
-
-function CalculateDamageWithPoison(tab, balltype, otherpower) {
-	var tagid = '#' + tab.id + '_';
-	var poisonslot = null;
-	for (var i in slots) {
-		if (tab[slots[i] + "_type"] === "poison") {
-			poisonslot = slots[i];
-			$(tagid + 'header_dmg_poison').html("Damage w/<br>" + poisonslot + " Poison");
-			if (poisonslot === "7.5k") {
-				$(tagid + 'header_dmg_poison').html("Damage w/<br>7.5k Poison");
-			}
-			
-			break;
-		}
-	}
-	
-	var speedLevel = GetTabValue(tab, poisonslot + '_speedLevel', 0);
-	var powerLevel = GetTabValue(tab, poisonslot + '_powerLevel', 0);	
-	if (poisonslot === null) {
-		$(tagid + 'header_dmg_poison').html("Damage w/<br>Noxious Fumes");
-		poisonslot = "7.5k";
-		speedLevel = 0;
-		powerLevel = 0;
-	}
-	
-	var poisonpower = CalculatePower(tab, "poison", poisonslot, speedLevel, powerLevel);
-	if (balltype === "lightning") {
-		var lightningdamage = otherpower * poisonpower;
-		var catalyst = GetSettingsIfTrue(tab, "cards_catalyst_active", "cards_catalyst_value", 1);
-		return {
-			damage: (lightningdamage * catalyst),
-			poisonpower: poisonpower,
-		};
-	}
-	
-	return {
-		damage: otherpower * poisonpower * GetSettingsIfTrue(tab, "cards_catalyst_active", "cards_catalyst_value", 1),
-		poisonpower: poisonpower,
-	};
 }
 
 function CalculateLastBrickLevel(balldamage) {

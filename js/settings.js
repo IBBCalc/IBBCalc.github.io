@@ -94,7 +94,7 @@ function ColumnNumberTemplate(data, title, width) {
 			}
 
 			if ( type === 'display' ) {
-				return '<input type="number" value="' + data + '">';
+				return '<input type="number" step="' + row.step + '" value="' + data + '">';
 			}					
 			return data;
 		},  
