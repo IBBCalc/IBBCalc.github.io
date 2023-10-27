@@ -1,15 +1,9 @@
-var defaultactivetab = {
-	"ibbleveltracker": 0,
-	"ibbstatscalculator": 0,
-}
-
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
-
 var settings = GetItem("settings", defaultsettings);
 
 var totalcost = 0;
-var datacells = [8,9,10,11,12];
+var datacells = [8,9,10,11,12,13,14,15];
 
 function GetItem(key, obj) {	
 	try {
@@ -34,160 +28,6 @@ function GetItem(key, obj) {
 
 function StoreItem(key, obj) {
 	window.localStorage.setItem(key, JSON.stringify(obj));
-}
-
-function getScreenShot(){
-	var activeTab = GetItem("activeTab", defaultactivetab);
-	var tableid = tabs[activeTab.ibbstatscalculator].id + '_table';
-	
-    let src = document.getElementById(tableid);
-    html2canvas(src).then(function(canvas) {
-	  canvas.toBlob(function(blob) {
-		navigator.clipboard
-		  .write([
-			new ClipboardItem(
-			  Object.defineProperty({}, blob.type, {
-				value: blob,
-				enumerable: true
-			  })
-			)
-		  ])
-		  .then(function() {});
-	  });
-    });
-}
-
-function GetSettings(tab, key, def) {
-	if (tab.global_settings_active) {
-		if (Object.keys(settings).includes(key)
-			&& settings[key] !== null) {
-			return settings[key];
-		}
-	}
-	else if (Object.keys(tab.settings).includes(key)
-		&& tab.settings[key] !== null){
-		return tab.settings[key];
-	}
-		
-	return def;
-}
-
-function SetSettings(tab, key, value) {
-	if (tab.global_settings_active) {
-		settings[key] = value;
-		StoreItem("settings", settings);
-	}
-	else {
-		tab.settings[key] = value;
-		StoreItem("statsCalculator", tabs);
-	}
-}
-
-function GetSettingsIfTrue(tab, ifkey, key, def) {
-	if (tab.global_settings_active) {
-		if (Object.keys(settings).includes(ifkey)
-			&& settings[ifkey]) {
-			return GetSettings(tab, key, def);
-		}
-	}
-	else if (Object.keys(tab.settings).includes(ifkey)
-		&& tab.settings[ifkey]){
-		return GetSettings(tab, key, def);
-	}
-		
-	return def;
-}
-
-function GetTabValue(tab, key, def) {
-	if (Object.keys(tab).includes(key)
-		&& tab[key] !== null) {
-		return tab[key];
-	}
-	
-	return def;
-}
-
-function GetKeyFromEvent(event) {	
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	return element.id.slice(tabsplit + 1);	
-}
-
-function GetTabFromEvent(event) {	
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	return tabs.find(e => e.id === id);
-}
-
-function handleCalculatorChange(event) {
-	var element = event.target;
-	var value = element.value;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	var elementid = element.id.slice(tabsplit + 1);
-
-	if (elementid.includes("type")) {
-		console.log(tab[elementid], value);
-		tab[elementid] = value;
-	}
-	else if (elementid.includes("active")) {
-		console.log(tab[elementid], element.checked);
-		tab[elementid] = element.checked;
-	}
-	else {
-		if (value === '') {
-			console.log(tab[elementid], null);
-			tab[elementid] = null;
-		}
-		else {
-			console.log(tab[elementid], parseInt(value));
-			tab[elementid] = parseInt(value);
-		}
-	}
-
-	StoreItem("statsCalculator", tabs);
-	BuildStatsCalculator(tab);
-}
-
-function handleSettingsChange(event) {
-	var element = event.target;
-	var value = element.value;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	var elementid = element.id.slice(tabsplit + 1);
-
-	if (elementid.includes("active")) {
-		console.log(GetSettings(tab, elementid), element.checked);
-		SetSettings(tab, elementid, element.checked);
-	}
-	else {
-		if (value === '') {
-			console.log(GetSettings(tab, elementid), null);
-			SetSettings(tab, elementid, null);
-		}
-		else {
-			console.log(GetSettings(tab, elementid), parseFloat(value));
-			SetSettings(tab, elementid, parseFloat(value));
-		}
-	}
-	
-	BuildStatsCalculator(tab);
-}
-
-function handleShowAllSettingsToggle(event) {
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	console.log(tab.all_settings_active, element.checked);
-	tab.all_settings_active = element.checked;
-	
-	$('.' + id + '_togglerow').toggleClass('hide');
-	
-	StoreItem("statsCalculator", tabs);
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Handle Tab events %%%%%%%%%%%%%%%%%%%%%%%
@@ -228,8 +68,7 @@ function handleNewTab(event) {
 	StoreItem("statsCalculator", tabs);
 	
 	$(navbar_template.replaceAll('%tab%', tab.id).replaceAll('%tabname%', tab.name).replaceAll('%active%', '')).insertBefore('#newtab_id');
-	$('#tab_content').append('<div id="' + tab.id + '" class="tab-pane">' + table_template.replaceAll('%tab%', tab.id) + '</div>');
-	BuildStatsCalculator(tab);
+	BuildTable(tab);
 }
 
 function handleTabEdit(event) {
@@ -260,7 +99,7 @@ function handleTabRemove(event) {
 		$('#' + id).remove();
 		StoreItem("statsCalculator", tabs);
 		if (tabs.length > 0) {
-			BuildStatsCalculator(tabs[0]);
+			BuildTable(tabs[0]);
 		}
 	}
 }
@@ -552,6 +391,7 @@ function BuildTable(tab) {
 				<td id="tfoot_cost">\
 				<td id="tfoot_windfall">\
 				<td>Windfall from <br/><input type="text" id="windfall_from" /></td>\
+				<td colspan="3">\
 			</tr>\
 		</tfoot>');
 	$('#table_calculator').DataTable({
@@ -586,6 +426,9 @@ function BuildTable(tab) {
 			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
 			ColumnDataTemplate(CalculateWindfallCost, 'Windfall Gem Cost', '70px', false),
 			ColumnDataTemplate(CalculateDamageWithPoison, 'Damage w/ Poison', '90px', true),
+			ColumnDataTemplate(CalculateLastGreenBrickLevel, 'Last Stage <br>Dmg > Green HP', '120px', true),
+			ColumnDataTemplate(CalculateLastHexBrickLevel, 'Last Stage <br>Dmg > Hex HP', '120px', true),
+			ColumnDataTemplate(CalculateLastShieldHexBrickLevel, 'Last Stage <br>Dmg > Shield Hex HP', '150px', true),
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
@@ -624,7 +467,8 @@ function CalculateSpeed(row) {
 		* ((speedLevel > 40) ? 0.4 : 1)
 		* ((speedLevel > 80) ? 0.4 : 1)
 		* GetKeyValue(settings.skills[row.type], 'Speed', 1)
-		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage', 1) : 1));
+		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage', 1) : 1)
+		* ((row.enrage) ? GetKeyActive(settings.skills[row.type], 'Enrage Stack', 9, 1) : 1));
 	return speed;
 }
 
@@ -749,203 +593,44 @@ function GetFirstPoisonPower() {
 	return null;
 }
 
-// function BuildStatsCalculator(tab) {
-	// var tagid = '#' + tab.id + '_';
-
-	// activeTab.ibbstatscalculator = tabs.indexOf(tab);
-	// StoreItem('activeTab', activeTab);
-	// $('#' + tab.id + '_name').tab('show');
+function CalculateLastGreenBrickLevel(row, rowindex) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
 	
-	// // Calculator
-	// for (var key in tab) {
-		// if (key.includes("active")) {
-			// $(tagid + key).prop('checked', tab[key]);
-		// }
-		// else {
-			// $(tagid + key).val(tab[key]);
-		// }
-	// }
-
-	// totalcost = 0;
-	// for (var i in slots) {
-		// CalculateRow(tab, slots[i]);
-	// }
-
-	// $(tagid + 'totalcost').html(FormatNumber(totalcost));
-	// $(tagid + 'totalwindfall').html(CalculateWindfallCost(tab, totalcost));
-	// $('#header_windfall').val(tab.header_windfall)
+	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
+		return null;
+	}
 	
-	// // Tab-Settings
-	// var totalbadges = 0;
-	// var tabsettings = ((tab.global_settings_active) ? settings : tab.settings);
-	// for (var key in tabsettings) {
-		// if (key.includes("active")) {
-			// $(tagid + key).prop('checked', GetSettings(tab, key, false));
-		// }
-		// else {
-			// $(tagid + key).val(GetSettings(tab, key, null));
-		// }
-		
-		// if (key.includes("badges")) {
-			// totalbadges += GetSettings(tab, key, null);
-		// }
-	// }
+	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	return CalculateLastBrickLevel(damage);
+}
 
-	// $(tagid + 'badges_total').html(totalbadges);
+function CalculateLastHexBrickLevel(row, rowindex) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
 	
-	// if (!tab.all_settings_active) {
-		// $('.' + tab.id + '_togglerow').addClass('hide');
-	// }
+	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
+		return null;
+	}
 	
-	// var powerCard = GetSettings(tab, 'cards_power_value', null);
-	// if (powerCard === 2.4
-		// || powerCard === 2.8
-		// || powerCard === 3.2
-		// || powerCard === 3.6) {
-		// alert('Your power card value is wrong, the card in game has a bug.\n\
-// These are the possible values:\n\
-// Level 1: 1.5\n\
-// Level 2: 2.0\n\
-// Level 3: 2.5\n\
-// Level 4: 3.0\n\
-// Level 5: 3.5\n\
-// Level 6: 4.0')
-	// }
-// }
+	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	return CalculateLastBrickLevel(damage/25);
+}
 
-// function CalculateRow(tab, slot) {
-	// var tagid = '#' + tab.id + '_';
+function CalculateLastShieldHexBrickLevel(row, rowindex) {
+	if (row === undefined || row.slot === undefined || row.type === null) {
+		return null;
+	}
 	
-	// var balltype = tab[slot + "_type"];
-	// if (balltype === null || balltype === "null") {
-		// $(tagid + slot + '_speed').html("");
-		// $(tagid + slot + '_power').html("");
-		// $(tagid + slot + '_cost').html("");
-		// $(tagid + slot + '_dmg_poison').html("");
-		// $(tagid + slot + '_1shot_brick').html("");
-		// $(tagid + slot + '_1shot_hex').html("");
-		// $(tagid + slot + '_1shot_shield').html("");
-		// // $(tagid + slot + '_chain_brick').html("");
-		// // $(tagid + slot + '_chain_hex').html("");
-		// // $(tagid + slot + '_chain_shield').html("");
-		// $(tagid + slot + '_windfall').html("");
-		// return;
-	// }
-
-	// // Speed
-	// var speed = CalculateSpeed(tab, balltype, slot);
-	// $(tagid + slot + '_speed').html(speed.toFixed(2));
-
-	// // Power
-	// var power = CalculatePower(tab, balltype, slot);
-	// $(tagid + slot + '_power').html(FormatNumber(power));
-
-	// // Cost
-	// var cost = CalculateCost(tab, slot);
-	// $(tagid + slot + '_cost').html(FormatNumber(cost));
-	// totalcost += cost;
+	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
+		return null;
+	}
 	
-	// // Windfall gems cost
-	// var windfallcost = CalculateWindfallCost(tab, cost);
-	// $(tagid + slot + '_windfall').html(windfallcost);
-	
-	// // Damage with x Poison
-	// var damage = null;
-	// var poisonpower = 1;
-	// if (balltype !== "poison" && balltype !== "cash") {
-		// const temp = CalculateDamageWithPoison(tab, balltype, power);
-		// damage = temp.damage;
-		// poisonpower = temp.poisonpower;
-		// if (damage !== null) {
-			// $(tagid + slot + '_dmg_poison').html(FormatNumber(damage));
-		// }
-		// else {
-			// damage = power;
-			// $(tagid + slot + '_dmg_poison').html("");
-		// }
-
-		// // Last 1 shots.
-		// // Green bricks
-		// var bricklevel = CalculateLastBrickLevel(damage);
-		// if (bricklevel > 100e6) {
-			// $(tagid + slot + '_1shot_brick').html(FormatNumber(bricklevel));
-		// }
-		// else {
-			// $(tagid + slot + '_1shot_brick').html(bricklevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-		// }
-		
-		// // Hex bricks
-		// var hexlevel = CalculateLastBrickLevel(damage / 25);
-		// if (hexlevel > 100e6) {
-			// $(tagid + slot + '_1shot_hex').html(FormatNumber(hexlevel));
-		// }
-		// else {
-			// $(tagid + slot + '_1shot_hex').html(hexlevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-		// }
-		
-		// // Shield Hex bricks
-		// var shielddamage = damage / 25 / (500 / GetSettingsIfTrue(tab, "cards_shieldpen_active", "cards_shieldpen_value", 1));
-		// if (balltype === "sword") {
-			// shielddamage = damage / 25;
-		// }				
-		// var shieldlevel = CalculateLastBrickLevel(shielddamage);
-		// if (shieldlevel > 100e6) {
-			// $(tagid + slot + '_1shot_shield').html(FormatNumber(shieldlevel));
-		// }
-		// else {
-			// $(tagid + slot + '_1shot_shield').html(shieldlevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-		// }
-	// }
-	// else {		
-		// $(tagid + slot + '_dmg_poison').html("");
-		// $(tagid + slot + '_1shot_brick').html("");
-		// $(tagid + slot + '_1shot_hex').html("");
-		// $(tagid + slot + '_1shot_shield').html("");
-		// // $(tagid + slot + '_chain_brick').html("");
-		// // $(tagid + slot + '_chain_hex').html("");
-		// // $(tagid + slot + '_chain_shield').html("");
-		// return;
-	// }
-	
-	// // Fixed in v1.9.2
-	// // // Lightning chain shenanigans
-	// // if (balltype === "lightning") {
-	// // 	// Ignoring catalyst, it only applies when the chain hits a poisoned brick, but not when only the ball hits a poisoned brick. (it will still apply poison in both cases)
-	// // 	var chaindamage = 0.3 * power * poisonpower; //* GetSettingsIfTrue(tab, "cards_catalyst_active", "cards_catalyst_value", 1);
-		
-	// // 	// Green bricks
-	// // 	var bricklevel = CalculateLastBrickLevel(chaindamage);
-	// // 	if (bricklevel > 100e6) {
-	// // 		$(tagid + slot + '_chain_brick').html(FormatNumber(bricklevel));
-	// // 	}
-	// // 	else {
-	// // 		$(tagid + slot + '_chain_brick').html(bricklevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-	// // 	}
-		
-	// // 	// Hex bricks
-	// // 	var hexlevel = CalculateLastBrickLevel(chaindamage / 25);
-	// // 	if (hexlevel > 100e6) {
-	// // 		$(tagid + slot + '_chain_hex').html(FormatNumber(hexlevel));
-	// // 	}
-	// // 	else {
-	// // 		$(tagid + slot + '_chain_hex').html(hexlevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-	// // 	}
-		
-	// // 	// Shield Hex bricks (assume only 1 part hits shield, if both ball and chain hit shield, shield modifier and shield pen should be quadratic)
-	// // 	var shielddamage = chaindamage / 25 / (500 / GetSettingsIfTrue(tab, "cards_shieldpen_active", "cards_shieldpen_value", 1));
-	// // 	var shieldlevel = CalculateLastBrickLevel(shielddamage);
-	// // 	if (shieldlevel > 100e6) {
-	// // 		$(tagid + slot + '_chain_shield').html(FormatNumber(shieldlevel));
-	// // 	}
-	// // 	else {
-	// // 		$(tagid + slot + '_chain_shield').html(shieldlevel.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));			
-	// // 	}
-	// // }
-// }
-
-function SkillsTreeModifier(tab, balltype, stat, def) {
-	var key = 'skillstree_' + balltype + '_' + stat;
-	return GetSettings(tab, key, def);
+	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
+	return CalculateLastBrickLevel(damage/25/shieldmod);
 }
 
 function CalculateLastBrickLevel(balldamage) {

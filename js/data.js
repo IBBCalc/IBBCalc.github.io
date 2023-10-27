@@ -1,9 +1,11 @@
+var defaultactivetab = {
+	"ibbleveltracker": 0,
+	"ibbstatscalculator": 0,
+}
+
 var defaulttabs = [{
 	"id": "tab0",
 	"name": "Tab 0",
-	"settings": structuredClone(defaultsettings),
-	"global_settings_active": true,
-	"all_settings_active": false,
 	"windfall": '1aa',
 
 	"data": [
@@ -218,7 +220,7 @@ var defaultperks = [
 var defaultboosts = [
 	{
 		"key": "Power Hungry",
-		"active": true,
+		"active": false,
 	},
 ];
 

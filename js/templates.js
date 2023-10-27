@@ -580,7 +580,7 @@ var level_tracker_template = '\
 			<th style="width: fit-content" id="%tab%_delete_row"></th>\
 		</thead>\
 	</table>\
-	<div class="text-left">\
+	<div class="text-left fleft">\
 		<h3 style="margin-left: 1px">Information about the run for future reference.</h3>\
 	</div>\
 	<table id="%tab%_mini_settings" class="table table-dark table-hover" style="width: fit-content;">\
@@ -789,7 +789,7 @@ var level_tracker_row_template = '\
 ';
 
 var level_tracker_show_columns_template = '\
-<div class="text-left" style="margin-left: 5px">\
+<div class="text-left fleft" style="margin-left: 5px">\
 	<h3>Only show the following columns:</h3>\
 	<label for="%tab%_show_days">\
 		<input id="%tab%_show_days" type="checkbox" onchange="handleSettingsChange(event)" />Days\

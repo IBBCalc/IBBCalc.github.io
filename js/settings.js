@@ -256,7 +256,7 @@ function BuildSettingsTable() {
 	});
 
 	$('#table_splashskills').DataTable({
-		data: settings.splashskills,
+		data: settings.skills.splash,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -320,6 +320,9 @@ function BuildSettingsTable() {
 		columnDefs: [{ 
 			targets: 1,
 			createdCell: CreatedCellTemplate(settings.skills.demo)
+		},{ 
+			targets: 2,
+			createdCell: CreatedCellActiveTemplate(settings.skills.demo)
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
@@ -339,6 +342,9 @@ function BuildSettingsTable() {
 		columnDefs: [{ 
 			targets: 1,
 			createdCell: CreatedCellTemplate(settings.skills.scatter)
+		},{ 
+			targets: 2,
+			createdCell: CreatedCellActiveTemplate(settings.skills.scatter)
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },

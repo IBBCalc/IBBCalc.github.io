@@ -116,3 +116,7 @@ input[type=datetime-local] {
 .hide {
 	display: none;
 }
+
+.fleft {
+	float: left;
+}

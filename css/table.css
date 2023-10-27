@@ -26,6 +26,15 @@
     padding: 6px;
 }
 
+.table-dark td:has(a) {
+    padding: 4px !important;
+	vertical-align: middle !important;
+}
+
+.table-dark td:has(input[type=datetime-local]) {
+    padding: 4px;
+}
+
 .grey {
 	color: #999;
 }
@@ -41,4 +50,30 @@ table.dataTable {
 
 .dataTables_wrapper {
 	margin:10px;
+}
+
+.newrow > td > a, .deleterow > a {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+	color: #999;
+}
+
+.deleterow > a {
+	font-size: 16px;
+	margin: 2px 0px;
+}
+
+.newrow > td > a:hover, .newrow > td > a:focus, .deleterow > a:hover, .deleterow > a:focus {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+	color: #fff;
+	border-bottom: 0px;
+	text-decoration: none;
+}
+
+.deleterow > a:hover, .deleterow > a:focus {
+	font-size: 16px;
+	margin: 2px 0px;
 }
