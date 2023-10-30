@@ -20,6 +20,7 @@
 		<script type="text/javascript" src="js/version.js"></script>
 		<script type="text/javascript" src="js/data.js"></script>
 		<script type="text/javascript" src="js/templates.js"></script>
+		<script type="text/javascript" src="js/settings.js"></script>
 		<script type="text/javascript" src="js/IBBStatsCalculator.js"></script>
     </head>
     <body onload="BuildPage()">
@@ -48,9 +49,26 @@
         <!-- Add ballspec and friend bonus to table as checkbox
             Probably also Enrage checkbox-->
         <div id="tab_content" class="text-center">
-			<table id="table_calculator" class="table table-dark table-hover cell-border">
-				
-			</table>
+			<table id="table_calculator" class="table table-dark table-hover cell-border"></table>
+        </div>
+		
+        <div class="text-center">
+            <table id="table_prestige" class="table table-dark table-hover cell-border"></table>
+            <table id="table_cards" class="table table-dark table-hover cell-border"></table>
+            <table id="table_perks" class="table table-dark table-hover cell-border"></table>
+            <table id="table_boosts" class="table table-dark table-hover cell-border"></table>
+            <table id="table_badges" class="table table-dark table-hover cell-border"><tfoot><tr><td><td id="tfoot_badges"></tr></tfoot></table>
+            <table id="table_basicskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_splashskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_sniperskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_poisonskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_demoskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_scatterskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_cashskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_pierceskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_swordskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_fireskills" class="table table-dark table-hover cell-border"></table>
+            <table id="table_lightningskills" class="table table-dark table-hover cell-border"></table>
         </div>
 	</body>
 </html>

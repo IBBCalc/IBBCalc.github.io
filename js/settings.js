@@ -26,25 +26,6 @@ function StoreItem(key, obj) {
 	window.localStorage.setItem(key, text);
 }
 
-function getScreenShot(table){
-    let src = document.getElementById(table);
-    html2canvas(src).then(function(canvas) {
-	  canvas.toBlob(function(blob) {
-		navigator.clipboard
-		  .write([
-			new ClipboardItem(
-			  Object.defineProperty({}, blob.type, {
-				value: blob,
-				enumerable: true
-			  })
-			)
-		  ])
-		  .then(function() {});
-	  });
-    });
-}
-
-
 function UpdateData(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
 	if (data[r] !== undefined) {
@@ -54,7 +35,7 @@ function UpdateData(data, e) {
 	}
 }
 
-function UpdateCheckbox(data, e) {
+function UpdateActive(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
 	if (data[r] !== undefined) {
 		data[r]["active"] = !data[r]["active"];
@@ -63,21 +44,31 @@ function UpdateCheckbox(data, e) {
 	}
 }
 
-function CreatedCellTemplate(data) {
+function UpdateFooter() {
+	$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
+		return a + parseInt(b["value"]);
+	}, 0));
+}
+
+function RefreshDataCells() {
+	// override if necessary
+}
+
+function CreatedValueTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
 			UpdateData(data, e);
-			$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
-				return a + parseInt(b["value"]);
-			}, 0));
+			UpdateFooter();
+			RefreshDataCells();
 		});
 	}
 }
 
-function CreatedCellActiveTemplate(data) {
+function CreatedActiveTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateCheckbox(data, e);
+			UpdateActive(data, e);
+			RefreshDataCells();
 		});
 	}
 }
@@ -139,7 +130,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.prestige)
+			createdCell: CreatedValueTemplate(settings.prestige)
 		}],
 		columns: [
 			{ data: 'key', title: "Prestige Badges", width: '125px' },
@@ -157,10 +148,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.cards)
+			createdCell: CreatedValueTemplate(settings.cards)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(settings.cards)
+			createdCell: CreatedActiveTemplate(settings.cards)
 		}],
 		columns: [
 			{ data: 'key', title: "Cards", width: '125px' },
@@ -179,7 +170,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.perks)
+			createdCell: CreatedValueTemplate(settings.perks)
 		}],
 		columns: [
 			{ data: 'key', title: "Perks", width: '125px' },
@@ -197,7 +188,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellActiveTemplate(settings.boosts)
+			createdCell: CreatedActiveTemplate(settings.boosts)
 		}],
 		columns: [
 			{ data: 'key', title: "Boosts", width: '125px' },
@@ -218,7 +209,7 @@ function BuildSettingsTable() {
 		},
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.badges)
+			createdCell: CreatedValueTemplate(settings.badges)
 		}],
 		columns: [
 			{ data: 'key', title: "Challenge Badges", width: '125px' },
@@ -226,10 +217,7 @@ function BuildSettingsTable() {
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
-			var sum = settings.badges.reduce(function (a, b) { 
-				return a + parseInt(b["value"]);
-			}, 0);
-			this.api().column(1).footer().innerHTML = sum;
+			UpdateFooter();
 		}
 	});
 
@@ -243,10 +231,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.basic)
+			createdCell: CreatedValueTemplate(settings.skills.basic)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(settings.skills.basic)
+			createdCell: CreatedActiveTemplate(settings.skills.basic)
 		}],
 		columns: [
 			{ data: 'key', title: "Basic Skill Tree", width: '200px' },
@@ -265,7 +253,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.splash)
+			createdCell: CreatedValueTemplate(settings.skills.splash)
 		}],
 		columns: [
 			{ data: 'key', title: "Splash Skill Tree", width: '200px' },
@@ -283,7 +271,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.sniper)
+			createdCell: CreatedValueTemplate(settings.skills.sniper)
 		}],
 		columns: [
 			{ data: 'key', title: "Sniper Skill Tree", width: '200px' },
@@ -301,7 +289,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.poison)
+			createdCell: CreatedValueTemplate(settings.skills.poison)
 		}],
 		columns: [
 			{ data: 'key', title: "Poison Skill Tree", width: '200px' },
@@ -319,10 +307,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.demo)
+			createdCell: CreatedValueTemplate(settings.skills.demo)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(settings.skills.demo)
+			createdCell: CreatedActiveTemplate(settings.skills.demo)
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
@@ -341,10 +329,10 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.scatter)
+			createdCell: CreatedValueTemplate(settings.skills.scatter)
 		},{ 
 			targets: 2,
-			createdCell: CreatedCellActiveTemplate(settings.skills.scatter)
+			createdCell: CreatedActiveTemplate(settings.skills.scatter)
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },
@@ -363,7 +351,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.cash)
+			createdCell: CreatedValueTemplate(settings.skills.cash)
 		}],
 		columns: [
 			{ data: 'key', title: "Cash Skill Tree", width: '200px' },
@@ -381,7 +369,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.pierce)
+			createdCell: CreatedValueTemplate(settings.skills.pierce)
 		}],
 		columns: [
 			{ data: 'key', title: "Pierce Skill Tree", width: '200px' },
@@ -399,7 +387,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.sword)
+			createdCell: CreatedValueTemplate(settings.skills.sword)
 		}],
 		columns: [
 			{ data: 'key', title: "Sword Skill Tree", width: '200px' },
@@ -417,7 +405,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.fire)
+			createdCell: CreatedValueTemplate(settings.skills.fire)
 		}],
 		columns: [
 			{ data: 'key', title: "Fire Skill Tree", width: '200px' },
@@ -435,7 +423,7 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
-			createdCell: CreatedCellTemplate(settings.skills.lightning)
+			createdCell: CreatedValueTemplate(settings.skills.lightning)
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },

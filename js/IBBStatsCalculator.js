@@ -1,9 +1,7 @@
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 var settings = GetItem("settings", defaultsettings);
-
-var totalcost = 0;
-var datacells = [8,9,10,11,12,13,14,15];
+var datacells = [5,6,7,8,9,10,11,12,13,14,15];
 
 function GetItem(key, obj) {	
 	try {
@@ -185,31 +183,43 @@ function UpdateFooter() {
 	}, 0);
 	$('#tfoot_cost').html(FormatNumber(totalcost));
 	
-	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 11).render('a').reduce(function(a, b) {
+	var totalwindfallcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 11).render('a').reduce(function(a, b) {
 		if (isNaN(b) || b === '') {
 			return a;
 		}
 		return a + parseFloat(b);
 	}, 0);
-	$('#tfoot_windfall').html(totalcost);
+	$('#tfoot_windfall').html(totalwindfallcost);
+	
+	$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
+		return a + parseInt(b["value"]);
+	}, 0));
 }
 
 function UpdateWindfall(tab, e) {
 	tab.windfall = e.target.value;
 	console.log('Windfall changed: ', tab.windfall)
 	StoreItem('statsCalculator', tabs);
+	$('#table_calculator').DataTable().rows().invalidate();
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Created Cell Templates %%%%%%%%%%%%%%%%%%%%%%%
+
+function RefreshDataCells() {
+	var datacells = [8,9,10,11,12,13,14,15];
+	$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();
+}
+
+function RefreshRows() {
+	$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10]).invalidate();
+}
 
 function CreatedNumberTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
 			UpdateNumber(data, e);			
 			UpdateFooter();
-			
-			// Refresh all data cells in current row
-			$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();	
+			RefreshDataCells();
 		});
 	}
 }
@@ -218,9 +228,7 @@ function CreatedCheckboxTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
 			UpdateCheckbox(data, e);
-			
-			// Refresh all data cells in current row
-			$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();
+			RefreshDataCells();
 		});
 	}
 }
@@ -229,9 +237,7 @@ function CreatedDropdownTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {			
 			UpdateText(data, e);
-			
-			// Refresh whole row, dropdown doesnt need focus anyway
-			$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10]).invalidate();
+			RefreshRows();
 		});
 	}
 }
@@ -440,10 +446,10 @@ function BuildTable(tab) {
 	$(footer).html('Windfall from <br/><input type="text" id="windfall_from" value="' + tab.windfall + '" />');
 	footer.addEventListener('change', function(e) {
 		UpdateWindfall(tab, e);
-		$('#table_calculator').DataTable().rows().invalidate();
+		UpdateFooter();
 	});
 	
-	return;
+	BuildSettingsTable();	
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Calculations %%%%%%%%%%%%%%%%%%%%%%%
