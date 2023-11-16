@@ -217,7 +217,7 @@ function RefreshRows() {
 function CreatedNumberTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
-			UpdateNumber(data, e);			
+			UpdateNumber(data, e);
 			UpdateFooter();
 			RefreshDataCells();
 		});
@@ -237,6 +237,7 @@ function CreatedDropdownTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {			
 			UpdateText(data, e);
+			UpdateFooter();
 			RefreshRows();
 		});
 	}
