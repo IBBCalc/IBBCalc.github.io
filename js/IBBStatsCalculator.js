@@ -636,6 +636,9 @@ function CalculateLastShieldHexBrickLevel(row, rowindex) {
 	
 	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
 	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
+	if (row.type.localeCompare('sword', undefined) === 0) {
+		shieldmod = 1;
+	}
 	return CalculateLastBrickLevel(damage/25/shieldmod);
 }
 
