@@ -117,6 +117,10 @@ input[type=datetime-local] {
 	display: none;
 }
 
-.fleft {
-	float: left;
+.textmargin {
+	margin-left: 9px;
+}
+
+.grid {
+	display: grid;
 }

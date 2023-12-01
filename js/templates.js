@@ -319,7 +319,7 @@ var table_template = '<div class="text-center">\
 			<td></td>\
 		</tr>\
 	</table>\
-	<div class="text-left" style="margin-left: 5px">\
+	<div class="text-left textmargin">\
 		<label for="%tab%_global_settings_active">\
 			<input id="%tab%_global_settings_active" type="checkbox" onchange="handleCalculatorChange(event)" />Use Global Settings\
 		</label>\
@@ -558,7 +558,7 @@ var table_template = '<div class="text-center">\
 </div>';
 
 var level_tracker_template = '\
-<div class="text-center">\
+<div class="text-center grid">\
 	<table id="%tab%_table" class="table table-dark table-hover table-right" style="width: fit-content;">\
 		<thead>\
 			<th class="%tab%_show_days_togglecolumn" style="width: 70px">Days</th>\
@@ -580,8 +580,8 @@ var level_tracker_template = '\
 			<th style="width: fit-content" id="%tab%_delete_row"></th>\
 		</thead>\
 	</table>\
-	<div class="text-left fleft">\
-		<h3 style="margin-left: 1px">Information about the run for future reference.</h3>\
+	<div class="text-left textmargin">\
+		<h3>Information about the run for future reference.</h3>\
 	</div>\
 	<table id="%tab%_mini_settings" class="table table-dark table-hover" style="width: fit-content;">\
 		<thead>\
@@ -789,7 +789,7 @@ var level_tracker_row_template = '\
 ';
 
 var level_tracker_show_columns_template = '\
-<div class="text-left fleft" style="margin-left: 5px">\
+<div class="text-left textmargin">\
 	<h3>Only show the following columns:</h3>\
 	<label for="%tab%_show_days">\
 		<input id="%tab%_show_days" type="checkbox" onchange="handleSettingsChange(event)" />Days\

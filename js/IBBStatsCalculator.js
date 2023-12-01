@@ -37,7 +37,7 @@ function handleTabChange(event) {
 	var tab = tabs.find(e => e.id === id);
 	
 	if (tabs.includes(tab)) {
-		BuildTable(tab);
+		ReBuildTable(tab);
 	}
 }
 
@@ -66,7 +66,7 @@ function handleNewTab(event) {
 	StoreItem("statsCalculator", tabs);
 	
 	$(navbar_template.replaceAll('%tab%', tab.id).replaceAll('%tabname%', tab.name).replaceAll('%active%', '')).insertBefore('#newtab_id');
-	BuildTable(tab);
+	ReBuildTable(tab);
 }
 
 function handleTabEdit(event) {
@@ -97,7 +97,7 @@ function handleTabRemove(event) {
 		$('#' + id).remove();
 		StoreItem("statsCalculator", tabs);
 		if (tabs.length > 0) {
-			BuildTable(tabs[0]);
+			ReBuildTable(tabs[0]);
 		}
 	}
 }
@@ -380,18 +380,20 @@ function BuildPage() {
 	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
 
 	var tab = tabs[activeTab.ibbstatscalculator];
-	BuildTable(tab);
+	BuildTable(tab, true);
 }
 
-function BuildTable(tab) {
+function ReBuildTable(tab) {
+	$('#table_calculator').DataTable().clear().destroy();
+	$('#table_calculator').empty();
+	BuildTable(tab, false);
+}
+
+function BuildTable(tab, buildSettings) {
 	activeTab.ibbstatscalculator = tabs.indexOf(tab);
 	StoreItem('activeTab', activeTab);
 	$('#' + tab.id + '_name').tab('show');
 	
-	if ($.fn.dataTable.isDataTable('#table_calculator')) {
-		$('#table_calculator').DataTable().clear().destroy();
-		$('#table_calculator').empty();
-	}
 	$('#table_calculator').html('<tfoot>\
 			<tr>\
 				<td colspan="10">\
@@ -450,7 +452,9 @@ function BuildTable(tab) {
 		UpdateFooter();
 	});
 	
-	BuildSettingsTable();	
+	if (buildSettings) {
+		BuildSettingsTable();
+	}
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Calculations %%%%%%%%%%%%%%%%%%%%%%%
