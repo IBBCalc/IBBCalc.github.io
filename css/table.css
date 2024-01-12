@@ -39,7 +39,7 @@
 	color: #999;
 }
 
-table.dataTable {	
+table.dataTable {
 	width: fit-content;
 }
 
@@ -50,6 +50,22 @@ table.dataTable {
 
 .dataTables_wrapper {
 	margin:10px;
+}
+
+.abutton {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+	color: #999;
+}
+
+.abutton:hover {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+	color: #fff;
+	border-bottom: 0px;
+	text-decoration: none;
 }
 
 .newrow > td > a, .deleterow > a {

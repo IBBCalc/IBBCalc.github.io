@@ -46,7 +46,13 @@
             </ul>
         </div>		
         <div class="text-center">
-            <table id="table_brickhealth" class="table table-dark table-hover cell-border"></table>
+            <table id="table_brickhealth" class="table table-dark table-hover cell-border">
+				<tfoot>
+					<tr>
+						<td><a class="abutton" href="#" onclick="handleNewRow(event)">+</a></td>
+					</tr>
+				</tfoot>
+			</table>
         </div>
 	</body>
 </html>
