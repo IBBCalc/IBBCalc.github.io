@@ -1,7 +1,6 @@
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 var settings = GetItem("settings", defaultsettings);
-var datacells = [5,6,7,8,9,10,11,12,13,14,15];
 
 function GetItem(key, obj) {	
 	try {

@@ -1292,6 +1292,18 @@ var brickmult = [
 	},
 ]
 
+var defaultbrickhealth = [
+	{
+		"level": 1000
+	},
+	{
+		"level": 10000
+	},
+	{
+		"level": 1000000
+	}
+]
+
 const lookup = [
 	{ value: 1, symbol: "" },
 	{ value: 1e3, symbol: "K" },
