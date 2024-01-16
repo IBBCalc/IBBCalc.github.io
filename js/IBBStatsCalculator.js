@@ -478,7 +478,7 @@ function CalculateSpeed(row) {
 		* ((speedLevel > 80) ? 0.4 : 1)
 		* GetKeyValue(settings.skills[row.type], 'Speed', 1)
 		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage', 1) : 1)
-		* ((row.enrage) ? GetKeyActive(settings.skills[row.type], 'Enrage Stack', 9, 1) : 1));
+		* ((row.enrage) ? GetKeyActive(settings.skills[row.type], 'Enrage Stack', 3, 1) : 1));
 	return speed;
 }
 
