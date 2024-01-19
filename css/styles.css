@@ -9,6 +9,10 @@ body {
     color: #fff;
 }
 
+h3 {
+	margin-left: 10px;
+}
+
 .version {
 	float: right;
 	padding: 14px 16px;

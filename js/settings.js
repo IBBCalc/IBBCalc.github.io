@@ -54,12 +54,17 @@ function RefreshDataCells() {
 	// override if necessary
 }
 
+function RefreshHits() {
+	// override if necessary
+}
+
 function CreatedValueTemplate(data) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
 			UpdateData(data, e);
 			UpdateFooter();
 			RefreshDataCells();
+			RefreshHits();
 		});
 	}
 }
@@ -69,6 +74,7 @@ function CreatedActiveTemplate(data) {
 		cell.addEventListener('change', function(e) {
 			UpdateActive(data, e);
 			RefreshDataCells();
+			RefreshHits();
 		});
 	}
 }

@@ -542,6 +542,19 @@ var slots = [
 ];
 
 var available = {
+	null: [
+		"basic",
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+	],
 	"base": [
 		"basic"
 	],
@@ -644,6 +657,123 @@ var available = {
 		"lightning",
 	],
 };
+
+var availableslots = {
+	null: [
+		"base",
+		"175",
+		"7.5k",
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"basic": [
+		"base"
+	],
+	"splash": [
+		"175",
+		"7.5k",
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"sniper": [
+		"175",
+		"7.5k",
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"poison": [
+		"7.5k",
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"demo": [
+		"7.5k",
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"scatter": [
+		"175k",
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"cash": [
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"pierce": [
+		"15m",
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"sword": [
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"fire": [
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+	"lightning": [
+		"400b",
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac"
+	],
+}
 
 var basestats = {
 	"base": {
@@ -1303,6 +1433,32 @@ var defaultbrickhealth = [
 		"level": 1000000
 	}
 ]
+
+var defaultbreakpoints = [
+	{
+		'source': 'Poison',
+		'slot': '7.5k',
+		'type': 'poison',
+		'amount': 50,
+		'speedlvl': 99,
+		'powerlvl': 119,
+		'ballspec': true,
+		'friend': true,
+		'enrage': true,
+	},
+	{
+		'source': 'Damage',
+		'slot': null,
+		'type': null,
+		'amount': null,
+		'speedlvl': null,
+		'powerlvl': null,
+		'ballspec': false,
+		'friend': false,
+		'enrage': false,			
+	}
+]
+
 
 const lookup = [
 	{ value: 1, symbol: "" },

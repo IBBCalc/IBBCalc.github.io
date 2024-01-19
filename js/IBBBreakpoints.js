@@ -1,5 +1,6 @@
-var tabs = GetItem("statsCalculator", defaulttabs);
-var activeTab = GetItem("activeTab", defaultactivetab);
+var storagename = 'breakpoints';
+var tablename = '#table_breakpoints';
+var data = GetItem(storagename, defaultbreakpoints);
 var settings = GetItem("settings", defaultsettings);
 
 function GetItem(key, obj) {	
@@ -25,80 +26,6 @@ function GetItem(key, obj) {
 
 function StoreItem(key, obj) {
 	window.localStorage.setItem(key, JSON.stringify(obj));
-}
-
-// %%%%%%%%%%%%%%%%%%%%%%% Handle Tab events %%%%%%%%%%%%%%%%%%%%%%%
-
-function handleTabChange(event) {
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	
-	if (tabs.includes(tab)) {
-		ReBuildTable(tab);
-	}
-}
-
-function handleNewTab(event) {
-	var newindex = tabs.length;			
-	
-	if (tabs.length > 0) {
-		for (var i = 0; i < tabs.length; i++) {
-			if (tabs.find(e => e.id === 'tab' + i) === undefined) {
-				newindex = i;
-				break;
-			}
-		}
-		
-		tabs.push(structuredClone(tabs[0]));
-	}
-	else {
-		tabs.push(structuredClone(defaulttabs[0]))
-	}
-	
-	var tab = tabs[newindex];
-	tab.id = "tab" + newindex;
-	tab.name = "Tab " + newindex;
-	
-	console.log('Create new tab ' + tab.name);
-	StoreItem("statsCalculator", tabs);
-	
-	$(navbar_template.replaceAll('%tab%', tab.id).replaceAll('%tabname%', tab.name).replaceAll('%active%', '')).insertBefore('#newtab_id');
-	ReBuildTable(tab);
-}
-
-function handleTabEdit(event) {
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	
-	var newname = prompt('Rename tab ' + tab.name, tab.name);
-	if (newname !== null && newname !== "null") {
-		console.log('Rename tab ' + tab.name + ' to ' + newname);
-		$('#' + id + '_name').html($('#' + id + '_name').html().replace(tab.name, newname));
-		tab.name = newname;
-		StoreItem("statsCalculator", tabs);
-	}
-}
-
-function handleTabRemove(event) {
-	var element = event.target;
-	var tabsplit = element.id.indexOf('_');
-	var id = element.id.slice(0, tabsplit);
-	var tab = tabs.find(e => e.id === id);
-	
-	if (confirm('Are you sure you want to delete tab ' + tab.name)) {
-		console.log('Delete tab ' + tab.name);
-		tabs.splice(tabs.indexOf(tab), 1);
-		$('#' + id + '_id').remove();
-		$('#' + id).remove();
-		StoreItem("statsCalculator", tabs);
-		if (tabs.length > 0) {
-			ReBuildTable(tabs[0]);
-		}
-	}
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Get Data methods %%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +77,7 @@ function UpdateNumber(data, e) {
 	if (data[r] !== undefined) {
 		data[r][Object.keys(data[r])[c]] = e.target.value === '' ? null : parseFloat(e.target.value);
 		console.log('Row changed: ', data[r])
-		StoreItem('statsCalculator', tabs);
+		StoreItem(storagename, data);
 	}
 }
 function UpdateText(data, e) {
@@ -159,7 +86,7 @@ function UpdateText(data, e) {
 	if (data[r] !== undefined) {
 		data[r][Object.keys(data[r])[c]] = e.target.value === 'null' ? null : e.target.value;
 		console.log('Row changed: ', data[r])
-		StoreItem('statsCalculator', tabs);
+		StoreItem(storagename, data);
 	}
 }
 
@@ -169,56 +96,38 @@ function UpdateCheckbox(data, e) {
 	if (data[r] !== undefined) {
 		data[r][Object.keys(data[r])[c]] = !data[r][Object.keys(data[r])[c]];
 		console.log('Row changed: ', data[r])
-		StoreItem('statsCalculator', tabs);
+		StoreItem(storagename, data);
 	}
 }
 
-function UpdateFooter() {
-	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 10).render('a').reduce(function(a, b) {
-		if (isNaN(b) || b === '') {
-			return a;
-		}
-		return a + parseFloat(b);
-	}, 0);
-	$('#tfoot_cost').html(FormatNumber(totalcost));
-	
-	var totalwindfallcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 11).render('a').reduce(function(a, b) {
-		if (isNaN(b) || b === '') {
-			return a;
-		}
-		return a + parseFloat(b);
-	}, 0);
-	$('#tfoot_windfall').html(totalwindfallcost);
-	
+function UpdateFooter() {	
 	$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
 		return a + parseInt(b["value"]);
 	}, 0));
 }
 
-function UpdateWindfall(tab, e) {
-	tab.windfall = e.target.value;
-	console.log('Windfall changed: ', tab.windfall)
-	StoreItem('statsCalculator', tabs);
-	$('#table_calculator').DataTable().rows().invalidate();
-}
-
 // %%%%%%%%%%%%%%%%%%%%%%% Created Cell Templates %%%%%%%%%%%%%%%%%%%%%%%
 
 function RefreshDataCells() {
-	var datacells = [8,9,10,11,12,13,14,15];
-	$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();
+	var datacells = [6,7,8,9,10,11];
+	$(tablename).DataTable().cells(null, datacells).invalidate();
 }
 
 function RefreshRows() {
-	$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10]).invalidate();
+	$(tablename).DataTable().rows().invalidate();
+}
+
+function RefreshHits() {
+	$('#table_breakpoints_ball').DataTable().rows().invalidate();
+	$('#table_breakpoints_effect').DataTable().rows().invalidate();
 }
 
 function CreatedNumberTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
 			UpdateNumber(data, e);
-			UpdateFooter();
 			RefreshDataCells();
+			RefreshHits();
 		});
 	}
 }
@@ -228,6 +137,7 @@ function CreatedCheckboxTemplate(data) {
 		cell.addEventListener('change', function(e) {
 			UpdateCheckbox(data, e);
 			RefreshDataCells();
+			RefreshHits();
 		});
 	}
 }
@@ -236,8 +146,8 @@ function CreatedDropdownTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {			
 			UpdateText(data, e);
-			UpdateFooter();
 			RefreshRows();
+			RefreshHits();
 		});
 	}
 }
@@ -280,19 +190,19 @@ function ColumnCheckboxTemplate(data, title, width) {
 				}
 				
 				// Ball Spec not active
-				if (meta.col === 5 && GetKeyActive(settings.cards, 'Ball Spec.')) {
+				if (meta.col === 6 && GetKeyActive(settings.cards, 'Ball Spec.')) {
 					row.ballspec = false;
 					return '';
 				}
 				
 				// Friend Bonus not unlocked
-				if (meta.col === 6 && GetKeyValue(settings.skills.basic, 'Friend Bonus') === undefined) {
+				if (meta.col === 7 && GetKeyValue(settings.skills.basic, 'Friend Bonus') === undefined) {
 					row.friend = false;
 					return '';
 				}
 				
 				// No poison or demo selected. Or they are selected, but their relative Enrage is not unlocked.
-				if (meta.col === 7 
+				if (meta.col === 8 
 					&& !((row.type === 'poison' && GetKeyValue(settings.skills.poison, 'Enrage') !== undefined)
 					|| (row.type === 'demo' && GetKeyValue(settings.skills.demo, 'Enrage') !== undefined))) {
 					row.enrage = false;
@@ -326,15 +236,34 @@ function ColumnDropdownTemplate(data, title, width) {
 			}
 
 			if ( type === 'display' ) { 
-				var select = '<select>';
-				select += '<option value=null></option>'
-				available[row.slot].forEach(balltype => {
-					var isselected = row.type === balltype ? 'selected="selected"' : '';
-					var balltypetext = balltype.charAt(0).toUpperCase() + balltype.slice(1);
-					select += '<option value="' + balltype + '" ' + isselected + '>' + balltypetext + '</option>';
-				});
-				select += '</select>'
-				return select;
+				switch (title) {
+					case 'Ball Type':
+						if (meta.row === 0) {
+							var isselected = row.type === 'poison' ? 'selected="selected"' : '';
+							return '<select><option value=null></option><option value="poison" ' + isselected + '>Poison</option></select>';
+						}
+						
+						var select = '<select>';
+						select += '<option value=null></option>'
+						available[null].forEach(balltype => {
+							if (balltype !== 'poison' && balltype !== 'cash' ) {
+								var isselected = row.type === balltype ? 'selected="selected"' : '';
+								var balltypetext = balltype.charAt(0).toUpperCase() + balltype.slice(1);
+								select += '<option value="' + balltype + '" ' + isselected + '>' + balltypetext + '</option>';
+							}
+						});
+						select += '</select>'
+						return select;
+					case 'Slot':
+						var select = '<select>';
+						select += '<option value=null></option>'
+						slots.forEach(slot => {
+							var isselected = row.slot === slot ? 'selected="selected"' : '';
+							select += '<option value="' + slot + '" ' + isselected + '>' + slot + '</option>';
+						});
+						select += '</select>'
+						return select;
+				}
 			}
 			return data;
 		}, 
@@ -368,42 +297,13 @@ function BuildPage() {
 	$(document).ready(function() {
 		$("input[type=number]").focus().select();
 	});
-
-	// Build Html of nav tabs
-	for (var i = 0; i < tabs.length; i++) {
-		var id = tabs[i].id;
-		var name = tabs[i].name;
-		$('#tab_nav').append(navbar_template.replaceAll('%tab%', id).replaceAll('%tabname%', name).replaceAll('%active%', ((i == 0) ? 'active' : '')));
-	}
 	
-	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
-
-	var tab = tabs[activeTab.ibbstatscalculator];
-	BuildTable(tab, true);
+	BuildTable();
 }
 
-function ReBuildTable(tab) {
-	$('#table_calculator').DataTable().clear().destroy();
-	$('#table_calculator').empty();
-	BuildTable(tab, false);
-}
-
-function BuildTable(tab, buildSettings) {
-	activeTab.ibbstatscalculator = tabs.indexOf(tab);
-	StoreItem('activeTab', activeTab);
-	$('#' + tab.id + '_name').tab('show');
-	
-	$('#table_calculator').html('<tfoot>\
-			<tr>\
-				<td colspan="10">\
-				<td id="tfoot_cost">\
-				<td id="tfoot_windfall">\
-				<td>Windfall from <br/><input type="text" id="windfall_from" /></td>\
-				<td colspan="3">\
-			</tr>\
-		</tfoot>');
-	$('#table_calculator').DataTable({
-		data: tab.data,
+function BuildTable() {
+	$(tablename).DataTable({
+		data: data,
 		info: false,
 		searching: false,
 		ordering: false,
@@ -411,17 +311,18 @@ function BuildTable(tab, buildSettings) {
 		autoWidth: false,
 		deferRender: true,
 		columnDefs: [{ 
-			targets: 1,
-			createdCell: CreatedDropdownTemplate(tab.data)
+			targets: [1, 2],
+			createdCell: CreatedDropdownTemplate(data)
 		},{ 
-			targets: [2, 3, 4],
-			createdCell: CreatedNumberTemplate(tab.data)
+			targets: [3, 4, 5],
+			createdCell: CreatedNumberTemplate(data)
 		},{ 
-			targets: [5, 6, 7],
-			createdCell: CreatedCheckboxTemplate(tab.data)
+			targets: [6, 7, 8],
+			createdCell: CreatedCheckboxTemplate(data)
 		}],
 		columns: [
-			{ data: 'slot', title: "Slot", width: '35px' },
+			{ data: 'source', title: "Source", width: '35px' },
+			ColumnDropdownTemplate('type', 'Slot', '50px'),
 			ColumnDropdownTemplate('type', 'Ball Type', '100px'),
 			ColumnNumberTemplate('amount', 'Nr. Balls', '40px'),
 			ColumnNumberTemplate('speedlvl', 'Ball Speed', '40px'),
@@ -432,34 +333,88 @@ function BuildTable(tab, buildSettings) {
 			ColumnDataTemplate(CalculateSpeed, 'Speed', '55px', true),
 			ColumnDataTemplate(CalculatePower, 'Power', '55px', true),
 			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
-			ColumnDataTemplate(CalculateWindfallCost, 'Windfall Gem Cost', '70px', false),
-			ColumnDataTemplate(CalculateDamageWithPoison, 'Damage w/ Poison', '90px', true),
-			ColumnDataTemplate(CalculateLastGreenBrickLevel, 'Last Stage <br>Dmg > Green HP', '120px', true),
-			ColumnDataTemplate(CalculateLastHexBrickLevel, 'Last Stage <br>Dmg > Hex HP', '120px', true),
-			ColumnDataTemplate(CalculateLastShieldHexBrickLevel, 'Last Stage <br>Dmg > Shield Hex HP', '150px', true),
-		],
-		"footerCallback": function( tfoot, data, start, end, display ) {
-			// executes only on draw()
-			UpdateFooter();
+		]
+	});
+	
+	var ballhits = [
+		{
+			"hits": 1
 		},
+		{
+			"hits": 2
+		},
+		{
+			"hits": 3
+		},
+		{
+			"hits": 4
+		},
+		{
+			"hits": 5
+		},
+		{
+			"hits": 6
+		},
+		{
+			"hits": 7
+		},
+		{
+			"hits": 8
+		},
+		{
+			"hits": 9
+		},
+		{
+			"hits": 10
+		}
+	];
+	$('#table_breakpoints_ball').DataTable({
+		data: ballhits,
+		info: false,
+		searching: false,
+		ordering: false,
+		paging: false,
+		autoWidth: false,
+		deferRender: true,
+		columns: [
+			{ data: 'hits', title: "Hits Needed", width: '35px' },
+			ColumnDataTemplate(CalculateHitsGreen, 'Green', '55px', true),
+			ColumnDataTemplate(CalculateHitsBlue, 'Blue', '55px', true),
+			ColumnDataTemplate(CalculateHitsHex, 'Hex', '55px', true),
+			ColumnDataTemplate(CalculateHitsBlueShield, 'Blue Shield', '55px', true),
+			ColumnDataTemplate(CalculateHitsHexShield, 'Hex Shield', '55px', true),
+		]
 	});
 	
-	var footer = $('#table_calculator').DataTable().column(12).footer();
-	$(footer).html('Windfall from <br/><input type="text" id="windfall_from" value="' + tab.windfall + '" />');
-	footer.addEventListener('change', function(e) {
-		UpdateWindfall(tab, e);
-		UpdateFooter();
+	$('#table_breakpoints_effect').DataTable({
+		data: ballhits,
+		info: false,
+		searching: false,
+		ordering: false,
+		paging: false,
+		autoWidth: false,
+		deferRender: true,
+		columns: [
+			{ data: 'hits', title: "Hits Needed", width: '35px' },
+			ColumnDataTemplate(CalculateHitsGreenEffect, 'Green', '55px', true),
+			ColumnDataTemplate(CalculateHitsBlueEffect, 'Blue', '55px', true),
+			ColumnDataTemplate(CalculateHitsHexEffect, 'Hex', '55px', true),
+			ColumnDataTemplate(CalculateHitsBlueShieldEffect, 'Blue Shield', '55px', true),
+			ColumnDataTemplate(CalculateHitsHexShieldEffect, 'Hex Shield', '55px', true),
+		]
 	});
 	
-	if (buildSettings) {
-		BuildSettingsTable();
-	}
+	BuildSettingsTable();	
 }
 
 // %%%%%%%%%%%%%%%%%%%%%%% Calculations %%%%%%%%%%%%%%%%%%%%%%%
 
 function CalculateSpeed(row) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+	if (row === undefined || row.slot === null || row.type === null) {
+		return null;
+	}
+	
+	if (!available[row.slot].includes(row.type) || !availableslots[row.type].includes(row.slot)) {
 		return null;
 	}
 	
@@ -483,7 +438,11 @@ function CalculateSpeed(row) {
 }
 
 function CalculatePower(row) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+	if (row === undefined || row.slot === null || row.type === null) {
+		return null;
+	}
+	
+	if (!available[row.slot].includes(row.type) || !availableslots[row.type].includes(row.slot)) {
 		return null;
 	}
 	
@@ -516,7 +475,11 @@ function CalculatePower(row) {
 }
 
 function CalculateCost(row) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+	if (row === undefined || row.slot === null || row.type === null) {
+		return null;
+	}
+	
+	if (!available[row.slot].includes(row.type) || !availableslots[row.type].includes(row.slot)) {
 		return null;
 	}
 	
@@ -553,99 +516,158 @@ function CalculateCost(row) {
 	return cost;
 }
 
-function CalculateWindfallCost(row, rowindex) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+function CalculateHitsGreen(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	var cost = $('#table_calculator').DataTable().cells(rowindex, 10).render('a')[0];
-	
-	var start = UnFormatNumber(tabs[activeTab.ibbstatscalculator].windfall);
-	if (isNaN(start)) {
-		return '';
-	}
-	
-	if (start > cost) {
-		return '';
-	}
-	
-	var wf = Math.log(cost / start) / Math.log(1.3);
-	return Math.ceil(wf) * 25;
+	var damage = CalculateDamage();
+	return CalculateLastBrickLevel(damage * row.hits)
 }
 
-function CalculateDamageWithPoison(row, rowindex) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+function CalculateHitsBlue(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	if (row.type !== null && row.type.localeCompare('poison', undefined) === 0) {
-		return null;
-	}
-	
-	var ballpower = $('#table_calculator').DataTable().cell(rowindex, 9).render('a')
-		* ((row.type === 'basic') ? GetKeyActive(settings.skills.basic, 'Splash Size', 1.4, 1) : 1)
-		* ((row.type === 'splash') ? 1.4 : 1);
-	var poisonpower = GetFirstPoisonPower();
-	if (poisonpower === null) {
-		return ballpower;
-	}
-	return ballpower * poisonpower * GetKeyValueIfActive(settings.cards, 'Catalyst', 1);
+	var damage = CalculateDamage();
+	return CalculateLastBrickLevel(damage * row.hits / 2)
 }
 
-function GetFirstPoisonPower() {
-	var table = $('#table_calculator').DataTable();
-	for (var i in slots) {
-		if (table.row(i).data()['type'] !== null && table.row(i).data()['type'].localeCompare('poison', undefined) === 0) {
-			var poisonindex = table.row(i)[0][0];
-			$(table.column(12).header()).html('Damage w/ ' + slots[i] + ' Poison');
-			return table.cell(poisonindex, 9).render('a')
-		}
+function CalculateHitsHex(row, rowindex) {
+	if (row === undefined || data === undefined) {
+		return null;
 	}
-	$(table.column(12).header()).html('Damage w/ Poison');
-	return null;
+	
+	var damage = CalculateDamage();
+	return CalculateLastBrickLevel(damage * row.hits / 25)
 }
 
-function CalculateLastGreenBrickLevel(row, rowindex) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+function CalculateHitsBlueShield(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
-		return null;
-	}
-	
-	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
-	return CalculateLastBrickLevel(damage);
+	var damage = CalculateDamage();
+	var shieldmod = CalculateShieldModifier();
+	return CalculateLastBrickLevel(damage * row.hits / 2 / shieldmod)
 }
 
-function CalculateLastHexBrickLevel(row, rowindex) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+function CalculateHitsHexShield(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
-		return null;
-	}
-	
-	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
-	return CalculateLastBrickLevel(damage/25);
+	var damage = CalculateDamage();
+	var shieldmod = CalculateShieldModifier();
+	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod)
 }
 
-function CalculateLastShieldHexBrickLevel(row, rowindex) {
-	if (row === undefined || row.slot === undefined || row.type === null) {
+function CalculateEffectModifier(balltype) {
+	switch (balltype) {
+		case 'basic':
+			return GetKeyActive(settings.skills.basic, 'Splash Size', 0.4, null);
+		case 'splash':
+			return 0.4;
+		case 'sniper':
+			return GetKeyValue(settings.skills.sniper, 'Archer Sniper', null)
+		case 'poison':
+		case 'demo':
+		case 'cash':
+		case 'pierce':
+		case 'sword':
+			return null;
+		case 'scatter':
+			var split = GetKeyValue(settings.skills.scatter, 'Split', 2);
+			var fly = GetKeyValue(settings.skills.scatter, 'Fly Children!', 0.4);
+			var merge = GetKeyActive(settings.skills.scatter, 'Scatter Merge', true, false);
+			if (merge) {
+				return fly * split;
+			}
+			return fly;
+		case 'fire':
+			return null;
+		case 'lightning':
+			return 0.3;
+	}
+}
+
+function CalculateHitsGreenEffect(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	if (row.type !== null && (row.type.localeCompare('poison', undefined) === 0 || row.type.localeCompare('cash', undefined) === 0)) {
+	var damage = CalculateDamage(data[1].type);
+	var effectmod = CalculateEffectModifier(data[1].type);
+	return CalculateLastBrickLevel(damage * row.hits * effectmod)
+}
+
+function CalculateHitsBlueEffect(row, rowindex) {
+	if (row === undefined || data === undefined) {
 		return null;
 	}
 	
-	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	var damage = CalculateDamage(data[1].type);
+	var effectmod = CalculateEffectModifier(data[1].type);
+	return CalculateLastBrickLevel(damage * row.hits / 2 * effectmod)
+}
+
+function CalculateHitsHexEffect(row, rowindex) {
+	if (row === undefined || data === undefined) {
+		return null;
+	}
+	
+	var damage = CalculateDamage(data[1].type);
+	var effectmod = CalculateEffectModifier(data[1].type);
+	return CalculateLastBrickLevel(damage * row.hits / 25 * effectmod)
+}
+
+function CalculateHitsBlueShieldEffect(row, rowindex) {
+	if (row === undefined || data === undefined) {
+		return null;
+	}
+	
+	var damage = CalculateDamage(data[1].type);
+	var effectmod = CalculateEffectModifier(data[1].type);
+	var shieldmod = CalculateShieldModifier();
+	return CalculateLastBrickLevel(damage * row.hits / 2 / shieldmod * effectmod)
+}
+
+function CalculateHitsHexShieldEffect(row, rowindex) {
+	if (row === undefined || data === undefined) {
+		return null;
+	}
+	
+	var damage = CalculateDamage(data[1].type);
+	var effectmod = CalculateEffectModifier(data[1].type);
+	var shieldmod = CalculateShieldModifier();
+	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod * effectmod)
+}
+
+function CalculateDamage(balltype) {
+	var poisonpower = $(tablename).DataTable().cell(0, 10).render('a');
+	var ballpower = $(tablename).DataTable().cell(1, 10).render('a')
+		* ((balltype === 'basic') ? GetKeyActive(settings.skills.basic, 'Splash Size', 1.4, 1) : 1)
+		* ((balltype === 'splash') ? 1.4 : 1);
+	if (poisonpower === undefined || poisonpower === null || ballpower === undefined || ballpower === null) {
+		return null;
+	}
+	
+	var catalyst = GetKeyValueIfActive(settings.cards, 'Catalyst', 1);
+	return ballpower * poisonpower * catalyst;
+}
+
+function CalculateShieldModifier() {
 	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
-	if (row.type.localeCompare('sword', undefined) === 0) {
+	if (data[1].type.localeCompare('sword', undefined) === 0) {
 		shieldmod = 1;
 	}
-	return CalculateLastBrickLevel(damage/25/shieldmod);
+	else if (data[1].type.localeCompare('sniper', undefined) === 0) {
+		var snipermod = GetKeyValue(settings.skills.sniper, 'Shield Damage', 1)
+		shieldmod = shieldmod / snipermod;
+	}
+		
+	return shieldmod;
 }
 
 function CalculateLastBrickLevel(balldamage) {
