@@ -333,6 +333,7 @@ function BuildTable() {
 			ColumnDataTemplate(CalculateSpeed, 'Speed', '55px', true),
 			ColumnDataTemplate(CalculatePower, 'Power', '55px', true),
 			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
+			ColumnDataTemplate(CalculateRowDamage, 'Damage', '55px', true),
 		]
 	});
 	
@@ -642,6 +643,15 @@ function CalculateHitsHexShieldEffect(row, rowindex) {
 	var effectmod = CalculateEffectModifier(data[1].type);
 	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod * effectmod)
+}
+
+function CalculateRowDamage(row, rowindex) {
+	if (row === undefined || data === undefined || data[1].type === null || row.type.localeCompare('poison', undefined) === 0) {
+		return null;
+	}
+	
+	var damage = CalculateDamage(data[1].type);
+	return damage;
 }
 
 function CalculateDamage(balltype) {
