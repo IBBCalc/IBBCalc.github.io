@@ -29,7 +29,7 @@ function StoreItem(key, obj) {
 
 function handleNewRow(e) {
 	var newobj = {
-		'level': null
+		'level': ''
 	};
 	data.push(newobj);
 	console.log('Added new row')
@@ -49,6 +49,16 @@ function UpdateNumber(data, e) {
 	}
 }
 
+function UpdateText(data, e) {
+	var r = e.currentTarget._DT_CellIndex.row;
+	var c = e.currentTarget._DT_CellIndex.column;
+	if (data[r] !== undefined) {
+		data[r][Object.keys(data[r])[c]] = e.target.value === '' ? '' : e.target.value;
+		console.log('Row changed: ', data[r])
+		StoreItem(storagename, data);
+	}
+}
+
 // %%%%%%%%%%%%%%%%%%%%%%% Created Cell Templates %%%%%%%%%%%%%%%%%%%%%%%
 
 function RefreshDataCells() {
@@ -60,6 +70,15 @@ function CreatedNumberTemplate(data) {
 	return function(cell, celldata, rowdata, rowindex, colindex) {
 		cell.addEventListener('change', function(e) {
 			UpdateNumber(data, e);
+			RefreshDataCells();
+		});
+	}
+}
+
+function CreatedTextTemplate(data) {
+	return function(cell, celldata, rowdata, rowindex, colindex) {
+		cell.addEventListener('change', function(e) {
+			UpdateText(data, e);
 			RefreshDataCells();
 		});
 	}
@@ -92,6 +111,25 @@ function ColumnNumberTemplate(data, title, width) {
 
 			if ( type === 'display' ) {
 				return '<input type="number" step="1" value="' + data + '">';
+			}
+			return data;
+		},  
+	};
+}
+
+function ColumnTextTemplate(data, title, width) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function(data, type, row, meta) { 
+			if (data === undefined) {
+				return '';
+			}
+
+			if ( type === 'display' ) {
+				return '<input type="text" value="' + data + '">';
 			}
 			return data;
 		},  
@@ -154,13 +192,13 @@ function BuildTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: [0],
-			createdCell: CreatedNumberTemplate(data)
+			createdCell: CreatedTextTemplate(data)
 		},{
 			targets: [5],
 			createdCell: CreatedDeleteTemplate(data)
 		}],
 		columns: [
-			ColumnNumberTemplate('level', 'Level', '120px'),
+			ColumnTextTemplate('level', 'Level', '120px'),
 			ColumnDataTemplate(CalculateGreenHP, 'Brick HP', '80px', true),
 			ColumnDataTemplate(CalculateHexHP, 'Hex HP', '80px', true),
 			ColumnDataTemplate(CalculateHexShieldHP, 'Shielded Hex eHP', '80px', true),
@@ -178,7 +216,12 @@ function CalculateGreenHP(row, rowindex) {
 		return null;
 	}
 	
-	return CalculateBrickHP(row.level);
+	var value = UnFormatNumber(row.level);
+	if (isNaN(value)) {
+		return null;
+	}
+	
+	return CalculateBrickHP(value);
 }
 
 function CalculateHexHP(row, rowindex) {
@@ -186,7 +229,12 @@ function CalculateHexHP(row, rowindex) {
 		return null;
 	}
 	
-	return CalculateBrickHP(row.level) * 25;
+	var value = UnFormatNumber(row.level);
+	if (isNaN(value)) {
+		return null;
+	}
+	
+	return CalculateBrickHP(value) * 25;
 }
 
 function CalculateHexShieldHP(row, rowindex) {
@@ -194,11 +242,16 @@ function CalculateHexShieldHP(row, rowindex) {
 		return null;
 	}
 	
-	if (row.level < 600) {
+	var value = UnFormatNumber(row.level);
+	if (isNaN(value)) {
 		return null;
 	}
 	
-	return CalculateBrickHP(row.level) * 25 * 500;
+	if (value < 600) {
+		return null;
+	}
+	
+	return CalculateBrickHP(value) * 25 * 500;
 }
 
 function CalculateHexShieldPenHP(row, rowindex) {
@@ -206,11 +259,16 @@ function CalculateHexShieldPenHP(row, rowindex) {
 		return null;
 	}
 	
-	if (row.level < 600) {
+	var value = UnFormatNumber(row.level);
+	if (isNaN(value)) {
 		return null;
 	}
 	
-	return CalculateBrickHP(row.level) * 25 * 500 / settings.cards.find(a => a.key === "Shield Pen.").value;
+	if (value < 600) {
+		return null;
+	}
+	
+	return CalculateBrickHP(value) * 25 * 500 / settings.cards.find(a => a.key === "Shield Pen.").value;
 }
 
 function CalculateBrickHP(level) {
