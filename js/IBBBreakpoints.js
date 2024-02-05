@@ -544,22 +544,22 @@ function CalculateHitsHex(row, rowindex) {
 }
 
 function CalculateHitsBlueShield(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
 	var damage = CalculateDamage();
-	var shieldmod = CalculateShieldModifier();
+	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 2 / shieldmod)
 }
 
 function CalculateHitsHexShield(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
 	var damage = CalculateDamage();
-	var shieldmod = CalculateShieldModifier();
+	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod)
 }
 
@@ -623,24 +623,24 @@ function CalculateHitsHexEffect(row, rowindex) {
 }
 
 function CalculateHitsBlueShieldEffect(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
 	var damage = CalculateDamage(data[1].type);
 	var effectmod = CalculateEffectModifier(data[1].type);
-	var shieldmod = CalculateShieldModifier();
+	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 2 / shieldmod * effectmod)
 }
 
 function CalculateHitsHexShieldEffect(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
 	var damage = CalculateDamage(data[1].type);
 	var effectmod = CalculateEffectModifier(data[1].type);
-	var shieldmod = CalculateShieldModifier();
+	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod * effectmod)
 }
 
@@ -657,12 +657,12 @@ function CalculateDamage(balltype) {
 	return ballpower * poisonpower * catalyst;
 }
 
-function CalculateShieldModifier() {
+function CalculateShieldModifier(balltype) {
 	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
-	if (data[1].type.localeCompare('sword', undefined) === 0) {
+	if (balltype.localeCompare('sword', undefined) === 0) {
 		shieldmod = 1;
 	}
-	else if (data[1].type.localeCompare('sniper', undefined) === 0) {
+	else if (balltype.localeCompare('sniper', undefined) === 0) {
 		var snipermod = GetKeyValue(settings.skills.sniper, 'Shield Damage', 1)
 		shieldmod = shieldmod / snipermod;
 	}
