@@ -485,6 +485,7 @@ function CalculatePower(row) {
 		* GetKeyValueIfActive(settings.cards, 'Ball Power', 1)
 		* GetKeyValueIfActive(settings.cards, 'Quality Control', 1)
 		* ((row.ballspec) ? GetKeyValue(settings.cards, 'Ball Spec.', 1) : 1)
+		* GetKeyValueIfActive(settings.cards, 'Rage Battery', 1)
 		* GetKeyValue(settings.perks, 'Ball Power', 1)
 		* GetKeyActive(settings.boosts, 'Power Hungry', 3, 1)
 		* ((speedLevel > 40) ? 5 : 1)
@@ -590,9 +591,9 @@ function CalculateHitsHexShield(row, rowindex) {
 function CalculateEffectModifier(balltype) {
 	switch (balltype) {
 		case 'basic':
-			return GetKeyActive(settings.skills.basic, 'Splash Size', 0.4, null);
+			return GetKeyActive(settings.skills.basic, 'Splash Size', 0.4, 0) * (1 + GetKeyValueIfActive(settings.cards, 'Splash Damage', 0) / 100);
 		case 'splash':
-			return 0.4;
+			return 0.4 * (1 + GetKeyValueIfActive(settings.cards, 'Splash Damage', 0) / 100);
 		case 'sniper':
 			return GetKeyValue(settings.skills.sniper, 'Archer Sniper', null)
 		case 'poison':

@@ -525,6 +525,7 @@ function CalculatePower(row) {
 		* GetKeyValueIfActive(settings.cards, 'Ball Power', 1)
 		* GetKeyValueIfActive(settings.cards, 'Quality Control', 1)
 		* ((row.ballspec) ? GetKeyValue(settings.cards, 'Ball Spec.', 1) : 1)
+		* GetKeyValueIfActive(settings.cards, 'Rage Battery', 1)
 		* GetKeyValue(settings.perks, 'Ball Power', 1)
 		* GetKeyActive(settings.boosts, 'Power Hungry', 3, 1)
 		* ((speedLevel > 40) ? 5 : 1)
