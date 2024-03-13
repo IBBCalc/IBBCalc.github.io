@@ -187,6 +187,18 @@ var defaultcards = [
 		"active": true,
 		"step": 2,
 	},
+	{
+		"key": "Splash Damage",
+		"value": 60,
+		"active": true,
+		"step": 10,
+	},
+	{
+		"key": "Rage Battery",
+		"value": 2.8,
+		"active": true,
+		"step": 0.3,
+	},
 ];
 
 var defaultperks = [
