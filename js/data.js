@@ -127,26 +127,46 @@ var defaultprestige = [
 		"key": "Ball Speed",
 		"value": 3.3,
 		"step": 0.1,
+		"base": 1.3,
+		"min": 0,
+		"max": 20,
+		"level": 20,
 	},
 	{
 		"key": "Ball Power",
 		"value": 11.3,
 		"step": 0.2,
+		"base": 1.3,
+		"min": 0,
+		"max": 50,
+		"level": 50,
 	},
 	{
 		"key": "New Ball Cost",
 		"value": -66,
-		"step": 3,
+		"step": -3,
+		"base": -12,
+		"min": 0,
+		"max": 18,
+		"level": 18,
 	},
 	{
 		"key": "Ball Speed Cost",
 		"value": -66,
-		"step": 3,
+		"step": -3,
+		"base": -12,
+		"min": 0,
+		"max": 18,
+		"level": 18,
 	},
 	{
 		"key": "Ball Power Cost",
 		"value": -66,
-		"step": 3,
+		"step": -3,
+		"base": -12,
+		"min": 0,
+		"max": 18,
+		"level": 18,
 	},
 ];
 
@@ -156,48 +176,80 @@ var defaultcards = [
 		"value": 2.0,
 		"active": true,
 		"step": 0.15,
+		"base": 1.1,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Ball Power",
 		"value": 4.0,
 		"active": true,
 		"step": 0.5,
+		"base": 1,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Quality Control",
 		"value": 5.0,
 		"active": true,
 		"step": 0.4,
+		"base": 2.6,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Ball Spec.",
 		"value": 4.0,
 		"active": true,
 		"step": 0.4,
+		"base": 1.6,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Catalyst",
 		"value": 5.5,
 		"active": true,
 		"step": 0.5,
+		"base": 2.5,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Shield Pen.",
 		"value": 20,
 		"active": true,
 		"step": 2,
+		"base": 8,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Splash Damage",
 		"value": 60,
 		"active": true,
 		"step": 10,
+		"base": 0,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 	{
 		"key": "Rage Battery",
 		"value": 2.8,
 		"active": true,
 		"step": 0.3,
+		"base": 1,
+		"min": 0,
+		"max": 6,
+		"level": 6,
 	},
 ];
 
@@ -206,26 +258,46 @@ var defaultperks = [
 		"key": "Ball Speed",
 		"value": 4.0,
 		"step": 0.2,
+		"base": 1,
+		"min": 0,
+		"max": 15,
+		"level": 15,
 	},
 	{
 		"key": "Ball Power",
 		"value": 4.0,
 		"step": 0.25,
+		"base": 1,
+		"min": 0,
+		"max": 50,
+		"level": 12,
 	},
 	{
 		"key": "New Ball Cost",
 		"value": -60,
-		"step": 20,
+		"step": -20,
+		"base": 0,
+		"min": 0,
+		"max": 3,
+		"level": 3,
 	},
 	{
 		"key": "Ball Speed Cost",
 		"value": -60,
-		"step": 20,
+		"step": -20,
+		"base": 0,
+		"min": 0,
+		"max": 3,
+		"level": 3,
 	},
 	{
 		"key": "Ball Power Cost",
 		"value": -60,
-		"step": 20,
+		"step": -20,
+		"base": 0,
+		"min": 0,
+		"max": 3,
+		"level": 3,
 	},
 ];
 
@@ -311,11 +383,19 @@ var defaultskills = {
 			"key": "Speed",
 			"value": null,
 			"step": 0.05,
+			"base": 1.05,
+			"min": 0,
+			"max": 8,
+			"level": 0,
 		},
 		{
 			"key": "Power",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 6,
+			"level": 0,
 		},
 		{
 			"key": "Splash Size",
@@ -325,6 +405,10 @@ var defaultskills = {
 			"key": "Friend Bonus",
 			"value": null,
 			"step": 0.5,
+			"base": 1,
+			"min": 0,
+			"max": 6,
+			"level": 0,
 		},
 		{
 			"key": "Unlimited Friend Bonus",
@@ -338,6 +422,10 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Splash Size",
@@ -346,6 +434,10 @@ var defaultskills = {
 			"key": "Time Bomb",
 			"value": null,
 			"step": 0.2,
+			"base": 1.8,
+			"min": 0,
+			"max": 6,
+			"level": 0,
 		},
 		{
 			"key": "Programmed Time Bomb",
@@ -359,6 +451,10 @@ var defaultskills = {
 			"key": "Shield Damage",
 			"value": null,
 			"step": 0.5,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "More Cash",
@@ -367,6 +463,10 @@ var defaultskills = {
 			"key": "Archer Sniper",
 			"value": null,
 			"step": 20,
+			"base": 0,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Archer Sniper Ninja",
@@ -380,6 +480,10 @@ var defaultskills = {
 			"key": "Speed",
 			"value": null,
 			"step": 0.05,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Poison Decay",
@@ -388,6 +492,10 @@ var defaultskills = {
 			"key": "Enrage",
 			"value": null,
 			"step": 0.5,
+			"base": 1.5,
+			"min": 0,
+			"max": 3,
+			"level": 0,
 		},
 		{
 			"key": "Poison Spread",
@@ -398,6 +506,10 @@ var defaultskills = {
 			"key": "Enrage",
 			"value": null,
 			"step": 0.5,
+			"base": 1.5,
+			"min": 0,
+			"max": 3,
+			"level": 0,
 		},
 		{
 			"key": "Enrage Stack",
@@ -407,16 +519,28 @@ var defaultskills = {
 			"key": "Speed",
 			"value": null,
 			"step": 0.05,
+			"base": 1.05,
+			"min": 0,
+			"max": 8,
+			"level": 0,
 		},
 		{
 			"key": "Enrage Fight",
 			"value": null,
 			"step": 0.3,
+			"base": 1,
+			"min": 0,
+			"max": 10,
+			"level": 0,
 		},
 		{
 			"key": "Cumulative Strength",
 			"value": null,
 			"step": 0.3,
+			"base": 1,
+			"min": 0,
+			"max": 10,
+			"level": 0,
 		},
 	],
 	"scatter": [
@@ -424,16 +548,28 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Split",
 			"value": null,
 			"step": 1,
+			"base": 2,
+			"min": 0,
+			"max": 3,
+			"level": 0,
 		},
 		{
 			"key": "Fly Children!",
 			"value": null,
 			"step": 5,
+			"base": 40,
+			"min": 0,
+			"max": 4,
+			"level": 0,
 		},
 		{
 			"key": "Scatter Merge",
@@ -445,6 +581,10 @@ var defaultskills = {
 			"key": "Power",
 			"value": null,
 			"step": 0.1,
+			"base": 1.1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "More Cash",
@@ -461,6 +601,10 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Detonate Bomb Squad",
@@ -480,11 +624,19 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Speed",
 			"value": null,
 			"step": 0.05,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Shields Remove",
@@ -495,6 +647,10 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Fire Spread",
@@ -503,6 +659,10 @@ var defaultskills = {
 			"key": "Floor is Lava",
 			"value": null,
 			"step": 5,
+			"base": 15,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Big Lava",
@@ -511,6 +671,10 @@ var defaultskills = {
 			"key": "Intense Lava",
 			"value": null,
 			"step": 0.2,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 	],
 	"lightning": [
@@ -518,6 +682,10 @@ var defaultskills = {
 			"key": "Damage",
 			"value": null,
 			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 		{
 			"key": "Chain Size",
@@ -526,6 +694,10 @@ var defaultskills = {
 			"key": "Speed",
 			"value": null,
 			"step": 0.05,
+			"base": 1,
+			"min": 0,
+			"max": 5,
+			"level": 0,
 		},
 	]
 };
@@ -1566,6 +1738,168 @@ function UpgradeSettingScripts(settings) {
 			"value": 2.8,
 			"active": true,
 			"step": 0.3,
+		});
+	}
+
+	if (!settings.prestige[0].level) {
+		settings.prestige.forEach(p => {
+			var def = defaultprestige.find(d => d.key === p.key);
+			p["base"] = def.base;
+			p["min"] = def.min;
+			p["max"] = def.max;
+			p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+		});
+	}
+
+	if (!settings.cards[0].level) {
+		settings.cards.forEach(p => {
+			var def = defaultcards.find(d => d.key === p.key);
+			p["base"] = def.base;
+			p["min"] = def.min;
+			p["max"] = def.max;
+			p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+		});
+	}
+
+	if (!settings.perks[0].level) {
+		settings.perks.forEach(p => {
+			var def = defaultperks.find(d => d.key === p.key);
+			p["base"] = def.base;
+			p["min"] = def.min;
+			p["max"] = def.max;
+			p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+		});
+	}
+
+	if (!settings.skills.basic[0].level) {
+		settings.skills.basic.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.basic.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.splash[0].level) {
+		settings.skills.splash.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.splash.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.sniper[0].level) {
+		settings.skills.sniper.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.sniper.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.poison[0].level) {
+		settings.skills.poison.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.poison.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.demo[0].level) {
+		settings.skills.demo.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.demo.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.scatter[0].level) {
+		settings.skills.scatter.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.scatter.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.cash[0].level) {
+		settings.skills.cash.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.cash.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.pierce[0].level) {
+		settings.skills.pierce.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.pierce.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.sword[0].level) {
+		settings.skills.sword.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.sword.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.fire[0].level) {
+		settings.skills.fire.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.fire.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
+		});
+	}
+
+	if (!settings.skills.lightning[0].level) {
+		settings.skills.lightning.forEach(p => {
+			if (p.value !== undefined) {
+				var def = defaultskills.lightning.find(d => d.key === p.key);
+				p["base"] = def.base;
+				p["min"] = def.min;
+				p["max"] = def.max;
+				p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+			}
 		});
 	}
 

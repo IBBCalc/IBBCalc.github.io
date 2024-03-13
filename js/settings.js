@@ -30,7 +30,14 @@ function StoreItem(key, obj) {
 function UpdateData(data, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
 	if (data[r] !== undefined) {
-		data[r]["value"] = e.target.value === '' ? null : e.target.value;
+		if (data[r]["level"] !== undefined) {
+			data[r]["level"] = e.target.value === '' ? null : e.target.value;
+			data[r]["value"] = e.target.value === '' || e.target.value === '0' ? null : data[r].base + (data[r].level * data[r].step);
+			RefreshValueCell(e);
+		}
+		else {
+			data[r]["value"] = e.target.value === '' ? null : e.target.value;
+		}
 		console.log('Row changed: ', data[r])
 		StoreItem('settings', settings);
 	}
@@ -49,6 +56,11 @@ function UpdateFooter() {
 	$('#tfoot_badges').html(settings.badges.reduce(function (a, b) { 
 		return a + parseInt(b["value"]);
 	}, 0));
+}
+
+function RefreshValueCell(e) {
+	var table = e.target.parentNode.parentNode.parentNode.parentNode.id;
+	$('#' + table).DataTable().cells(null, 2).invalidate();	
 }
 
 function RefreshDataCells() {
@@ -80,7 +92,7 @@ function CreatedActiveTemplate(data) {
 	}
 }
 
-function ColumnNumberTemplate(data, title, width) {
+function ColumnLevelTemplate(data, title, width) {
 	return { 
 		data: data, 
 		title: title, 
@@ -92,7 +104,7 @@ function ColumnNumberTemplate(data, title, width) {
 			}
 
 			if ( type === 'display' ) {
-				return '<input type="number" step="' + row.step + '" value="' + data + '">';
+				return '<input type="number" step="1" min="0" max="' + row.max + '" value="' + data + '">';
 			}					
 			return data;
 		},  
@@ -122,6 +134,31 @@ function ColumnCheckboxTemplate(data, title, width) {
 	};
 }
 
+function ColumnDataTemplate(data, title, width, format) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function(data, type, row, meta) {			
+			if ( type === 'display' ) {
+				if (data == null) {
+					return '';
+				}
+				
+				if (format) {
+					if (row.key.includes(' Cost') || row.key === 'Splash Damage' || row.key === 'Archer Sniper' || row.key === 'Fly Children!' || row.key === 'Floor is Lava') {
+						return data + '%';
+					}
+
+					return FormatNumber(data);					
+				}
+			}
+			return data;
+		}, 
+	};
+}
+
 function BuildSettingsTable() {
 	$(document).ready(function() {
 		$("input[type=number]").focus().select();
@@ -141,7 +178,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Prestige Badges", width: '125px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -157,12 +195,13 @@ function BuildSettingsTable() {
 			targets: 1,
 			createdCell: CreatedValueTemplate(settings.cards)
 		},{ 
-			targets: 2,
+			targets: 3,
 			createdCell: CreatedActiveTemplate(settings.cards)
 		}],
 		columns: [
 			{ data: 'key', title: "Cards", width: '125px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Active?', '50px'),
 		],
 	});
@@ -181,7 +220,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Perks", width: '125px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -220,7 +260,7 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Challenge Badges", width: '125px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('value', 'Value', '50px'),
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
@@ -240,12 +280,13 @@ function BuildSettingsTable() {
 			targets: 1,
 			createdCell: CreatedValueTemplate(settings.skills.basic)
 		},{ 
-			targets: 2,
+			targets: 3,
 			createdCell: CreatedActiveTemplate(settings.skills.basic)
 		}],
 		columns: [
 			{ data: 'key', title: "Basic Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
 	});
@@ -264,7 +305,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Splash Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -282,7 +324,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Sniper Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -300,7 +343,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Poison Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -316,12 +360,13 @@ function BuildSettingsTable() {
 			targets: 1,
 			createdCell: CreatedValueTemplate(settings.skills.demo)
 		},{ 
-			targets: 2,
+			targets: 3,
 			createdCell: CreatedActiveTemplate(settings.skills.demo)
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
 	});
@@ -338,12 +383,13 @@ function BuildSettingsTable() {
 			targets: 1,
 			createdCell: CreatedValueTemplate(settings.skills.scatter)
 		},{ 
-			targets: 2,
+			targets: 3,
 			createdCell: CreatedActiveTemplate(settings.skills.scatter)
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
 	});
@@ -362,7 +408,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Cash Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -380,7 +427,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Pierce Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -398,7 +446,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Sword Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -416,7 +465,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Fire Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 
@@ -434,7 +484,8 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },
-			ColumnNumberTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
 }

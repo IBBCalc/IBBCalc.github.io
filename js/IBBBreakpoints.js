@@ -271,7 +271,7 @@ function ColumnDropdownTemplate(data, title, width) {
 	};
 }
 
-function ColumnDataTemplate(func, title, width, format) {
+function ColumnFuncTemplate(func, title, width, format) {
 	return { 
 		title: title, 
 		width: width, 
@@ -331,10 +331,10 @@ function BuildTable() {
 			ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
 			ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
 			ColumnCheckboxTemplate('enrage', 'Enrage', '30px'),
-			ColumnDataTemplate(CalculateSpeed, 'Speed', '55px', true),
-			ColumnDataTemplate(CalculatePower, 'Power', '55px', true),
-			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
-			ColumnDataTemplate(CalculateRowDamage, 'Damage', '55px', true),
+			ColumnFuncTemplate(CalculateSpeed, 'Speed', '55px', true),
+			ColumnFuncTemplate(CalculatePower, 'Power', '55px', true),
+			ColumnFuncTemplate(CalculateCost, 'Cost', '55px', true),
+			ColumnFuncTemplate(CalculateRowDamage, 'Damage', '55px', true),
 		]
 	});
 	
@@ -380,11 +380,11 @@ function BuildTable() {
 		deferRender: true,
 		columns: [
 			{ data: 'hits', title: "Hits Needed", width: '35px' },
-			ColumnDataTemplate(CalculateHitsGreen, 'Green', '55px', true),
-			ColumnDataTemplate(CalculateHitsBlue, 'Blue', '55px', true),
-			ColumnDataTemplate(CalculateHitsHex, 'Hex', '55px', true),
-			ColumnDataTemplate(CalculateHitsBlueShield, 'Blue Shield', '55px', true),
-			ColumnDataTemplate(CalculateHitsHexShield, 'Hex Shield', '55px', true),
+			ColumnFuncTemplate(CalculateHitsGreen, 'Green', '55px', true),
+			ColumnFuncTemplate(CalculateHitsBlue, 'Blue', '55px', true),
+			ColumnFuncTemplate(CalculateHitsHex, 'Hex', '55px', true),
+			ColumnFuncTemplate(CalculateHitsBlueShield, 'Blue Shield', '55px', true),
+			ColumnFuncTemplate(CalculateHitsHexShield, 'Hex Shield', '55px', true),
 		]
 	});
 	
@@ -398,11 +398,11 @@ function BuildTable() {
 		deferRender: true,
 		columns: [
 			{ data: 'hits', title: "Hits Needed", width: '35px' },
-			ColumnDataTemplate(CalculateHitsGreenEffect, 'Green', '55px', true),
-			ColumnDataTemplate(CalculateHitsBlueEffect, 'Blue', '55px', true),
-			ColumnDataTemplate(CalculateHitsHexEffect, 'Hex', '55px', true),
-			ColumnDataTemplate(CalculateHitsBlueShieldEffect, 'Blue Shield', '55px', true),
-			ColumnDataTemplate(CalculateHitsHexShieldEffect, 'Hex Shield', '55px', true),
+			ColumnFuncTemplate(CalculateHitsGreenEffect, 'Green', '55px', true),
+			ColumnFuncTemplate(CalculateHitsBlueEffect, 'Blue', '55px', true),
+			ColumnFuncTemplate(CalculateHitsHexEffect, 'Hex', '55px', true),
+			ColumnFuncTemplate(CalculateHitsBlueShieldEffect, 'Blue Shield', '55px', true),
+			ColumnFuncTemplate(CalculateHitsHexShieldEffect, 'Hex Shield', '55px', true),
 		]
 	});
 	

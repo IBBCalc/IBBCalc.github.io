@@ -342,7 +342,7 @@ function ColumnDropdownTemplate(data, title, width) {
 	};
 }
 
-function ColumnDataTemplate(func, title, width, format) {
+function ColumnFuncTemplate(func, title, width, format) {
 	return { 
 		title: title, 
 		width: width, 
@@ -430,14 +430,14 @@ function BuildTable(tab, buildSettings) {
 			ColumnCheckboxTemplate('ballspec', 'Ball Spec.', '30px'),
 			ColumnCheckboxTemplate('friend', 'Friend Bonus', '30px'),
 			ColumnCheckboxTemplate('enrage', 'Enrage', '30px'),
-			ColumnDataTemplate(CalculateSpeed, 'Speed', '55px', true),
-			ColumnDataTemplate(CalculatePower, 'Power', '55px', true),
-			ColumnDataTemplate(CalculateCost, 'Cost', '55px', true),
-			ColumnDataTemplate(CalculateWindfallCost, 'Windfall Gem Cost', '70px', false),
-			ColumnDataTemplate(CalculateDamageWithPoison, 'Damage w/ Poison', '90px', true),
-			ColumnDataTemplate(CalculateLastGreenBrickLevel, 'Last Stage <br>Dmg > Green HP', '120px', true),
-			ColumnDataTemplate(CalculateLastHexBrickLevel, 'Last Stage <br>Dmg > Hex HP', '120px', true),
-			ColumnDataTemplate(CalculateLastShieldHexBrickLevel, 'Last Stage <br>Dmg > Shield Hex HP', '150px', true),
+			ColumnFuncTemplate(CalculateSpeed, 'Speed', '55px', true),
+			ColumnFuncTemplate(CalculatePower, 'Power', '55px', true),
+			ColumnFuncTemplate(CalculateCost, 'Cost', '55px', true),
+			ColumnFuncTemplate(CalculateWindfallCost, 'Windfall Gem Cost', '70px', false),
+			ColumnFuncTemplate(CalculateDamageWithPoison, 'Damage w/ Poison', '90px', true),
+			ColumnFuncTemplate(CalculateLastGreenBrickLevel, 'Last Stage <br>Dmg > Green HP', '120px', true),
+			ColumnFuncTemplate(CalculateLastHexBrickLevel, 'Last Stage <br>Dmg > Hex HP', '120px', true),
+			ColumnFuncTemplate(CalculateLastShieldHexBrickLevel, 'Last Stage <br>Dmg > Shield Hex HP', '150px', true),
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
