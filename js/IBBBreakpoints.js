@@ -2,29 +2,7 @@ var storagename = 'breakpoints';
 var tablename = '#table_breakpoints';
 var data = GetItem(storagename, defaultbreakpoints);
 var settings = GetItem("settings", defaultsettings);
-
-// v2.1.7 Rage Battery & Splash Damage
-if (!settings.cards.some(e => e.key == "Rage Battery")) {
-	settings.cards.push(
-	{
-		"key": "Rage Battery",
-		"value": 2.8,
-		"active": true,
-		"step": 0.3,
-	});
-	StoreItem('settings', settings);
-}
-
-if (!settings.cards.some(e => e.key == "Splash Damage")) {
-	settings.cards.push(
-	{
-		"key": "Splash Damage",
-		"value": 60,
-		"active": true,
-		"step": 10,
-	});
-	StoreItem('settings', settings);
-}
+UpgradeSettingScripts(settings);
 
 function GetItem(key, obj) {	
 	try {

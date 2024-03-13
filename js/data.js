@@ -1545,3 +1545,29 @@ function UnFormatNumber(text) {
 	
 	return num * item.value;
 }
+
+function UpgradeSettingScripts(settings) {
+	// v2.1.17 Splash Damage Card
+	if (!settings.cards.some(e => e.key == "Splash Damage")) {
+		settings.cards.push(
+		{
+			"key": "Splash Damage",
+			"value": 60,
+			"active": true,
+			"step": 10,
+		});
+	}
+
+	// v2.1.17 Rage Battery Card
+	if (!settings.cards.some(e => e.key == "Rage Battery")) {
+		settings.cards.push(
+		{
+			"key": "Rage Battery",
+			"value": 2.8,
+			"active": true,
+			"step": 0.3,
+		});
+	}
+
+	StoreItem('settings', settings);
+}
