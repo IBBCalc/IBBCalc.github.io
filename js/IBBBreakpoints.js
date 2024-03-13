@@ -648,7 +648,7 @@ function CalculateHitsHexShieldEffect(row, rowindex) {
 }
 
 function CalculateRowDamage(row, rowindex) {
-	if (row === undefined || data === undefined || data[1].type === null || row.type.localeCompare('poison', undefined) === 0) {
+	if (row === undefined || data === undefined || data[1].type === null || row.type == null || row.type.localeCompare('poison', undefined) === 0) {
 		return null;
 	}
 	
