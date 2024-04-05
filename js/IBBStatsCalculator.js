@@ -176,7 +176,7 @@ function UpdateCheckbox(data, e) {
 }
 
 function UpdateFooter() {
-	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 10).render('a').reduce(function(a, b) {
+	var totalcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10,11], 10).render('a').reduce(function(a, b) {
 		if (isNaN(b) || b === '') {
 			return a;
 		}
@@ -184,7 +184,7 @@ function UpdateFooter() {
 	}, 0);
 	$('#tfoot_cost').html(FormatNumber(totalcost));
 	
-	var totalwindfallcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], 11).render('a').reduce(function(a, b) {
+	var totalwindfallcost = $('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10,11], 11).render('a').reduce(function(a, b) {
 		if (isNaN(b) || b === '') {
 			return a;
 		}
@@ -208,11 +208,11 @@ function UpdateWindfall(tab, e) {
 
 function RefreshDataCells() {
 	var datacells = [8,9,10,11,12,13,14,15];
-	$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10], datacells).invalidate();
+	$('#table_calculator').DataTable().cells([0,1,2,3,4,5,6,7,8,9,10,11], datacells).invalidate();
 }
 
 function RefreshRows() {
-	$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10]).invalidate();
+	$('#table_calculator').DataTable().rows([0,1,2,3,4,5,6,7,8,9,10,11]).invalidate();
 }
 
 function CreatedNumberTemplate(data) {
