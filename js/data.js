@@ -119,6 +119,16 @@ var defaulttabs = [{
 			'friend': false,
 			'enrage': false,
 		},
+		{
+			'slot': '110ae',
+			'type': null,
+			'amount': null,
+			'speedlvl': null,
+			'powerlvl': null,
+			'ballspec': false,
+			'friend': false,
+			'enrage': false,
+		},
 	],
 }];
 
@@ -372,6 +382,12 @@ var defaultbadges = [
 	{
 		"id": "lightning",
 		"key": "Lightning",
+		"value": 0,
+		"step": 1,
+	},
+	{
+		"id": "proportional",
+		"key": "Proportional",
 		"value": 0,
 		"step": 1,
 	},
@@ -699,6 +715,38 @@ var defaultskills = {
 			"max": 5,
 			"level": 0,
 		},
+	],
+	"proportional": [
+		{
+			"key": "Speed",
+			"value": null,
+			"step": 0.05,
+			"base": 1.05,
+			"min": 0,
+			"max": 8,
+			"level": 0,
+		},
+		{
+			"key": "Damage",
+			"value": null,
+			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 6,
+			"level": 0,
+		},
+		{
+			"key": "Blue Bricks Damage",
+			"value": null,
+			"step": 0.1,
+			"base": 1,
+			"min": 0,
+			"max": 10,
+			"level": 0,
+		},
+		{
+			"key": "Instant Destruction",
+		},
 	]
 };
 
@@ -722,7 +770,8 @@ var slots = [
 	"10s",
 	"100o",
 	"5aa",
-	"80ac"
+	"80ac",
+	"110ae"
 ];
 
 var available = {
@@ -738,6 +787,7 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
 	],
 	"base": [
 		"basic"
@@ -791,6 +841,7 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
 	],
 	"10s": [
 		"splash",
@@ -803,6 +854,7 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
 	],
 	"100o": [
 		"splash",
@@ -815,6 +867,7 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
 	],
 	"5aa": [
 		"splash",
@@ -827,6 +880,7 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
 	],
 	"80ac": [
 		"splash",
@@ -839,6 +893,20 @@ var available = {
 		"sword",
 		"fire",
 		"lightning",
+		"proportional",
+	],
+	"110ae": [
+		"splash",
+		"sniper",
+		"poison",
+		"demo",
+		"scatter",
+		"cash",
+		"pierce",
+		"sword",
+		"fire",
+		"lightning",
+		"proportional",
 	],
 };
 
@@ -854,7 +922,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"basic": [
 		"base"
@@ -869,7 +938,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"sniper": [
 		"175",
@@ -881,7 +951,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"poison": [
 		"7.5k",
@@ -892,7 +963,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"demo": [
 		"7.5k",
@@ -903,7 +975,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"scatter": [
 		"175k",
@@ -913,7 +986,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"cash": [
 		"15m",
@@ -922,7 +996,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"pierce": [
 		"15m",
@@ -931,7 +1006,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"sword": [
 		"400b",
@@ -939,7 +1015,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"fire": [
 		"400b",
@@ -947,7 +1024,8 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
 	],
 	"lightning": [
 		"400b",
@@ -955,7 +1033,16 @@ var availableslots = {
 		"10s",
 		"100o",
 		"5aa",
-		"80ac"
+		"80ac",
+		"110ae"
+	],
+	"proportional": [
+		"10q",
+		"10s",
+		"100o",
+		"5aa",
+		"80ac",
+		"110ae"
 	],
 }
 
@@ -1128,6 +1215,10 @@ var basestats = {
 		"lightning": {
 			"speed": 1.4875,
 			"power": 2600.00
+		},
+		"proportional": {
+			"speed": 1.4875,
+			"power": 2600.00
 		}
 	},
 	"10s": {
@@ -1168,6 +1259,10 @@ var basestats = {
 			"power": 12000.00
 		},
 		"lightning": {
+			"speed": 1.6150,
+			"power": 12000.00
+		},
+		"proportional": {
 			"speed": 1.6150,
 			"power": 12000.00
 		}
@@ -1212,6 +1307,10 @@ var basestats = {
 		"lightning": {
 			"speed": 1.7425,
 			"power": 80000.00
+		},
+		"proportional": {
+			"speed": 1.7425,
+			"power": 80000.00
 		}
 	},
 	"5aa": {
@@ -1252,6 +1351,10 @@ var basestats = {
 			"power": 720000.00
 		},
 		"lightning": {
+			"speed": 1.8700,
+			"power": 720000.00
+		},
+		"proportional": {
 			"speed": 1.8700,
 			"power": 720000.00
 		}
@@ -1296,6 +1399,56 @@ var basestats = {
 		"lightning": {
 			"speed": 1.9975,
 			"power": 5760000.00
+		},
+		"proportional": {
+			"speed": 1.9975,
+			"power": 5760000.00
+		}
+	},
+	"110ae": {
+		"sniper": {
+			"speed": 3.1275,
+			"power": 16090000.00
+		},
+		"splash": {
+			"speed": 1.8775,
+			"power": 15320000.00
+		},
+		"poison": {
+			"speed": 2.2525,
+			"power": 4.00
+		},
+		"demo": {
+			"speed": 1.1250,
+			"power": 306430000.00
+		},
+		"scatter": {
+			"speed": 2.5025,
+			"power": 15320000.00
+		},
+		"pierce": {
+			"speed": 2.5025,
+			"power": 15320000.00
+		},
+		"cash": {
+			"speed": 2.7525,
+			"power": 0.73
+		},
+		"sword": {
+			"speed": 3.1275,
+			"power": 19920000.00
+		},
+		"fire": {
+			"speed": 3.1275,
+			"power": 15320000.00
+		},
+		"lightning": {
+			"speed": 2.1275,
+			"power": 15320000.00
+		},
+		"proportional": {
+			"speed": 2.1275,
+			"power": 15320000.00
 		}
 	}
 };
@@ -1345,6 +1498,10 @@ var speedbasestats = {
 		"increment": 0.62787,
 		"modifier": 0.9944711
 	},
+	"proportional": {
+		"increment": 0.62787,
+		"modifier": 0.9944711
+	},
 };
 
 var powerbasestats = {
@@ -1389,6 +1546,10 @@ var powerbasestats = {
 		"modifier": 1.00997
 	},
 	"lightning": {
+		"increment": 1.00969,
+		"modifier": 1.00997
+	},
+	"proportional": {
 		"increment": 1.00969,
 		"modifier": 1.00997
 	},
@@ -1460,6 +1621,12 @@ var basecosts = {
 		"ball": 80e42,
 		"speed": 80e42,
 		"power": 80e42
+	},
+	"110ae": {
+		"buy": 110e48,
+		"ball": 110e48,
+		"speed": 110e48,
+		"power": 110e48
 	}
 }
 
@@ -1718,7 +1885,7 @@ function UnFormatNumber(text) {
 	return num * item.value;
 }
 
-function UpgradeSettingScripts(settings) {
+function UpgradeSettingScripts(settings, storekey) {
 	// v2.1.17 Splash Damage Card
 	if (!settings.cards.some(e => e.key == "Splash Damage")) {
 		settings.cards.push(
@@ -1903,5 +2070,25 @@ function UpgradeSettingScripts(settings) {
 		});
 	}
 
-	StoreItem('settings', settings);
+	if (!settings.badges.some(b => b.id === "proportional")) {
+		var proportionalbadges = defaultbadges.find(b => b.id === "proportional");
+		settings.badges.push(proportionalbadges);
+	}
+
+	if (!settings.skills.proportional) {
+		settings.skills["proportional"] = defaultskills.proportional;
+	}
+
+	StoreItem(storekey, settings);
+}
+
+function UpgradeTabScripts(tabs, storekey) {
+	tabs.forEach(tab => {
+		if (!tab.data.some(d => d.slot === "110ae")) {
+			var aetab = defaulttabs[0].data.find(d => d.slot === "110ae");
+			tab.data.push(aetab);
+		}
+	});
+
+	StoreItem(storekey, tabs)
 }

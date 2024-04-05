@@ -688,6 +688,7 @@ var level_tracker_template = '\
 					<option value="sword">Sword</option>\
 					<option value="fire">Fire</option>\
 					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
 				</select>\
 			</td>\
 		</tr>\
@@ -706,6 +707,7 @@ var level_tracker_template = '\
 					<option value="sword">Sword</option>\
 					<option value="fire">Fire</option>\
 					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
 				</select>\
 			</td>\
 		</tr>\
@@ -724,6 +726,7 @@ var level_tracker_template = '\
 					<option value="sword">Sword</option>\
 					<option value="fire">Fire</option>\
 					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
 				</select>\
 			</td>\
 		</tr>\
@@ -742,6 +745,7 @@ var level_tracker_template = '\
 					<option value="sword">Sword</option>\
 					<option value="fire">Fire</option>\
 					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
 				</select>\
 			</td>\
 		</tr>\
@@ -760,6 +764,26 @@ var level_tracker_template = '\
 					<option value="sword">Sword</option>\
 					<option value="fire">Fire</option>\
 					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
+				</select>\
+			</td>\
+		</tr>\
+		<tr>\
+			<th>110ae</th>\
+			<td>\
+				<select id="%tab%_80ac_ball_type" onchange="handleSettingsChange(event)">\
+					<option value="null"></option>\
+					<option value="sniper">Sniper</option>\
+					<option value="splash">Splash</option>\
+					<option value="poison">Poison</option>\
+					<option value="demo">Demo</option>\
+					<option value="scatter">Scatter</option>\
+					<option value="pierce">Pierce</option>\
+					<option value="cash">Cash</option>\
+					<option value="sword">Sword</option>\
+					<option value="fire">Fire</option>\
+					<option value="lightning">Lightning</option>\
+					<option value="proportional">Proportional</option>\
 				</select>\
 			</td>\
 		</tr>\

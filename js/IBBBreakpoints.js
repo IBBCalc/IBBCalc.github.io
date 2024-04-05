@@ -2,7 +2,7 @@ var storagename = 'breakpoints';
 var tablename = '#table_breakpoints';
 var data = GetItem(storagename, defaultbreakpoints);
 var settings = GetItem("settings", defaultsettings);
-UpgradeSettingScripts(settings);
+UpgradeSettingScripts(settings, "settings");
 
 function GetItem(key, obj) {	
 	try {
@@ -534,6 +534,10 @@ function CalculateHitsBlue(row, rowindex) {
 	}
 	
 	var damage = CalculateDamage();
+	if (data[1].type.localeCompare('proportional', undefined) === 0) {
+		damage *= 2 * GetKeyValue(settings.skills[data[1].type], 'Blue Bricks Damage', 1);
+	}
+
 	return CalculateLastBrickLevel(damage * row.hits / 2)
 }
 
@@ -543,6 +547,10 @@ function CalculateHitsHex(row, rowindex) {
 	}
 	
 	var damage = CalculateDamage();
+	if (data[1].type.localeCompare('proportional', undefined) === 0) {
+		damage *= 3;
+	}
+
 	return CalculateLastBrickLevel(damage * row.hits / 25)
 }
 
@@ -552,6 +560,10 @@ function CalculateHitsBlueShield(row, rowindex) {
 	}
 	
 	var damage = CalculateDamage();
+	if (data[1].type.localeCompare('proportional', undefined) === 0) {
+		damage *= 2 * GetKeyValue(settings.skills[data[1].type], 'Blue Bricks Damage', 1);
+	}
+
 	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 2 / shieldmod)
 }
@@ -562,6 +574,10 @@ function CalculateHitsHexShield(row, rowindex) {
 	}
 	
 	var damage = CalculateDamage();
+	if (data[1].type.localeCompare('proportional', undefined) === 0) {
+		damage *= 3;
+	}
+
 	var shieldmod = CalculateShieldModifier(data[1].type);
 	return CalculateLastBrickLevel(damage * row.hits / 25 / shieldmod)
 }
@@ -592,6 +608,8 @@ function CalculateEffectModifier(balltype) {
 			return null;
 		case 'lightning':
 			return 0.3;
+		case 'proportional':
+			return null;
 	}
 }
 

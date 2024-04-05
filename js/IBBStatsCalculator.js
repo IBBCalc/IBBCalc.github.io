@@ -1,7 +1,8 @@
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 var settings = GetItem("settings", defaultsettings);
-UpgradeSettingScripts(settings);
+UpgradeSettingScripts(settings, 'settings');
+UpgradeTabScripts(tabs, 'statsCalculator')
 
 function GetItem(key, obj) {	
 	try {
@@ -629,7 +630,11 @@ function CalculateLastHexBrickLevel(row, rowindex) {
 		return null;
 	}
 	
-	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');	
+	if (row.type.localeCompare('proportional', undefined) === 0) {
+		damage *= 3;
+	}
+
 	return CalculateLastBrickLevel(damage/25);
 }
 
@@ -642,11 +647,16 @@ function CalculateLastShieldHexBrickLevel(row, rowindex) {
 		return null;
 	}
 	
-	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');
+	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');	
+	if (row.type.localeCompare('proportional', undefined) === 0) {
+		damage *= 3;
+	}
+
 	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
 	if (row.type.localeCompare('sword', undefined) === 0) {
 		shieldmod = 1;
 	}
+
 	return CalculateLastBrickLevel(damage/25/shieldmod);
 }
 

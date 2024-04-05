@@ -1,5 +1,5 @@
 var settings = GetItem("settings", defaultsettings);
-UpgradeSettingScripts(settings);
+UpgradeSettingScripts(settings, "settings");
 
 function GetItem(key, obj) {	
 	try {
@@ -484,6 +484,25 @@ function BuildSettingsTable() {
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },
+			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnDataTemplate('value', "Value", '50px', true),
+		],
+	});
+
+	$('#table_proportionalskills').DataTable({
+		data: settings.skills.proportional,
+		info: false,
+		searching: false,
+		ordering: false,
+		paging: false,
+		autoWidth: false,
+		deferRender: true,
+		columnDefs: [{ 
+			targets: 1,
+			createdCell: CreatedValueTemplate(settings.skills.proportional)
+		}],
+		columns: [
+			{ data: 'key', title: "Proportional Skill Tree", width: '200px' },
 			ColumnLevelTemplate('level', 'Level', '50px'),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
