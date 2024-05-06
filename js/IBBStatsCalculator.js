@@ -1,5 +1,10 @@
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
+
+if (tabs = []) {
+	tabs = defaulttabs;
+	activeTab.ibbstatscalculator = 0;
+}
 var settings = GetItem("settings", defaultsettings);
 UpgradeSettingScripts(settings, 'settings');
 UpgradeTabScripts(tabs, 'statsCalculator')
