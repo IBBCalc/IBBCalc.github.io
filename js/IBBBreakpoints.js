@@ -520,7 +520,7 @@ function CalculateCost(row) {
 }
 
 function CalculateHitsGreen(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
@@ -529,7 +529,7 @@ function CalculateHitsGreen(row, rowindex) {
 }
 
 function CalculateHitsBlue(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
@@ -542,7 +542,7 @@ function CalculateHitsBlue(row, rowindex) {
 }
 
 function CalculateHitsHex(row, rowindex) {
-	if (row === undefined || data === undefined) {
+	if (row === undefined || data === undefined || data[1].type === null) {
 		return null;
 	}
 	
@@ -676,10 +676,14 @@ function CalculateRowDamage(row, rowindex) {
 
 function CalculateDamage(balltype) {
 	var poisonpower = $(tablename).DataTable().cell(0, 10).render('a');
+	if (poisonpower == null || poisonpower === '') {
+		poisonpower = 1;
+	}
+	
 	var ballpower = $(tablename).DataTable().cell(1, 10).render('a')
 		* ((balltype === 'basic') ? GetKeyActive(settings.skills.basic, 'Splash Size', 1.4, 1) : 1)
 		* ((balltype === 'splash') ? 1.4 : 1);
-	if (poisonpower === undefined || poisonpower === null || ballpower === undefined || ballpower === null) {
+	if (ballpower == null) {
 		return null;
 	}
 	
