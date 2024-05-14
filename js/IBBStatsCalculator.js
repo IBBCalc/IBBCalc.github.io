@@ -1,7 +1,7 @@
 var tabs = GetItem("statsCalculator", defaulttabs);
 var activeTab = GetItem("activeTab", defaultactivetab);
 
-if (tabs = []) {
+if (tabs == []) {
 	tabs = defaulttabs;
 	activeTab.ibbstatscalculator = 0;
 }
