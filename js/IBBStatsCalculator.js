@@ -637,7 +637,7 @@ function CalculateLastHexBrickLevel(row, rowindex) {
 	
 	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');	
 	if (row.type.localeCompare('proportional', undefined) === 0) {
-		damage *= 3;
+		damage *= 25;
 	}
 
 	return CalculateLastBrickLevel(damage/25);
@@ -654,7 +654,7 @@ function CalculateLastShieldHexBrickLevel(row, rowindex) {
 	
 	var damage = $('#table_calculator').DataTable().cell(rowindex, 12).render('a');	
 	if (row.type.localeCompare('proportional', undefined) === 0) {
-		damage *= 3;
+		damage *= 25;
 	}
 
 	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);

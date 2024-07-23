@@ -548,7 +548,7 @@ function CalculateHitsHex(row, rowindex) {
 	
 	var damage = CalculateDamage();
 	if (data[1].type.localeCompare('proportional', undefined) === 0) {
-		damage *= 3;
+		damage *= 25;
 	}
 
 	return CalculateLastBrickLevel(damage * row.hits / 25)
@@ -575,7 +575,7 @@ function CalculateHitsHexShield(row, rowindex) {
 	
 	var damage = CalculateDamage();
 	if (data[1].type.localeCompare('proportional', undefined) === 0) {
-		damage *= 3;
+		damage *= 25;
 	}
 
 	var shieldmod = CalculateShieldModifier(data[1].type);
