@@ -27,16 +27,21 @@ function StoreItem(key, obj) {
 	window.localStorage.setItem(key, text);
 }
 
-function UpdateData(data, e) {
+function UpdateData(data, objkey, e) {
 	var r = e.currentTarget._DT_CellIndex.row;
+	var c = e.currentTarget._DT_CellIndex.column;
 	if (data[r] !== undefined) {
-		if (data[r]["level"] !== undefined) {
-			data[r]["level"] = e.target.value === '' ? null : e.target.value;
-			data[r]["value"] = e.target.value === '' || e.target.value === '0' ? null : data[r].base + (data[r].level * data[r].step);
+		if (data[r].level !== undefined) {
+			data[r].level = e.target.value === '' ? null : e.target.value;
+			data[r].value = e.target.value === '' || e.target.value === '0' ? null : data[r].base + (data[r].level * data[r].step);
 			RefreshValueCell(e);
 		}
+		else if (objkey !== undefined) {
+			data[r][objkey].level = e.target.value === '' ? null : e.target.value;
+			RefreshCustomCells(e, [2, 3, 5]);
+		}
 		else {
-			data[r]["value"] = e.target.value === '' ? null : e.target.value;
+			data[r].value = e.target.value === '' ? null : e.target.value;
 		}
 		console.log('Row changed: ', data[r])
 		StoreItem('settings', settings);
@@ -63,6 +68,11 @@ function RefreshValueCell(e) {
 	$('#' + table).DataTable().cells(null, 2).invalidate();	
 }
 
+function RefreshCustomCells(e, cols) {
+	var table = e.target.parentNode.parentNode.parentNode.parentNode.id;
+	$('#' + table).DataTable().cells(null, cols).invalidate();
+}
+
 function RefreshDataCells() {
 	// override if necessary
 }
@@ -71,10 +81,10 @@ function RefreshHits() {
 	// override if necessary
 }
 
-function CreatedValueTemplate(data) {
+function CreatedValueTemplate(data, objkey) {
 	return function(cell) {
 		cell.addEventListener('change', function(e) {
-			UpdateData(data, e);
+			UpdateData(data, objkey, e);
 			UpdateFooter();
 			RefreshDataCells();
 			RefreshHits();
@@ -92,7 +102,7 @@ function CreatedActiveTemplate(data) {
 	}
 }
 
-function ColumnLevelTemplate(data, title, width) {
+function ColumnLevelTemplate(data, title, width, max) {
 	return { 
 		data: data, 
 		title: title, 
@@ -102,9 +112,13 @@ function ColumnLevelTemplate(data, title, width) {
 			if (data === undefined) {
 				return '';
 			}
+			
+			if (max === undefined) {
+				max = row.max;
+			}
 
 			if ( type === 'display' ) {
-				return '<input type="number" step="1" min="0" max="' + row.max + '" value="' + data + '">';
+				return '<input type="number" step="1" min="0" max="' + max + '" value="' + data + '">';
 			}					
 			return data;
 		},  
@@ -147,7 +161,36 @@ function ColumnDataTemplate(data, title, width, format) {
 				}
 				
 				if (format) {
-					if (row.key.includes(' Cost') || row.key === 'Splash Damage' || row.key === 'Archer Sniper' || row.key === 'Fly Children!' || row.key === 'Floor is Lava') {
+					if (row.key.includes(' Cost') || (row.key === 'Splash Damage' && data > 10) || row.key === 'Archer Sniper' || row.key === 'Fly Children!' || row.key === 'Floor is Lava') {
+						return data + '%';
+					}
+
+					return FormatNumber(data);					
+				}
+			}
+			return data;
+		}, 
+	};
+}
+
+function ColumnObjectDataTemplate(data, title, width, objkey, format) {
+	return { 
+		data: data, 
+		title: title, 
+		width: width, 
+		defaultContent: '',
+		render: function(data, type, row, meta) {			
+			if ( type === 'display' ) {				
+				if (typeof data === 'object' && objkey) {
+					data = data[row[objkey].level];
+				}
+				
+				if (data == null) {
+					return '';
+				}
+				
+				if (format) {
+					if (row.key.includes(' Cost') || (row.key === 'Splash Damage' && data > 10) || row.key === 'Archer Sniper' || row.key === 'Fly Children!' || row.key === 'Floor is Lava') {
 						return data + '%';
 					}
 
@@ -193,15 +236,27 @@ function BuildSettingsTable() {
 		deferRender: true,
 		columnDefs: [{ 
 			targets: 1,
+			createdCell: CreatedValueTemplate(settings.cards, 'card')
+		},{
+			targets: 2,
 			createdCell: CreatedValueTemplate(settings.cards)
 		},{ 
 			targets: 3,
+			createdCell: CreatedValueTemplate(settings.cards)
+		},{
+			targets: 4,
+			createdCell: CreatedValueTemplate(settings.cards, 'mastery')
+		},{ 
+			targets: 5,
 			createdCell: CreatedActiveTemplate(settings.cards)
 		}],
 		columns: [
 			{ data: 'key', title: "Cards", width: '125px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
-			ColumnDataTemplate('value', "Value", '50px', true),
+			ColumnLevelTemplate('card.level', 'Level', '50px', 12),
+			ColumnObjectDataTemplate('card.value1', "Value 1", '50px', 'card', true),
+			ColumnObjectDataTemplate('card.value2', "Value 2", '50px', 'card', true),
+			ColumnLevelTemplate('mastery.level', 'Mastery', '50px', 6),
+			ColumnObjectDataTemplate('mastery.value', "Value", '50px', 'mastery', true),
 			ColumnCheckboxTemplate('active', 'Active?', '50px'),
 		],
 	});

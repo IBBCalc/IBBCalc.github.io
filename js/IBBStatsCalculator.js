@@ -136,6 +136,23 @@ function GetKeyValueIfActive(data, key, def) {
 	return def;
 }
 
+function GetObjKeyValueIfActive(data, key, objkey, valkey, def) {
+	var entry = data.find(d => d.key.localeCompare(key, undefined, { sensitivity: 'accent' }) === 0);
+	if (entry === undefined) {
+		return def;
+	}
+	
+	if (entry.active) {
+		var level = entry[objkey].level;
+		var value = entry[objkey][valkey][level];
+		if (value != null) {
+			return value;
+		}
+	}
+	
+	return def;
+}
+
 function GetKeyActive(data, key, iftrue, iffalse) {
 	var entry = data.find(d => d.key.localeCompare(key, undefined, { sensitivity: 'accent' }) === 0);
 	if (entry === undefined) {
@@ -478,8 +495,8 @@ function CalculateSpeed(row) {
 	var speedBase = (increment * speedLevel * (Math.pow(modifier, speedLevel))) + basestat;
 	var speed = (speedBase
 		* GetKeyValue(settings.prestige, 'Ball Speed', 1)
-		* GetKeyValueIfActive(settings.cards, 'Ball Speed', 1)
-		* GetKeyActive(settings.cards, 'Quality Control', 0.5, 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Ball Speed', 'card', 'value1', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Quality Control', 'card', 'value1', 1)
 		* GetKeyValue(settings.perks, 'Ball Speed', 1)
 		* ((speedLevel > 40) ? 0.4 : 1)
 		* ((speedLevel > 80) ? 0.4 : 1)
@@ -506,10 +523,15 @@ function CalculatePower(row) {
 		* ((row.type !== "poison" && row.type !== "cash") ? basestat : 1);
 	var power = (powerBase
 		* GetKeyValue(settings.prestige, 'Ball Power', 1)
-		* GetKeyValueIfActive(settings.cards, 'Ball Power', 1)
-		* GetKeyValueIfActive(settings.cards, 'Quality Control', 1)
-		* ((row.ballspec) ? GetKeyValue(settings.cards, 'Ball Spec.', 1) : 1)
-		* GetKeyValueIfActive(settings.cards, 'Rage Battery', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Ball Speed', 'card', 'value2', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Ball Speed', 'mastery', 'value', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Ball Power', 'card', 'value1', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Ball Power', 'mastery', 'value', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Quality Control', 'card', 'value2', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Quality Control', 'mastery', 'value', 1)
+		* ((row.ballspec) ? GetObjKeyValueIfActive(settings.cards, 'Ball Spec.', 'card', 'value1', 1) : 1)
+		* ((row.ballspec) ? GetObjKeyValueIfActive(settings.cards, 'Ball Spec.', 'mastery', 'value', 1) : 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Rage Battery', 'card', 'value1', 1)
 		* GetKeyValue(settings.perks, 'Ball Power', 1)
 		* GetKeyActive(settings.boosts, 'Power Hungry', 3, 1)
 		* ((speedLevel > 40) ? 5 : 1)
@@ -597,7 +619,11 @@ function CalculateDamageWithPoison(row, rowindex) {
 	if (poisonpower === null) {
 		return ballpower;
 	}
-	return ballpower * poisonpower * GetKeyValueIfActive(settings.cards, 'Catalyst', 1);
+	return ballpower 
+		* poisonpower 
+		* GetObjKeyValueIfActive(settings.cards, 'Catalyst', 'card', 'value1', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Catalyst', 'mastery', 'value', 1)
+		* GetObjKeyValueIfActive(settings.cards, 'Noxious Fumes', 'mastery', 'value', 1);
 }
 
 function GetFirstPoisonPower() {
@@ -657,7 +683,9 @@ function CalculateLastShieldHexBrickLevel(row, rowindex) {
 		damage *= 25;
 	}
 
-	var shieldmod = 500 / GetKeyValueIfActive(settings.cards, 'Shield Pen.', 1);
+	var shieldmod = 500 
+		/ GetObjKeyValueIfActive(settings.cards, 'Shield Pen.', 'card', 'value1', 1) 
+		/ GetObjKeyValueIfActive(settings.cards, 'Shield Pen.', 'mastery', 'value', 1);
 	if (row.type.localeCompare('sword', undefined) === 0) {
 		shieldmod = 1;
 	}

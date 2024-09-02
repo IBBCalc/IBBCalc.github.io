@@ -35,7 +35,7 @@ function StoreItem(key, obj) {
 }
 
 const lookup = [
-	{ value: 1, symbol: "" },
+	{ value: 0, symbol: "" },
 	{ value: 1e3, symbol: "K" },
 	{ value: 1e6, symbol: "M" },
 	{ value: 1e9, symbol: "B" },
@@ -82,6 +82,10 @@ function FormatNumber(num) {
 
 	if (item.symbol === null) {
 		return num.toExponential(4);
+	}
+	
+	if (item.value == 0) {
+		return (num / 1.00).toFixed(4);
 	}
 
 	return item ? (num / item.value).toFixed(4) + item.symbol : "0";

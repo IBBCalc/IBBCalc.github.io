@@ -183,83 +183,311 @@ var defaultprestige = [
 var defaultcards = [
 	{
 		"key": "Ball Speed",
-		"value": 2.0,
 		"active": true,
-		"step": 0.15,
-		"base": 1.1,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 1.25,
+				2: 1.40,
+				3: 1.55,
+				4: 1.70,
+				5: 1.85,
+				6: 2.00,
+				7: 2.00,
+				8: 2.00,
+				9: 2.00,
+				10: 2.00,
+				11: 2.00,
+				12: 2.00,
+			},
+			"value2": {
+				7: 1.25,
+				8: 1.50,
+				9: 1.75,
+				10: 2.00,
+				11: 2.25,
+				12: 2.50,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
 	},
 	{
 		"key": "Ball Power",
-		"value": 4.0,
 		"active": true,
-		"step": 0.5,
-		"base": 1,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 1.50,
+				2: 2.00,
+				3: 2.50,
+				4: 3.00,
+				5: 3.50,
+				6: 4.00,
+				7: 4.50,
+				8: 5.00,
+				9: 5.50,
+				10: 6.00,
+				11: 6.50,
+				12: 7.00,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
+	},
+	{
+		"key": "Splash Radius",
+		"active": true,
+		"card": {
+			"level": 6,
+			"value1": {
+				7: 1.25,
+				8: 1.50,
+				9: 1.75,
+				10: 2.00,
+				11: 2.25,
+				12: 2.50,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.20,
+				2: 1.40,
+				3: 1.60,
+				4: 1.80,
+				5: 2.00,
+				6: 2.20,
+			},
+		},
 	},
 	{
 		"key": "Quality Control",
-		"value": 5.0,
 		"active": true,
-		"step": 0.4,
-		"base": 2.6,
-		"min": 0,
-		"max": 6,
-		"level": 6,
-	},
-	{
-		"key": "Ball Spec.",
-		"value": 4.0,
-		"active": true,
-		"step": 0.4,
-		"base": 1.6,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 0.50,
+				2: 0.50,
+				3: 0.50,
+				4: 0.50,
+				5: 0.50,
+				6: 0.50,
+				7: 0.50,
+				8: 0.50,
+				9: 0.50,
+				10: 0.50,
+				11: 0.50,
+				12: 0.50,
+			},
+			"value2": {
+				1: 3.00,
+				2: 3.40,
+				3: 3.80,
+				4: 4.20,
+				5: 4.60,
+				6: 5.00,
+				7: 5.40,
+				8: 5.80,
+				9: 6.20,
+				10: 6.60,
+				11: 7.00,
+				12: 7.40,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
 	},
 	{
 		"key": "Catalyst",
-		"value": 5.5,
 		"active": true,
-		"step": 0.5,
-		"base": 2.5,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 3.00,
+				2: 3.50,
+				3: 4.00,
+				4: 4.50,
+				5: 5.00,
+				6: 5.50,
+				7: 6.00,
+				8: 6.50,
+				9: 7.00,
+				10: 7.50,
+				11: 8.00,
+				12: 8.50,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
 	},
 	{
 		"key": "Shield Pen.",
-		"value": 20,
 		"active": true,
-		"step": 2,
-		"base": 8,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 10.00,
+				2: 12.00,
+				3: 14.00,
+				4: 16.00,
+				5: 18.00,
+				6: 20.00,
+				7: 22.00,
+				8: 24.00,
+				9: 26.00,
+				10: 28.00,
+				11: 30.00,
+				12: 32.00,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.20,
+				2: 1.40,
+				3: 1.60,
+				4: 1.80,
+				5: 2.00,
+				6: 2.20,
+			},
+		},
 	},
 	{
 		"key": "Splash Damage",
-		"value": 60,
 		"active": true,
-		"step": 10,
-		"base": 0,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 10.00,
+				2: 20.00,
+				3: 30.00,
+				4: 40.00,
+				5: 50.00,
+				6: 60.00,
+				7: 70.00,
+				8: 80.00,
+				9: 90.00,
+				10: 100.00,
+				11: 110.00,
+				12: 120.00,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
+	},
+	{
+		"key": "Noxious Fumes",
+		"active": true,
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
+	},
+	{
+		"key": "Ball Spec.",
+		"active": true,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 2.00,
+				2: 2.40,
+				3: 2.80,
+				4: 3.20,
+				5: 3.60,
+				6: 4.00,
+				7: 4.40,
+				8: 4.80,
+				9: 5.20,
+				10: 5.60,
+				11: 6.00,
+				12: 6.40,
+			},
+		},
+		"mastery": {
+			"level": 0,
+			"value": {
+				1: 1.25,
+				2: 1.50,
+				3: 1.75,
+				4: 2.00,
+				5: 2.25,
+				6: 2.50,
+			},
+		},
 	},
 	{
 		"key": "Rage Battery",
-		"value": 2.8,
 		"active": true,
-		"step": 0.3,
-		"base": 1,
-		"min": 0,
-		"max": 6,
-		"level": 6,
+		"card": {
+			"level": 6,
+			"value1": {
+				1: 1.30,
+				2: 1.60,
+				3: 1.90,
+				4: 2.20,
+				5: 2.50,
+				6: 2.80,
+				7: 3.10,
+				8: 3.40,
+				9: 3.70,
+				10: 4.00,
+				11: 4.30,
+				12: 4.60,
+			},
+		},
 	},
 ];
 
@@ -1812,7 +2040,7 @@ var defaultbreakpoints = [
 
 
 const lookup = [
-	{ value: 1, symbol: "" },
+	{ value: 0, symbol: "" },
 	{ value: 1e3, symbol: "K" },
 	{ value: 1e6, symbol: "M" },
 	{ value: 1e9, symbol: "B" },
@@ -1860,6 +2088,10 @@ function FormatNumber(num) {
 	if (item.symbol === null) {
 		return num.toExponential(2);
 	}
+	
+	if (item.value == 0) {
+		return (num / 1.00).toFixed(2);
+	}
 
 	return item ? (num / item.value).toFixed(2) + item.symbol : "0";
 }
@@ -1887,26 +2119,28 @@ function UnFormatNumber(text) {
 
 function UpgradeSettingScripts(settings, storekey) {
 	// v2.1.17 Splash Damage Card
-	if (!settings.cards.some(e => e.key == "Splash Damage")) {
-		settings.cards.push(
-		{
-			"key": "Splash Damage",
-			"value": 60,
-			"active": true,
-			"step": 10,
-		});
-	}
+	// v2.1.42 Mastery Cards
+	//if (!settings.cards.some(e => e.key == "Splash Damage")) {
+	//	settings.cards.push(
+	//	{
+	//		"key": "Splash Damage",
+	//		"value": 60,
+	//		"active": true,
+	//		"step": 10,
+	//	});
+	//}
 
 	// v2.1.17 Rage Battery Card
-	if (!settings.cards.some(e => e.key == "Rage Battery")) {
-		settings.cards.push(
-		{
-			"key": "Rage Battery",
-			"value": 2.8,
-			"active": true,
-			"step": 0.3,
-		});
-	}
+	// v2.1.42 Mastery Cards
+	//if (!settings.cards.some(e => e.key == "Rage Battery")) {
+	//	settings.cards.push(
+	//	{
+	//		"key": "Rage Battery",
+	//		"value": 2.8,
+	//		"active": true,
+	//		"step": 0.3,
+	//	});
+	//}
 
 	if (!settings.prestige[0].level) {
 		settings.prestige.forEach(p => {
@@ -1918,15 +2152,16 @@ function UpgradeSettingScripts(settings, storekey) {
 		});
 	}
 
-	if (!settings.cards[0].level) {
-		settings.cards.forEach(p => {
-			var def = defaultcards.find(d => d.key === p.key);
-			p["base"] = def.base;
-			p["min"] = def.min;
-			p["max"] = def.max;
-			p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
-		});
-	}
+	// v2.1.42 Mastery Cards
+	//if (!settings.cards[0].level) {
+	//	settings.cards.forEach(p => {
+	//		var def = defaultcards.find(d => d.key === p.key);
+	//		p["base"] = def.base;
+	//		p["min"] = def.min;
+	//		p["max"] = def.max;
+	//		p["level"] = ((p.value - def.base) / def.step) >= def.min && ((p.value - def.base) / def.step) <= def.max ? Math.round((p.value - def.base) / def.step) : def.min;
+	//	});
+	//}
 
 	if (!settings.perks[0].level) {
 		settings.perks.forEach(p => {
@@ -2077,6 +2312,11 @@ function UpgradeSettingScripts(settings, storekey) {
 
 	if (!settings.skills.proportional) {
 		settings.skills["proportional"] = defaultskills.proportional;
+	}
+	
+	// v2.1.42 Mastery Cards
+	if (!settings.cards[0].mastery) {
+		settings.cards = defaultcards;
 	}
 
 	StoreItem(storekey, settings);
