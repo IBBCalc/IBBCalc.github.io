@@ -247,7 +247,7 @@ function BuildSettingsTable() {
 			targets: 4,
 			createdCell: CreatedValueTemplate(settings.cards, 'mastery')
 		},{ 
-			targets: 5,
+			targets: 6,
 			createdCell: CreatedActiveTemplate(settings.cards)
 		}],
 		columns: [
