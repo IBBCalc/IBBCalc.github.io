@@ -127,7 +127,7 @@ function UpdateFooter() {
 // %%%%%%%%%%%%%%%%%%%%%%% Created Cell Templates %%%%%%%%%%%%%%%%%%%%%%%
 
 function RefreshDataCells() {
-	var datacells = [6,7,8,9,10,11];
+	var datacells = [6,7,8,9,10,11,12];
 	$(tablename).DataTable().cells(null, datacells).invalidate();
 }
 
