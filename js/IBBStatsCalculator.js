@@ -370,18 +370,24 @@ function ColumnFuncTemplate(func, title, width, format) {
 		title: title, 
 		width: width, 
 		defaultContent: '',
-		render: function(data, type, row, meta) {			
-			var value = func(row, meta.row);
-			if ( type === 'display' ) {
-				if (value === null) {
-					return '';
+		render: function(data, type, row, meta) {
+			// try {
+				var value = func(row, meta.row);
+				if ( type === 'display' ) {
+					if (value === null) {
+						return '';
+					}
+					
+					if (format) {
+						return FormatNumber(value);					
+					}
 				}
-				
-				if (format) {
-					return FormatNumber(value);					
-				}
-			}
-			return value;
+				return value;
+			// } catch (e){
+			// 	alert(`${e.stack}`);
+			// }
+
+			// return '';
 		}, 
 	};
 }
@@ -389,6 +395,14 @@ function ColumnFuncTemplate(func, title, width, format) {
 // %%%%%%%%%%%%%%%%%%%%%%% Build Page %%%%%%%%%%%%%%%%%%%%%%%
 
 function BuildPage() {
+	try {
+		BuildPageWithErrorLog();
+	} catch (e) {
+		alert(e.stack);
+	}
+}
+
+function BuildPageWithErrorLog() {
 	$(document).ready(function() {
 		$("input[type=number]").focus().select();
 	});

@@ -203,6 +203,14 @@ function ColumnObjectDataTemplate(data, title, width, objkey, format) {
 }
 
 function BuildSettingsTable() {
+	try {
+		BuildSettingsTableWithErrorLog();
+	} catch (e) {
+		alert(e.stack);
+	}
+}
+
+function BuildSettingsTableWithErrorLog() {
 	$(document).ready(function() {
 		$("input[type=number]").focus().select();
 	});

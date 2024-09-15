@@ -337,7 +337,15 @@ function handleDeleteRow(event) {
 	BuildLevelTracker(tab);
 }
 
-function BuildPage() {				
+function BuildPage() {	
+	try {
+		BuildPageWithErrorLog();
+	} catch (e) {
+		alert(e.stack);
+	}
+}
+
+function BuildPageWithErrorLog() {			
 	// Build Html of nav tabs
 	for (var i = 0; i < tabs.length; i++) {
 		var id = tabs[i].id;

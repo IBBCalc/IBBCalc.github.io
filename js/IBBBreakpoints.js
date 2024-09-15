@@ -312,6 +312,14 @@ function ColumnFuncTemplate(func, title, width, format) {
 // %%%%%%%%%%%%%%%%%%%%%%% Build Page %%%%%%%%%%%%%%%%%%%%%%%
 
 function BuildPage() {
+	try {
+		BuildPageWithErrorLog();
+	} catch (e) {
+		alert(e.stack);
+	}
+}
+
+function BuildPageWithErrorLog() {
 	$(document).ready(function() {
 		$("input[type=number]").focus().select();
 	});
