@@ -417,7 +417,9 @@ function BuildPageWithErrorLog() {
 	$('#tab_nav').append('<li id="newtab_id" class=""><a id="newtab_name" href="#" onclick="handleNewTab(event)">+</a></li>');
 
 	var tab = tabs[activeTab.ibbstatscalculator];
-	BuildTable(tab, true);
+	if (tab !== undefined) {
+		BuildTable(tab, true);
+	}
 }
 
 function ReBuildTable(tab) {
