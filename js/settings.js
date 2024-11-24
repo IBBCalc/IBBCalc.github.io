@@ -102,7 +102,7 @@ function CreatedActiveTemplate(data) {
 	}
 }
 
-function ColumnLevelTemplate(data, title, width, max) {
+function ColumnLevelTemplate(data, title, width, forceMax) {
 	return { 
 		data: data, 
 		title: title, 
@@ -113,8 +113,11 @@ function ColumnLevelTemplate(data, title, width, max) {
 				return '';
 			}
 			
-			if (max === undefined) {
+			if (forceMax === undefined) {
 				max = row.max;
+			}
+			else {
+				max = forceMax;
 			}
 
 			if ( type === 'display' ) {
