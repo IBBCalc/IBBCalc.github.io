@@ -268,7 +268,10 @@ function CalculateHexShieldPenHP(row, rowindex) {
 		return null;
 	}
 	
-	return CalculateBrickHP(value) * 25 * 500 / settings.cards.find(a => a.key === "Shield Pen.").value;
+	var shieldpen = settings.cards.find(a => a.key === "Shield Pen.");
+	var card = shieldpen.card.value1[shieldpen.card.level];
+	var mastery = shieldpen.mastery.value[shieldpen.mastery.level];
+	return CalculateBrickHP(value) * 25 * 500 / ((card === undefined ? 1 : card) * (mastery === undefined ? 1 : mastery));
 }
 
 function CalculateBrickHP(level) {
