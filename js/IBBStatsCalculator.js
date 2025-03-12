@@ -557,7 +557,8 @@ function CalculatePower(row) {
 		* GetKeyValue(settings.skills[row.type], 'Power', 1) // cash
 		* ((row.friend) ? GetKeyValue(settings.skills.basic, 'Friend Bonus', 1) : 1)
 		* ((row.enrage) ? GetKeyValue(settings.skills[row.type], 'Enrage Fight', 1) : 1)
-		* ((row.enrage) ? Math.pow(GetKeyValue(settings.skills[row.type], 'Cumulative Strength', 1), 3) : 1));
+		* ((row.enrage) ? Math.pow(GetKeyValue(settings.skills[row.type], 'Cumulative Strength', 1), 3) : 1))
+		* GetKeyValue(settings.powermap, row.type, 1);
 	return power;
 }
 

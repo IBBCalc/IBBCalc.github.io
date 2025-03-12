@@ -978,6 +978,81 @@ var defaultskills = {
 	]
 };
 
+var defaultpowermap = [
+	{
+		"key": "Basic",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Splash",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Sniper",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Poison",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Demo",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Scatter",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Cash",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Pierce",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Sword",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Fire",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Lightning",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+	{
+		"key": "Proportional",
+		"value": 1,
+		"step": 0.05,
+		"min": 1,
+	},
+]
+
 var defaultsettings = {
 	"prestige": defaultprestige,
 	"cards": defaultcards,
@@ -985,6 +1060,7 @@ var defaultsettings = {
 	"boosts": defaultboosts,
 	"badges": defaultbadges,
 	"skills": defaultskills,
+	"powermap": defaultpowermap,
 };
 
 var slots = [
@@ -2317,6 +2393,11 @@ function UpgradeSettingScripts(settings, storekey) {
 	// v2.1.42 Mastery Cards
 	if (!settings.cards[0].mastery) {
 		settings.cards = defaultcards;
+	}
+
+	// v2.1.53 Power Map
+	if (!settings.powermap) {
+		settings.powermap = defaultpowermap;
 	}
 
 	StoreItem(storekey, settings);

@@ -120,8 +120,11 @@ function ColumnLevelTemplate(data, title, width, forceMax) {
 				max = forceMax;
 			}
 
+			var step = row.step ? row.step : 1;
+			var min = row.min ? row.min : 0;
+
 			if ( type === 'display' ) {
-				return '<input type="number" step="1" min="0" max="' + max + '" value="' + data + '">';
+				return '<input type="number" step="' + step + '" min="' + min + '" max="' + max + '" value="' + data + '">';
 			}					
 			return data;
 		},  
@@ -571,6 +574,24 @@ function BuildSettingsTableWithErrorLog() {
 			{ data: 'key', title: "Proportional Skill Tree", width: '200px' },
 			ColumnLevelTemplate('level', 'Level', '50px'),
 			ColumnDataTemplate('value', "Value", '50px', true),
+		],
+	});
+
+	$('#table_powermap').DataTable({
+		data: settings.powermap,
+		info: false,
+		searching: false,
+		ordering: false,
+		paging: false,
+		autoWidth: false,
+		deferRender: true,
+		columnDefs: [{ 
+			targets: 1,
+			createdCell: CreatedValueTemplate(settings.powermap)
+		}],
+		columns: [
+			{ data: 'key', title: "Power Map", width: '200px' },
+			ColumnLevelTemplate('value', "Value", '50px', true),
 		],
 	});
 }
