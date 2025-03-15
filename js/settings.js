@@ -102,7 +102,7 @@ function CreatedActiveTemplate(data) {
 	}
 }
 
-function ColumnLevelTemplate(data, title, width, forceMax) {
+function ColumnLevelTemplate(data, title, width, forceMax, forceStep, forceMin) {
 	return { 
 		data: data, 
 		title: title, 
@@ -112,16 +112,10 @@ function ColumnLevelTemplate(data, title, width, forceMax) {
 			if (data === undefined) {
 				return '';
 			}
-			
-			if (forceMax === undefined) {
-				max = row.max;
-			}
-			else {
-				max = forceMax;
-			}
 
-			var step = row.step ? row.step : 1;
-			var min = row.min ? row.min : 0;
+			var max = forceMax ? forceMax : row.max ? row.max : null;
+			var step = forceStep ? forceStep : row.step ? row.step : 1;
+			var min = forceMin ? forceMin : row.min ? row.min : 0;
 
 			if ( type === 'display' ) {
 				return '<input type="number" step="' + step + '" min="' + min + '" max="' + max + '" value="' + data + '">';
@@ -235,7 +229,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Prestige Badges", width: '125px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -266,10 +260,10 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Cards", width: '125px' },
-			ColumnLevelTemplate('card.level', 'Level', '50px', 12),
+			ColumnLevelTemplate('card.level', 'Level', '50px', 12, 1, 0),
 			ColumnObjectDataTemplate('card.value1', "Value 1", '50px', 'card', true),
 			ColumnObjectDataTemplate('card.value2', "Value 2", '50px', 'card', true),
-			ColumnLevelTemplate('mastery.level', 'Mastery', '50px', 6),
+			ColumnLevelTemplate('mastery.level', 'Mastery', '50px', 6, 1, 0),
 			ColumnObjectDataTemplate('mastery.value', "Value", '50px', 'mastery', true),
 			ColumnCheckboxTemplate('active', 'Active?', '50px'),
 		],
@@ -289,7 +283,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Perks", width: '125px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -329,7 +323,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Challenge Badges", width: '125px' },
-			ColumnLevelTemplate('value', 'Value', '50px'),
+			ColumnLevelTemplate('value', 'Value', '50px', undefined, 1, 0),
 		],
 		"footerCallback": function( tfoot, data, start, end, display ) {
 			// executes only on draw()
@@ -354,7 +348,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Basic Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
@@ -374,7 +368,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Splash Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -393,7 +387,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Sniper Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -412,7 +406,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Poison Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -434,7 +428,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Demo Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
@@ -457,7 +451,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Scatter Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 			ColumnCheckboxTemplate('active', 'Unlocked?', '50px'),
 		],
@@ -477,7 +471,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Cash Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -496,7 +490,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Pierce Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -515,7 +509,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Sword Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -534,7 +528,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Fire Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -553,7 +547,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Lightning Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -572,7 +566,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Proportional Skill Tree", width: '200px' },
-			ColumnLevelTemplate('level', 'Level', '50px'),
+			ColumnLevelTemplate('level', 'Level', '50px', undefined, 1, 0),
 			ColumnDataTemplate('value', "Value", '50px', true),
 		],
 	});
@@ -591,7 +585,7 @@ function BuildSettingsTableWithErrorLog() {
 		}],
 		columns: [
 			{ data: 'key', title: "Power Map", width: '200px' },
-			ColumnLevelTemplate('value', "Value", '50px', true),
+			ColumnLevelTemplate('value', "Value", '50px', undefined, 0.05, 1),
 		],
 	});
 }
