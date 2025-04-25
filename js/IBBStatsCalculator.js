@@ -723,8 +723,30 @@ function CalculateLastBrickLevel(balldamage) {
 	
 	// If none found -> over 200k
 	if (nexthealthjump === null) {
-		var level = Math.pow(balldamage / brickmult[brickmult.length - 1].cumulative, 1/1.32);
-		return level;
+		var cumulative = brickmult[brickmult.length - 1].cumulative;
+		var level = brickmult[brickmult.length - 1].level;
+
+		var increment = 1e4;		
+		do {
+			level += increment;
+			var extraMult = 1;
+			if (level > 300000) {
+				var jumps = (level - 200000) / 100000;
+				var extraMult = Math.pow(1.4, jumps);
+		
+				// Not sure about this, this was what dev explained, not what is definitely in the code
+				// Though this only happens after stage 130m ish, so not super relevant anyway
+				if (extraMult == Infinity || extraMult > 9e201) {
+					extraMult = 9e201;
+				}
+			}
+
+			var basehealth = Math.pow(level, 1.32) * cumulative;
+			var health = basehealth * extraMult;
+		}
+		while (balldamage >= health);
+
+		return level - increment;
 	}
 	
 	// If 0, damage is 0

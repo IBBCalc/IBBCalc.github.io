@@ -277,6 +277,19 @@ function CalculateHexShieldPenHP(row, rowindex) {
 function CalculateBrickHP(level) {
 	// Find cumulative multiplier for the given level
 	var cumulative = brickmult.findLast(a => a.level <= level).cumulative;
+	if (level > 300000) {
+		var jumps = (level - 200000) / 100000;
+		var extraMult = Math.pow(1.4, jumps);
+
+		// Not sure about this, this was what dev explained, not what is definitely in the code
+		// Though this only happens after stage 130m ish, so not super relevant anyway
+		if (extraMult == Infinity || extraMult > 9e201) {
+			extraMult = 9e201;
+		}
+		
+		cumulative *= extraMult < 1 ? 1 : extraMult;
+	}
+	
 	var health = Math.pow(level, 1.32) * cumulative;
 	return health;
 }
