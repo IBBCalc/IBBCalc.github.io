@@ -730,7 +730,7 @@ function CalculateLastBrickLevel(balldamage) {
 		do {
 			level += increment;
 			var extraMult = 1;
-			if (level > 300000) {
+			if (level >= 300000) {
 				var jumps = (level - 200000) / 100000;
 				var extraMult = Math.pow(1.4, jumps);
 		

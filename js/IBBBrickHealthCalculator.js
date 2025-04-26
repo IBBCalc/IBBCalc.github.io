@@ -277,7 +277,7 @@ function CalculateHexShieldPenHP(row, rowindex) {
 function CalculateBrickHP(level) {
 	// Find cumulative multiplier for the given level
 	var cumulative = brickmult.findLast(a => a.level <= level).cumulative;
-	if (level > 300000) {
+	if (level >= 300000) {
 		var jumps = (level - 200000) / 100000;
 		var extraMult = Math.pow(1.4, jumps);
 
